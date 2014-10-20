@@ -23,8 +23,6 @@ import javax.swing.JOptionPane;
 
 public class Main extends Application {
 
-	private Stage stage;
-
 	@Override
 	public void start(Stage stage) {
 		try {
@@ -35,7 +33,6 @@ public class Main extends Application {
 			stage.setScene(scene);
 			stage.setHeight(500);
 			stage.show();
-			this.stage = stage;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,10 +96,6 @@ public class Main extends Application {
 				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
-		// imageView.fitWidthProperty().bind(mainPane.widthProperty());
-		// imageView.fitHeightProperty().bind(mainPane.heightProperty());
-		// mainPane.minWidth(imageView.getScene().getHeight());
-		// stage.setHeight(imageView.getScene().getHeight());
 		System.out.println("Test");
 	}
 
