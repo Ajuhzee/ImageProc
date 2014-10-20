@@ -31,7 +31,6 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setTitle("ImageProc");
 			stage.setScene(scene);
-			stage.setHeight(500);
 			stage.show();
 			Graphics.setMainStage(stage);
 		} catch (Exception e) {
