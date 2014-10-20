@@ -28,11 +28,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			AnchorPane mainScreen = (AnchorPane) FXMLLoader.load(Main.class
-					.getResource("main.fxml"));
+			AnchorPane mainScreen = (AnchorPane) FXMLLoader.load(Main.class.getResource("main.fxml"));
 			Scene scene = new Scene(mainScreen);
-			scene.getStylesheets().add(
-					getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setTitle("ImageProc");
 			stage.setScene(scene);
 			stage.setHeight(500);
@@ -88,63 +86,53 @@ public class Main extends Application {
 		FileChooser fc = new FileChooser();
 		if (e.getSource() == loadImage) {
 			File file = fc.showOpenDialog(null);
-			FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter(
-					"JPG files (*.jpg)", "*.JPG");
-			FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter(
-					"PNG files (*.png)", "*.PNG");
-			FileChooser.ExtensionFilter extFilterBMP = new FileChooser.ExtensionFilter(
-					"BMP files (*.bmp)", "*.BMP");
-			fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG,
-					extFilterBMP);
+			FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+			FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+			FileChooser.ExtensionFilter extFilterBMP = new FileChooser.ExtensionFilter("BMP files (*.bmp)", "*.BMP");
+			fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG, extFilterBMP);
 
 			try {
 				BufferedImage img = ImageIO.read(file);
 				Image image = SwingFXUtils.toFXImage(img, null);
 				imageView.setImage(image);
 			} catch (IOException ex) {
-				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null,
-						ex);
+				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 		// imageView.fitWidthProperty().bind(mainPane.widthProperty());
 		// imageView.fitHeightProperty().bind(mainPane.heightProperty());
 		// mainPane.minWidth(imageView.getScene().getHeight());
 		// stage.setHeight(imageView.getScene().getHeight());
+		System.out.println("Test");
 	}
 
 	@FXML
 	private void loadTestImageSlowAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 
 	@FXML
 	private void loadTestImageFastAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 
 	@FXML
 	private void invertImageAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 
 	@FXML
 	private void binarizeImageAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 
 	@FXML
 	private void filterImageAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 
 	@FXML
 	private void timeMessureAction() {
-		JOptionPane
-				.showMessageDialog(null, "Eggs aren't supposed to be green.");
+		JOptionPane.showMessageDialog(null, "Eggs aren't supposed to be green.");
 	}
 }
