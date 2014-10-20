@@ -33,6 +33,7 @@ public class Main extends Application {
 			stage.setScene(scene);
 			stage.setHeight(500);
 			stage.show();
+			Graphics.setMainStage(stage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,6 +97,8 @@ public class Main extends Application {
 				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
+		Graphics.setHeight(imageView.getLayoutBounds().getHeight());
+		Graphics.setWidth(imageView.getLayoutBounds().getWidth());
 		System.out.println("Test");
 	}
 
