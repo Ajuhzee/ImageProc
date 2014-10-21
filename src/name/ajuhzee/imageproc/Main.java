@@ -1,24 +1,14 @@
 package name.ajuhzee.imageproc;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Main extends Application {
@@ -79,26 +69,7 @@ public class Main extends Application {
 
 	@FXML
 	private void loadImageAction(ActionEvent e) {
-
-		FileChooser fc = new FileChooser();
-		if (e.getSource() == loadImage) {
-			File file = fc.showOpenDialog(null);
-			FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-			FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-			FileChooser.ExtensionFilter extFilterBMP = new FileChooser.ExtensionFilter("BMP files (*.bmp)", "*.BMP");
-			fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG, extFilterBMP);
-
-			try {
-				BufferedImage img = ImageIO.read(file);
-				Image image = SwingFXUtils.toFXImage(img, null);
-				imageView.setImage(image);
-			} catch (IOException ex) {
-				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		Graphics.setHeight(imageView.getLayoutBounds().getHeight());
-		Graphics.setWidth(imageView.getLayoutBounds().getWidth());
-		System.out.println("Test");
+		ImageLoader.loadFile();
 	}
 
 	@FXML
