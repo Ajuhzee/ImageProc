@@ -14,7 +14,7 @@ public class ImageLoader {
 
 	private static final Logger logger = Logger.getLogger(ImageLoader.class.getName());
 
-	public static void loadFile() {
+	public static void loadFromFile() {
 		FileChooser fc = new FileChooser();
 
 		File file = fc.showOpenDialog(null);

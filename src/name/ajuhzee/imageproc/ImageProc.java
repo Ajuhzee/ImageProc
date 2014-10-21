@@ -8,5 +8,6 @@ public class ImageProc {
 
 	public static void setImage(BufferedImage img) {
 		image = img;
+		ImageDisplayer.showImage(image);
 	}
 }
