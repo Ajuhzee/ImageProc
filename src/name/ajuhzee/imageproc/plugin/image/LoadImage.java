@@ -18,13 +18,25 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Adds an image plugin, which loads an image.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class LoadImage extends ImagePlugin {
 
 	private static final Logger logger = LogManager.getLogger();
 
+	/**
+	 * Positions a Menu-button for the plugin.
+	 * 
+	 * @param context
+	 * @throws PluginLoadException
+	 */
 	public LoadImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.top("file", "Datei", 0).then("load", "Bild laden").get(), context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", "Bild laden").get(), context);
 	}
 
 	private Void fileChosen(File file) {

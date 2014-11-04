@@ -13,8 +13,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import name.ajuhzee.imageproc.plugin.control.ImageControl;
 
+/**
+ * Controls image displaying and changing
+ * 
+ * @author Ajuhzee
+ */
 public class ImageDisplay implements NodeRepresentation, ImageControl {
 
+	/**
+	 * Creates the image view.
+	 * 
+	 * @return the image view.
+	 * @throws IOException
+	 *             if the fxml could not be loaded
+	 */
 	public static ImageDisplay create() throws IOException {
 		final FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ImageDisplay.class.getResource("ImageDisplay.fxml"));

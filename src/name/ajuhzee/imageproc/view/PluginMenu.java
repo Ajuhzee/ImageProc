@@ -12,10 +12,17 @@ import name.ajuhzee.imageproc.plugin.PluginBase;
 import name.ajuhzee.imageproc.plugin.PluginExecutor;
 
 /**
- * A wrapper for a {@link MenuBar} to provide a simple interface for adding ImageProc plugins.
+ * A wrapper for a {@link MenuBar} to provide a simple interface for adding
+ * ImageProc plugins.
  */
 public class PluginMenu implements NodeRepresentation {
 
+	/**
+	 * 
+	 * @return the new PluginMenu
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
 	public static PluginMenu create() throws IOException {
 		// can be changed to fxml loading
 		return new PluginMenu();
@@ -23,6 +30,14 @@ public class PluginMenu implements NodeRepresentation {
 
 	private final MenuBarWrapper menuBar = new MenuBarWrapper();
 
+	/**
+	 * Adds a new plugin to the PluginMenu.
+	 * 
+	 * @param newPlugin
+	 *            the name of the plugin
+	 * @param executor
+	 *            the caption of the plugin
+	 */
 	public void addPlugin(PluginBase newPlugin, PluginExecutor executor) {
 		checkNotNull(newPlugin);
 		final MenuPosition pluginPosition = newPlugin.getMenuPosition();

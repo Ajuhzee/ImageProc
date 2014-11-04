@@ -13,6 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.FormattedMessage;
 
+/**
+ * Manages the existing plugins.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class PluginManager {
 
 	private static final Logger logger = LogManager.getLogger();
@@ -23,14 +29,30 @@ public class PluginManager {
 
 	private final PluginExecutor executor = new SingleThreadPluginExecutor();
 
+	/**
+	 * Creates the plugin manager.
+	 * 
+	 * @param mainWindow
+	 *            the main window of the application
+	 */
 	public PluginManager(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 	}
 
+	/**
+	 * Loads every given core plugin.
+	 * 
+	 * @param corePlugins
+	 */
 	public void loadCorePlugins(Set<Class<? extends CorePlugin>> corePlugins) {
 		loadPlugins(corePlugins, CorePluginContext.class);
 	}
 
+	/**
+	 * Loads every given image plugin.
+	 * 
+	 * @param imagePlugins
+	 */
 	public void loadImagePlugins(Set<Class<? extends ImagePlugin>> imagePlugins) {
 		loadPlugins(imagePlugins, ImagePluginContext.class);
 	}
