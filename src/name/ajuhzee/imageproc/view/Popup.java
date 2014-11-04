@@ -17,8 +17,22 @@ import name.ajuhzee.imageproc.localization.MapResourceBundle;
 
 import com.google.common.base.Throwables;
 
+/**
+ * Is used to provide a simple popup for varying purposes.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class Popup {
 
+	/**
+	 * Opens the popup.
+	 * 
+	 * @param title
+	 *            the name of the popup
+	 * @param text
+	 *            the information of the popup
+	 */
 	public static void show(String title, String text) {
 		Platform.runLater(() -> {
 			final URL popupFxml = Popup.class.getClassLoader().getResource("name/ajuhzee/imageproc/view/Popup.fxml");
@@ -61,10 +75,18 @@ public class Popup {
 
 	private final Runnable onClose;
 
+	/**
+	 * @param onClose
+	 *            the command executed on dialog close
+	 */
 	public Popup(Runnable onClose) {
 		this.onClose = onClose;
 	}
 
+	/**
+	 * @param event
+	 *            not used
+	 */
 	@FXML
 	void close(ActionEvent event) {
 		onClose.run();

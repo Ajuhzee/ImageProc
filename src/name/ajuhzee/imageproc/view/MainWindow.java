@@ -10,6 +10,12 @@ import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
 import name.ajuhzee.imageproc.plugin.control.GeneralControl;
 import name.ajuhzee.imageproc.plugin.control.ImageControl;
 
+/**
+ * The main view of the program. It opens the main window.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class MainWindow implements CorePluginContext {
 
 	private static void init(Stage stage) {
@@ -26,6 +32,14 @@ public class MainWindow implements CorePluginContext {
 
 	private final ImageDisplay imageDisplay;
 
+	/**
+	 * Creates the main window.
+	 * 
+	 * @param primaryStage
+	 *            the main stage
+	 * @throws IOException
+	 *             when the main window can't be created
+	 */
 	public MainWindow(Stage primaryStage) throws IOException {
 		mainStage = primaryStage;
 		init(mainStage);
@@ -44,7 +58,7 @@ public class MainWindow implements CorePluginContext {
 
 	@Override
 	public GeneralControl getGeneralControl() {
-		return new GeneralControl(mainStage);
+		return new GeneralControl();
 	}
 
 	@Override

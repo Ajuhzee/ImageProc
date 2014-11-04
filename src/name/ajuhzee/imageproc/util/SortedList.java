@@ -5,12 +5,25 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 
+/**
+ * Is used to sort the menu items of the menu bar.
+ * 
+ * @author Ajuhzee
+ *
+ * @param <T>
+ *            defines after what gets sorted
+ */
 public class SortedList<T> extends ArrayList<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	private final Comparator<T> comparator;
 
+	/**
+	 * Creates the sorted list.
+	 * 
+	 * @param comparator
+	 */
 	public SortedList(Comparator<T> comparator) {
 		super();
 		this.comparator = comparator;

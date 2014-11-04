@@ -4,10 +4,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
+/**
+ * Provides basic functionalities for plugins.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public abstract class PluginBase {
 
 	private final MenuPosition menuPosition;
 
+	/**
+	 * Creates the basic part of the plugin.
+	 * 
+	 * @param menuPosition
+	 *            the position of the plugin (may not be null)
+	 */
 	public PluginBase(MenuPosition menuPosition) {
 		checkNotNull(menuPosition, "The menu position of a plugin may not be null");
 
@@ -30,6 +42,10 @@ public abstract class PluginBase {
 		return !Objects.equals(menuPosition, other.menuPosition);
 	}
 
+	/**
+	 * 
+	 * @return the menu position
+	 */
 	public MenuPosition getMenuPosition() {
 		return menuPosition;
 	}
@@ -39,6 +55,9 @@ public abstract class PluginBase {
 		return menuPosition.hashCode();
 	}
 
+	/**
+	 * Starts the plugin.
+	 */
 	public abstract void started();
 
 }

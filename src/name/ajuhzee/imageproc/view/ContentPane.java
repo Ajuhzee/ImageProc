@@ -6,8 +6,18 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import name.ajuhzee.imageproc.plugin.control.ContentControl;
 
+/**
+ * Creates a side menu for the rootlayout.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class ContentPane implements NodeRepresentation, ContentControl {
 
+	/**
+	 * 
+	 * @return the ContentPane
+	 */
 	public static ContentPane create() {
 		// can be changed to fxml loading
 		return new ContentPane();
