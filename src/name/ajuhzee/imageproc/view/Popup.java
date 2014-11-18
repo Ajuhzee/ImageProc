@@ -88,7 +88,7 @@ public class Popup {
 	 *            not used
 	 */
 	@FXML
-	void close(ActionEvent event) {
+	private void close(ActionEvent event) {
 		onClose.run();
 	}
 
