@@ -16,7 +16,12 @@ import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3Seperated;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3Threaded;
 
-public class TestPreferencesManager implements PreferencesManager {
+/**
+ * Temporary manager
+ * 
+ * @author Ajuhzee
+ */
+public class DummySettingsManager implements SettingsManager {
 
 	@Override
 	public Set<Class<? extends CorePlugin>> getCorePlugins() {

@@ -11,7 +11,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
  * @author Ajuhzee
  *
  */
-public interface PreferencesManager {
+public interface SettingsManager {
 
 	/**
 	 * 

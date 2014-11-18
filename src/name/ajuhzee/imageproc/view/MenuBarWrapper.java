@@ -13,9 +13,8 @@ import name.ajuhzee.imageproc.plugin.MenuPosition;
 import name.ajuhzee.imageproc.plugin.MenuPosition.MenuPositionComparator;
 import name.ajuhzee.imageproc.util.SortedList;
 
-/*
- * "Wraps" the functionality of the {@link MenuBar}, to make it possible to
- * control it easier.
+/**
+ * "Wraps" the functionality of the {@link MenuBar}, to make it possible to control it easier.
  * 
  * @author Ajuhzee
  *
@@ -28,7 +27,7 @@ public class MenuBarWrapper {
 	 * @author Ajuhzee
 	 *
 	 */
-	protected class MenuItemPool {
+	private static class MenuItemPool {
 
 		private final Map<MenuPosition, MenuItem> menuItems = new HashMap<>();
 
@@ -108,12 +107,13 @@ public class MenuBarWrapper {
 	}
 
 	/**
-	 * Wraps a {@link Menu} to make it possible to maintain an ordering on the
-	 * {@linkplain MenuItem}s in the menu.
+	 * Wraps a {@link Menu} to make it possible to maintain an ordering on the {@linkplain MenuItem}s in the menu.
 	 */
-	protected class MenuWrapper {
+	private static class MenuWrapper {
 
 		private final Menu menu;
+
+		private final MenuItemPool itemPool;
 
 		private final SortedList<MenuPosition> children = new SortedList<>(new MenuPositionComparator());
 
@@ -121,9 +121,12 @@ public class MenuBarWrapper {
 		 * Wraps a MenuWrapper around a Menu.
 		 *
 		 * @param menu
+		 * @param itemPool
+		 *            the item pool where menus are saved
 		 */
-		public MenuWrapper(Menu menu) {
+		public MenuWrapper(Menu menu, MenuItemPool itemPool) {
 			this.menu = menu;
+			this.itemPool = itemPool;
 		}
 
 		/**
@@ -148,7 +151,10 @@ public class MenuBarWrapper {
 		}
 	}
 
-	protected class TopMenu {
+	/**
+	 * Wraps the top menu
+	 */
+	private static class TopMenuWrapper {
 
 		private final SortedList<MenuPosition> topMenu = new SortedList<>(new MenuPositionComparator());
 
@@ -156,35 +162,47 @@ public class MenuBarWrapper {
 
 		private final MenuBar menuBar;
 
-		public TopMenu(MenuBar menuBar, MenuItemPool itemPool) {
+		/**
+		 * Creates a new wrapper for the top menu
+		 * 
+		 * @param menuBar
+		 * @param itemPool
+		 *            the item pool where menus are saved
+		 */
+		public TopMenuWrapper(MenuBar menuBar, MenuItemPool itemPool) {
 			this.menuBar = menuBar;
 			this.itemPool = itemPool;
 		}
 
+		/**
+		 * Add a new menu to the top menu
+		 * 
+		 * @param position
+		 */
 		public void add(MenuPosition position) {
 			final int insertAt = topMenu.insert(position);
 			menuBar.getMenus().add(insertAt, itemPool.getMenu(position).getMenu());
 		}
-	}
 
-	private final MenuBar menuBar;
+		/**
+		 * @return the menu bar
+		 */
+		public MenuBar getMenuBar() {
+			return menuBar;
+		}
+	}
 
 	private final MenuItemPool itemPool;
 
-	private final TopMenu topMenu;
+	private final TopMenuWrapper topMenu;
 
 	/**
 	 * Creates the Menu Bar wrapper.
 	 */
 	public MenuBarWrapper() {
-		menuBar = new MenuBar();
 		itemPool = new MenuItemPool();
-		topMenu = new TopMenu(menuBar, itemPool);
+		topMenu = new TopMenuWrapper(new MenuBar(), itemPool);
 	}
-
-	// public MenuBarWrapper(MenuBar menuBar) {
-	// TODO load existing MenuBar structure
-	// }
 
 	/**
 	 * Adds a menu item to the menu bar.
@@ -212,7 +230,7 @@ public class MenuBarWrapper {
 				parentMenuItem = itemPool.getMenu(parentPosition);
 			} else {
 				final Menu newMenu = new Menu(parentPosition.getLabel());
-				parentMenuItem = new MenuWrapper(newMenu);
+				parentMenuItem = new MenuWrapper(newMenu, itemPool);
 				addNewMenu(parentPosition, parentMenuItem);
 			}
 
@@ -233,11 +251,10 @@ public class MenuBarWrapper {
 	}
 
 	/**
-	 * 
 	 * @return the menu bar
 	 */
 	public MenuBar getMenuBar() {
-		return menuBar;
+		return topMenu.getMenuBar();
 	}
 
 }

@@ -35,7 +35,7 @@ public class RootLayout implements NodeRepresentation {
 	private final BorderPane rootPane;
 
 	private RootLayout(NodeRepresentation mainMenu, NodeRepresentation sideMenu, NodeRepresentation imageDisplay,
-			BorderPane rootPane) throws IOException {
+			BorderPane rootPane) {
 		this.rootPane = rootPane;
 		rootPane.setTop(mainMenu.toNodeRepresentation());
 		rootPane.setLeft(sideMenu.toNodeRepresentation());
