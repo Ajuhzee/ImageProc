@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 /**
  * Consolidates the main elements of the program to a Rootlayout.
@@ -44,6 +45,13 @@ public class RootLayout implements NodeRepresentation {
 
 	@Override
 	public Node toNodeRepresentation() {
+		return rootPane;
+	}
+
+	/**
+	 * @return the root pane
+	 */
+	public Pane getRootPane() {
 		return rootPane;
 	}
 
