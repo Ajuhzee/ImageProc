@@ -2,7 +2,7 @@ package name.ajuhzee.imageproc.view;
 
 import java.io.IOException;
 
-import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.plugin.control.ContentControl;
@@ -50,8 +50,8 @@ public class MainWindow implements CorePluginContext {
 
 		rootLayout = RootLayout.create(mainMenu, sideMenu, imageDisplay);
 
-		final Group primaryGroup = new Group(rootLayout.toNodeRepresentation());
-		final Scene primaryScene = new Scene(primaryGroup);
+		Parent rootPane = rootLayout.getRootPane();
+		final Scene primaryScene = new Scene(rootPane);
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
 	}
