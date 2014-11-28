@@ -4,6 +4,7 @@ import java.io.File;
 
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
 import name.ajuhzee.imageproc.view.Popup;
 
@@ -23,8 +24,11 @@ public class GeneralControl {
 	 */
 	@SuppressWarnings("static-method")
 	public void fileChooser(Callback<File, Void> fileChosen) {
+		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
+
 		Platform.runLater(() -> {
 			final FileChooser fc = new FileChooser();
+			fc.getExtensionFilters().add(supportedImages);
 			final File file = fc.showOpenDialog(null);
 			fileChosen.call(file);
 		});
