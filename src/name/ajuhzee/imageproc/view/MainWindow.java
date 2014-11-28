@@ -2,8 +2,10 @@ package name.ajuhzee.imageproc.view;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.plugin.control.ContentControl;
 import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
@@ -47,13 +49,19 @@ public class MainWindow implements CorePluginContext {
 		mainMenu = PluginMenu.create();
 		sideMenu = ContentPane.create();
 		imageDisplay = ImageDisplay.create();
+		imageDisplay.addImageChangedCallback(this::imageChanged);
 
 		rootLayout = RootLayout.create(mainMenu, sideMenu, imageDisplay);
 
 		Parent rootPane = rootLayout.getRootPane();
-		final Scene primaryScene = new Scene(rootPane);
+		Scene primaryScene = new Scene(rootPane);
 		primaryStage.setScene(primaryScene);
 		primaryStage.show();
+	}
+
+	private Void imageChanged(@SuppressWarnings("unused") Image img) {
+		Platform.runLater(() -> mainStage.sizeToScene());
+		return null;
 	}
 
 	@Override
