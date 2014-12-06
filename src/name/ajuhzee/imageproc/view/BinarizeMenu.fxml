@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="binarizePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.BinarizeMenuController">
+   <children>
+      <Slider fx:id="binarizeThresholdSlider" blockIncrement="1.0" layoutX="8.0" layoutY="20.0" max="255.0" orientation="VERTICAL" prefHeight="255.0" prefWidth="13.0" showTickLabels="true" showTickMarks="true" value="127.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>
