@@ -1,10 +1,14 @@
 package name.ajuhzee.imageproc.plugin.image;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
+
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
@@ -36,8 +40,9 @@ public class LoadImage extends ImagePlugin {
 
 	private Void fileChosen(File file) {
 		context().getSideMenuControl().clearContent();
-		try (FileInputStream fin = new FileInputStream(file)) {
-			final Image fxImage = new Image(fin);
+		try {
+			BufferedImage img = ImageIO.read(file);
+			Image fxImage = SwingFXUtils.toFXImage(img, null);
 
 			if (fxImage.isError()) throw fxImage.getException();
 
