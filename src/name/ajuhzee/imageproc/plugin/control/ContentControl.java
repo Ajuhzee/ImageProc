@@ -16,4 +16,9 @@ public interface ContentControl {
 	 * @param content
 	 */
 	public void setContent(Node content);
+
+	/**
+	 * Clears the content.
+	 */
+	public void clearContent();
 }

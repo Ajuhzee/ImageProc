@@ -35,6 +35,7 @@ public class LoadImage extends ImagePlugin {
 	}
 
 	private Void fileChosen(File file) {
+		context().getSideMenuControl().clearContent();
 		try (FileInputStream fin = new FileInputStream(file)) {
 			final Image fxImage = new Image(fin);
 
