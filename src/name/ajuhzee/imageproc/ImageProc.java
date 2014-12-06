@@ -5,8 +5,8 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.plugin.PluginManager;
-import name.ajuhzee.imageproc.preferences.SettingsManager;
 import name.ajuhzee.imageproc.preferences.DummySettingsManager;
+import name.ajuhzee.imageproc.preferences.SettingsManager;
 import name.ajuhzee.imageproc.view.MainWindow;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +27,7 @@ public class ImageProc extends Application {
 	 */
 	public static void main(String[] args) {
 		Application.launch(args);
+		System.exit(0);
 	}
 
 	private static final Logger logger = LogManager.getLogger();
