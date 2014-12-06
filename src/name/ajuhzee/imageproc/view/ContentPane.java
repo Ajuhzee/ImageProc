@@ -32,6 +32,11 @@ public class ContentPane implements NodeRepresentation, ContentControl {
 	}
 
 	@Override
+	public void clearContent() {
+		Platform.runLater(() -> contentWrapper.setCenter(null));
+	}
+
+	@Override
 	public Node toNodeRepresentation() {
 		return contentWrapper;
 	}
