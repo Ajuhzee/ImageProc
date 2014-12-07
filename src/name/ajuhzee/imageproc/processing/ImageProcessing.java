@@ -4,8 +4,10 @@
 package name.ajuhzee.imageproc.processing;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
@@ -29,27 +31,103 @@ public class ImageProcessing {
 	 * @return the binarized image
 	 */
 	public static Image concurrentBinarize(Image oldImage, AtomicDouble threshold) {
-		double startThreshold = threshold.get();
-		double height = oldImage.getHeight();
-		double width = oldImage.getWidth();
-		WritableImage newImage = new WritableImage((int) width, (int) height);
+		int startThreshold = ((int) threshold.get()) * 3;
+		int width = (int) oldImage.getWidth();
+		int height = (int) oldImage.getHeight();
+		WritableImage newImage = new WritableImage(width, height);
+		PixelReader reader = oldImage.getPixelReader();
+		PixelWriter writer = newImage.getPixelWriter();
 
-		// alle Zeilen
-		for (int y = 0; y < height; y++) {
-			// alle Spalten
-			for (int x = 0; x < width; x++) {
-				Color c = oldImage.getPixelReader().getColor(x, y);
-				double greyValue = c.getBrightness() * 256;
-				if (greyValue <= startThreshold)
-					newImage.getPixelWriter().setColor(x, y, Color.BLACK);
-				else
-					newImage.getPixelWriter().setColor(x, y, Color.WHITE);
+		byte[] buffer = new byte[width * height * 4];
+		reader.getPixels(0, 0, width, height, PixelFormat.getByteBgraPreInstance(), buffer, 0, width * 4);
+
+		int remainingPixels = width % 4;
+		int loopCount = width - remainingPixels;
+
+		for (int y = 0; y != height; ++y) {
+			int rowOffset = y * width * 4;
+			for (int x = 0; x != loopCount; x += 4) {
+				int pixelOffset = rowOffset + x * 4;
+
+				// int blue = (buffer[pixelOffset + 0] & 0xFF);
+				// int green = (buffer[pixelOffset + 1] & 0xFF);
+				// int red = (buffer[pixelOffset + 2] & 0xFF);
+
+				// int grey = toBrightnessPerceived(red, green, blue);
+				// int grey = toBrightnessNTSCLuma(red, green, blue);
+				// int grey = toBrightnessAverage(red, green, blue); // fastest
+
+				if ((buffer[pixelOffset] & 0xFF) + (buffer[pixelOffset + 1] & 0xFF) + (buffer[pixelOffset + 2] & 0xFF) < startThreshold) {
+					buffer[pixelOffset] = (byte) 0;
+					buffer[pixelOffset + 1] = (byte) 0;
+					buffer[pixelOffset + 2] = (byte) 0;
+				} else {
+					buffer[pixelOffset] = (byte) 0xFF;
+					buffer[pixelOffset + 1] = (byte) 0xFF;
+					buffer[pixelOffset + 2] = (byte) 0xFF;
+				}
+				if ((buffer[pixelOffset + 4] & 0xFF) + (buffer[pixelOffset + 5] & 0xFF)
+						+ (buffer[pixelOffset + 6] & 0xFF) < startThreshold) {
+					buffer[pixelOffset + 4] = (byte) 0;
+					buffer[pixelOffset + 5] = (byte) 0;
+					buffer[pixelOffset + 6] = (byte) 0;
+				} else {
+					buffer[pixelOffset + 4] = (byte) 0xFF;
+					buffer[pixelOffset + 5] = (byte) 0xFF;
+					buffer[pixelOffset + 6] = (byte) 0xFF;
+				}
+				if ((buffer[pixelOffset + 8] & 0xFF) + (buffer[pixelOffset + 9] & 0xFF)
+						+ (buffer[pixelOffset + 10] & 0xFF) < startThreshold) {
+					buffer[pixelOffset + 8] = (byte) 0;
+					buffer[pixelOffset + 9] = (byte) 0;
+					buffer[pixelOffset + 10] = (byte) 0;
+				} else {
+					buffer[pixelOffset + 8] = (byte) 0xFF;
+					buffer[pixelOffset + 9] = (byte) 0xFF;
+					buffer[pixelOffset + 10] = (byte) 0xFF;
+				}
+				if ((buffer[pixelOffset + 12] & 0xFF) + (buffer[pixelOffset + 13] & 0xFF)
+						+ (buffer[pixelOffset + 14] & 0xFF) < startThreshold) {
+					buffer[pixelOffset + 12] = (byte) 0;
+					buffer[pixelOffset + 13] = (byte) 0;
+					buffer[pixelOffset + 14] = (byte) 0;
+				} else {
+					buffer[pixelOffset + 12] = (byte) 0xFF;
+					buffer[pixelOffset + 13] = (byte) 0xFF;
+					buffer[pixelOffset + 14] = (byte) 0xFF;
+				}
 			}
-			if (threshold.get() != startThreshold) {
+			for (int x = width - remainingPixels; x != width; ++x) {
+				int pixelOffset = rowOffset + x * 4;
+
+				if ((buffer[pixelOffset + 0] & 0xFF) + (buffer[pixelOffset + 1] & 0xFF) + (buffer[pixelOffset + 2] & 0xFF) < startThreshold) {
+					buffer[pixelOffset + 0] = (byte) 0;
+					buffer[pixelOffset + 1] = (byte) 0;
+					buffer[pixelOffset + 2] = (byte) 0;
+				} else {
+					buffer[pixelOffset + 0] = (byte) 0xFF;
+					buffer[pixelOffset + 1] = (byte) 0xFF;
+					buffer[pixelOffset + 2] = (byte) 0xFF;
+				}
+			}
+			if (((int) threshold.get() * 3) != startThreshold) {
 				return concurrentBinarize(oldImage, threshold);
 			}
 		}
+		writer.setPixels(0, 0, width, height, PixelFormat.getByteBgraPreInstance(), buffer, 0, width * 4);
 
 		return newImage;
+	}
+
+	private static int toBrightnessAverage(int red, int green, int blue) {
+		return (red + green + blue) / 3;
+	}
+
+	private static int toBrightnessNTSCLuma(int red, int green, int blue) {
+		return (int) (0.299 * red + 0.587 * green + 0.114 * blue);
+	}
+
+	private static int toBrightnessPerceived(int red, int green, int blue) {
+		return (int) Math.sqrt(0.299 * red * red + 0.587 * green * green + 0.114 * blue * blue);
 	}
 }
