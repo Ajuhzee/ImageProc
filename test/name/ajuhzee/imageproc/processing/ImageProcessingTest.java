@@ -37,15 +37,15 @@ public class ImageProcessingTest {
 	@Test
 	public void Binarize_Performance() {
 		AtomicDouble threshold = new AtomicDouble(127);
-		for (int i = 0; i != 10; ++i) {
+		for (int i = 0; i != 100; ++i) {
 			ImageProcessing.concurrentBinarize(img, threshold);
 		}
 		long start = System.nanoTime();
-		for (int i = 0; i != 10; ++i) {
+		for (int i = 0; i != 100; ++i) {
 			ImageProcessing.concurrentBinarize(img, threshold);
 		}
 		long end = System.nanoTime();
-		double durInMs = (end - start) / (10000000d); // nano -> milli -> milliAvg
+		double durInMs = (end - start) / (100000000d); // nano -> milli -> milliAvg
 
 		System.out.println("Binarize took in avg " + durInMs + " ms.");
 	}
