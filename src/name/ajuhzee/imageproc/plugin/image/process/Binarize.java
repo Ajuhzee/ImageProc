@@ -14,7 +14,8 @@ import name.ajuhzee.imageproc.view.BinarizeMenuController;
 import com.google.common.util.concurrent.AtomicDouble;
 
 /**
- * Adds an image plugin, that provides a method to invert an image for image processing purposes.
+ * Adds an image plugin, that provides a method to invert an image for image
+ * processing purposes.
  *
  * @author Ajuhzee
  *
@@ -25,7 +26,8 @@ public class Binarize extends ImagePlugin {
 
 	AtomicDouble curThreshold = new AtomicDouble(DEFAULT_THRESHOLD);
 
-	private final ChangeListener<Number> listener = (observable, oldValue, newValue) -> {
+	private final ChangeListener<Number> listener = (observable, oldValue,
+			newValue) -> {
 
 		curThreshold.set(newValue.doubleValue());
 		binarize(curThreshold);
@@ -45,8 +47,8 @@ public class Binarize extends ImagePlugin {
 	 */
 	public Binarize(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("binarize", "Binarisieren").get(),
-				context);
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100)
+				.subMenu("binarize", "Binarisieren").get(), context);
 		try {
 			sideMenu = BinarizeMenuController.create();
 		} catch (final IOException e) {
@@ -57,7 +59,8 @@ public class Binarize extends ImagePlugin {
 	private void binarize(AtomicDouble threshold) {
 		if (!thread.isAlive()) {
 			thread = new Thread(() -> {
-				final Image newImage = ImageProcessing.concurrentBinarize(oldImage, threshold);
+				final Image newImage = ImageProcessing.binarizeDynamic(oldImage,
+						threshold);
 				context().getImageControl().showImage(newImage);
 			});
 			thread.start();
@@ -68,7 +71,8 @@ public class Binarize extends ImagePlugin {
 	public void started() {
 		oldImage = context().getImageControl().getImage();
 
-		context().getSideMenuControl().setContent(sideMenu.toNodeRepresentation());
+		context().getSideMenuControl().setContent(
+				sideMenu.toNodeRepresentation());
 		binarize(curThreshold);
 
 		sideMenu.getSliderValue().addListener(listener);
