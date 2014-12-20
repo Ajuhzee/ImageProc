@@ -4,15 +4,17 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 /**
- * Adds an image plugin, that provides a method to invert an image for image
- * processing purposes.
+ * Adds an image plugin, that provides a method to invert an image for image processing purposes.
  * 
  * @author Ajuhzee
  *
  */
 public class Invert extends ImagePlugin {
+
+	private static final PluginInformation INFO = new PluginInformation("Invertieren", true);
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -22,7 +24,7 @@ public class Invert extends ImagePlugin {
 	 */
 	public Invert(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("invert", "Invertieren").get(), context);
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("invert", INFO).get(), INFO, context);
 		// TODO Auto-generated constructor stub
 	}
 

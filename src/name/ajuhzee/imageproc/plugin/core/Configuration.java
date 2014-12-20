@@ -13,6 +13,8 @@ import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
  */
 public class Configuration extends CorePlugin {
 
+	private static final PluginInformation INFO = new PluginInformation("Einstellungen", false);
+
 	/**
 	 * Positions a Menu-button for the plugin.
 	 * 
@@ -21,7 +23,7 @@ public class Configuration extends CorePlugin {
 	 */
 	public Configuration(CorePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("config", "Einstellungen").get(), context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("config", INFO).get(), INFO, context);
 	}
 
 	@Override

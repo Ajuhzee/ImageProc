@@ -13,6 +13,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 public class LoadImage extends ImagePlugin {
 
 	private static final Logger logger = LogManager.getLogger();
+	private static final PluginInformation INFO = new PluginInformation("Bild laden", false);
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -35,7 +37,7 @@ public class LoadImage extends ImagePlugin {
 	 */
 	public LoadImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", "Bild laden").get(), context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", INFO).get(), INFO, context);
 	}
 
 	private Void fileChosen(File file) {

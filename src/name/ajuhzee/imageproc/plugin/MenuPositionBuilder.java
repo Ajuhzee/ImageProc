@@ -4,6 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Optional;
 
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+
 /**
  * Builds a menu position.
  * 
@@ -22,9 +24,14 @@ public class MenuPositionBuilder {
 
 		private final MenuPosition menuPosition;
 
-		private MenuPositionCreator(String key, String name, Integer order, MenuPosition parent) {
+		private MenuPositionCreator(String key, String label, PluginInformation pInfo, Integer order,
+				MenuPosition parent) {
 			checkNotNull(key);
-			menuPosition = new MenuPosition(key, Optional.ofNullable(name), Optional.ofNullable(order),
+			if (label == null && pInfo == null) {
+				throw new IllegalArgumentException("string and pInfo can not be null at the same time");
+			}
+
+			menuPosition = new MenuPosition(key, label, Optional.ofNullable(pInfo), Optional.ofNullable(order),
 					Optional.ofNullable(parent));
 		}
 
@@ -41,10 +48,12 @@ public class MenuPositionBuilder {
 		 * 
 		 * @param key
 		 *            a unique menu identifier
+		 * @param label
+		 *            text that should be displayed on the menu
 		 * @return the new menu position
 		 */
-		public MenuPositionCreator subMenu(String key) {
-			return subMenu(key, DEFAULT_NAME);
+		public MenuPositionCreator subMenu(String key, String label) {
+			return new MenuPositionCreator(key, label, null, DEFAULT_ORDER, get());
 		}
 
 		/**
@@ -52,12 +61,12 @@ public class MenuPositionBuilder {
 		 * 
 		 * @param key
 		 *            a unique menu identifier
-		 * @param name
-		 *            a unique menu identifier
+		 * @param pInfo
+		 *            plugin information
 		 * @return the new menu position
 		 */
-		public MenuPositionCreator subMenu(String key, String name) {
-			return subMenu(key, name, DEFAULT_ORDER);
+		public MenuPositionCreator subMenu(String key, PluginInformation pInfo) {
+			return new MenuPositionCreator(key, pInfo.getName(), pInfo, DEFAULT_ORDER, get());
 		}
 
 		/**
@@ -65,14 +74,31 @@ public class MenuPositionBuilder {
 		 * 
 		 * @param key
 		 *            a unique menu identifier
-		 * @param name
-		 *            a unique menu identifier
+		 * @param label
+		 *            text that should be displayed on the menu
 		 * @param order
-		 *            a unique menu identifier
+		 *            the order of the menu items
 		 * @return the new menu position
 		 */
-		public MenuPositionCreator subMenu(String key, String name, int order) {
-			return new MenuPositionCreator(key, name, order, get());
+		public MenuPositionCreator subMenu(String key, String label, int order) {
+			return new MenuPositionCreator(key, label, null, order, get());
+		}
+
+		/**
+		 * Adds another sub menu to the current builder.
+		 * 
+		 * @param key
+		 *            a unique menu identifier
+		 * @param label
+		 *            text that should be displayed on the menu
+		 * @param pInfo
+		 *            plugin information
+		 * @param order
+		 *            the order of the menu items
+		 * @return the new menu position
+		 */
+		public MenuPositionCreator subMenu(String key, PluginInformation pInfo, int order) {
+			return new MenuPositionCreator(key, pInfo.getName(), pInfo, order, get());
 		}
 	}
 
@@ -81,10 +107,12 @@ public class MenuPositionBuilder {
 	 * 
 	 * @param key
 	 *            a unique menu identifier
+	 * @param label
+	 *            text that should be displayed on the menu
 	 * @return the new menu position
 	 */
-	public static MenuPositionCreator topMenu(String key) {
-		return topMenu(key, DEFAULT_NAME);
+	public static MenuPositionCreator topMenu(String key, String label) {
+		return new MenuPositionCreator(key, label, null, DEFAULT_ORDER, null);
 	}
 
 	/**
@@ -92,12 +120,12 @@ public class MenuPositionBuilder {
 	 * 
 	 * @param key
 	 *            a unique menu identifier
-	 * @param name
-	 *            a unique menu identifier
+	 * @param pInfo
+	 *            plugin information
 	 * @return the new menu position
 	 */
-	public static MenuPositionCreator topMenu(String key, String name) {
-		return topMenu(key, name, DEFAULT_ORDER);
+	public static MenuPositionCreator topMenu(String key, PluginInformation pInfo) {
+		return new MenuPositionCreator(key, pInfo.getName(), pInfo, DEFAULT_ORDER, null);
 	}
 
 	/**
@@ -105,17 +133,32 @@ public class MenuPositionBuilder {
 	 * 
 	 * @param key
 	 *            a unique menu identifier
-	 * @param name
-	 *            a unique menu identifier
+	 * @param label
+	 *            text that should be displayed on the menu
 	 * @param order
-	 *            a unique menu identifier
+	 *            the order of the menu items
 	 * @return the new menu position
 	 */
-	public static MenuPositionCreator topMenu(String key, String name, int order) {
-		return new MenuPositionCreator(key, name, order, null);
+	public static MenuPositionCreator topMenu(String key, String label, int order) {
+		return new MenuPositionCreator(key, label, null, order, null);
 	}
 
-	private static final String DEFAULT_NAME = null;
+	/**
+	 * Adds another top menu to the current builder.
+	 * 
+	 * @param key
+	 *            a unique menu identifier
+	 * @param label
+	 *            text that should be displayed on the menu
+	 * @param pInfo
+	 *            plugin information
+	 * @param order
+	 *            the order of the menu items
+	 * @return the new menu position
+	 */
+	public static MenuPositionCreator topMenu(String key, PluginInformation pInfo, int order) {
+		return new MenuPositionCreator(key, pInfo.getName(), pInfo, order, null);
+	}
 
 	private static final int DEFAULT_ORDER = 0;
 }
