@@ -4,6 +4,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 /**
  * Adds an image plugin, which generates a Testimage(slow method).
@@ -13,6 +14,8 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
  */
 public class TestImageSlow extends ImagePlugin {
 
+	private static final PluginInformation INFO = new PluginInformation("Testbild (langsam)", false);
+
 	/**
 	 * Positions a Menu-button for the plugin.
 	 * 
@@ -21,7 +24,7 @@ public class TestImageSlow extends ImagePlugin {
 	 */
 	public TestImageSlow(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("generate", "Generieren", 100).subMenu("testImageFast", "Testbild (langsam)").get(),
+		super(MenuPositionBuilder.topMenu("generate", "Generieren", 100).subMenu("testImageFast", INFO).get(), INFO,
 				context);
 	}
 

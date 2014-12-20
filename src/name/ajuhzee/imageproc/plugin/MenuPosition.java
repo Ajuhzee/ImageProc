@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+
 import com.google.common.collect.ComparisonChain;
 
 /**
@@ -35,7 +37,9 @@ public class MenuPosition {
 
 	private final String key;
 
-	private final Optional<String> label;
+	private final String label;
+
+	private final Optional<PluginInformation> pInfo;
 
 	private final Optional<Integer> order;
 
@@ -44,6 +48,8 @@ public class MenuPosition {
 	 *
 	 * @param key
 	 *            unique menu identifier
+	 * @param pInfo
+	 *            plugin information of the plugin at this position (optional)
 	 * @param label
 	 *            unique menu identifier (optional)
 	 * @param order
@@ -51,11 +57,14 @@ public class MenuPosition {
 	 * @param parent
 	 *            unique menu identifier (optional)
 	 */
-	public MenuPosition(String key, Optional<String> label, Optional<Integer> order, Optional<MenuPosition> parent) {
+	public MenuPosition(String key, String label, Optional<PluginInformation> pInfo, Optional<Integer> order,
+			Optional<MenuPosition> parent) {
 		checkNotNull(key);
+		checkNotNull(label);
 
 		this.key = key;
 		this.label = label;
+		this.pInfo = pInfo;
 		this.order = order;
 		this.parent = parent;
 	}
@@ -75,7 +84,7 @@ public class MenuPosition {
 		if (!Objects.equals(key, other.key)) {
 			return false;
 		}
-		if (!Objects.equals(label, other.label)) {
+		if (!Objects.equals(pInfo, other.pInfo)) {
 			return false;
 		}
 		if (!Objects.equals(order, other.order)) {
@@ -89,7 +98,7 @@ public class MenuPosition {
 
 	/**
 	 *
-	 * @return the key of the plugin
+	 * @return the key
 	 */
 	public String getKey() {
 		if (parent.isPresent()) {
@@ -100,22 +109,30 @@ public class MenuPosition {
 
 	/**
 	 *
-	 * @return the name of the plugin or its key
+	 * @return the label
 	 */
 	public String getLabel() {
-		return label.orElse(key);
+		return label;
+	}
+
+	/**
+	 * 
+	 * @return the plugin
+	 */
+	public Optional<PluginInformation> getPluginInformation() {
+		return pInfo;
 	}
 
 	/**
 	 *
-	 * @return the order number of the plugin
+	 * @return the order number
 	 */
 	public int getOrder() {
 		return order.orElse(0);
 	}
 
 	/**
-	 * @return the parent of the plugin, if there is one
+	 * @return the parent of the menu, if there is one
 	 */
 	public Optional<MenuPosition> getParent() {
 		return parent;

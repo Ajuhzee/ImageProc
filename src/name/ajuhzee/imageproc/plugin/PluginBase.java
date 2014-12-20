@@ -4,6 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+
 /**
  * Provides basic functionalities for plugins.
  * 
@@ -13,17 +15,21 @@ import java.util.Objects;
 public abstract class PluginBase {
 
 	private final MenuPosition menuPosition;
+	private final PluginInformation pInfo;
 
 	/**
 	 * Creates the basic part of the plugin.
 	 * 
 	 * @param menuPosition
 	 *            the position of the plugin (may not be null)
+	 * @param pInfo
+	 *            plugin information of the plugin
 	 */
-	public PluginBase(MenuPosition menuPosition) {
+	public PluginBase(MenuPosition menuPosition, PluginInformation pInfo) {
 		checkNotNull(menuPosition, "The menu position of a plugin may not be null");
 
 		this.menuPosition = menuPosition;
+		this.pInfo = pInfo;
 	}
 
 	@Override
@@ -40,6 +46,13 @@ public abstract class PluginBase {
 
 		final PluginBase other = (PluginBase) obj;
 		return !Objects.equals(menuPosition, other.menuPosition);
+	}
+
+	/**
+	 * @return the pInfo
+	 */
+	public PluginInformation getpInfo() {
+		return pInfo;
 	}
 
 	/**

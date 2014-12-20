@@ -14,6 +14,8 @@ import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
  */
 public class CloseProgram extends CorePlugin {
 
+	private static final PluginInformation INFO = new PluginInformation("Beenden", false);
+
 	/**
 	 * Positions a Menu-button for the plugin.
 	 * 
@@ -22,7 +24,7 @@ public class CloseProgram extends CorePlugin {
 	 */
 	public CloseProgram(CorePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("close", "Beenden", 100).get(), context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("close", INFO, 100).get(), INFO, context);
 	}
 
 	@Override

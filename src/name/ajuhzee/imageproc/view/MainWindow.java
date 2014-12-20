@@ -49,7 +49,8 @@ public class MainWindow implements CorePluginContext {
 		mainMenu = PluginMenu.create();
 		sideMenu = ContentPane.create();
 		imageDisplay = ImageDisplay.create();
-		imageDisplay.addImageChangedCallback(this::imageChanged);
+		imageDisplay.addImageChangedCallback(this::resize);
+		imageDisplay.addImageChangedCallback(mainMenu::enablePlugins);
 
 		rootLayout = RootLayout.create(mainMenu, sideMenu, imageDisplay);
 
@@ -59,7 +60,7 @@ public class MainWindow implements CorePluginContext {
 		primaryStage.show();
 	}
 
-	private Void imageChanged(@SuppressWarnings("unused") Image img) {
+	private Void resize(@SuppressWarnings("unused") Image img) {
 		Platform.runLater(() -> mainStage.sizeToScene());
 		return null;
 	}

@@ -1,6 +1,7 @@
 package name.ajuhzee.imageproc.plugin;
 
 import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
+import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 /**
  * Base class for plugins which use core functionalities of the program.
@@ -17,13 +18,16 @@ public abstract class CorePlugin extends PluginBase {
 	 * 
 	 * @param menuPosition
 	 *            the menu position of the plugin
+	 * @param pInfo
+	 *            plugin information of the plugin
 	 * @param context
 	 *            the context of the plugin
 	 * @throws PluginLoadException
 	 *             if context == null
 	 */
-	public CorePlugin(MenuPosition menuPosition, CorePluginContext context) throws PluginLoadException {
-		super(menuPosition);
+	public CorePlugin(MenuPosition menuPosition, PluginInformation pInfo, CorePluginContext context)
+			throws PluginLoadException {
+		super(menuPosition, pInfo);
 		if (context == null) {
 			throw new PluginLoadException("Plugin context not correctly loaded!");
 		}
