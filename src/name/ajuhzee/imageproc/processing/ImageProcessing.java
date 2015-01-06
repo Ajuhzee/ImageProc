@@ -20,14 +20,12 @@ public class ImageProcessing {
 	private static final ForkJoinPool POOL = new ForkJoinPool();
 
 	/**
-	 * Binarizes a given image, dynamically changing its computation and result
-	 * as the threshold changes.
+	 * Binarizes a given image, dynamically changing its computation and result as the threshold changes.
 	 *
 	 * @param toBinarize
 	 *            the image to be binarized
 	 * @param threshold
-	 *            the threshold for the binarization (can vary while function is
-	 *            running)
+	 *            the threshold for the binarization (can vary while function is running)
 	 * @return the binarized image
 	 */
 	public static Image binarizeDynamic(Image toBinarize, AtomicDouble threshold) {
@@ -44,6 +42,31 @@ public class ImageProcessing {
 
 		int width = (int) toBinarize.getWidth();
 		int height = (int) toBinarize.getHeight();
+		return BgraPreImageBuffer.createBgraPreImage(buffer, width, height);
+	}
+
+	/**
+	 * Inverts a given image.
+	 * 
+	 * @param toInvert
+	 *            the source image
+	 * @return the inverted image
+	 */
+	public static Image invert(Image toInvert) {
+		BgraPreImageBuffer buffer;
+
+		while (true) {
+			try {
+				buffer = BgraPreImageBuffer.getBgraPreBuffer(toInvert);
+				POOL.invoke(new InvertAction(buffer));
+				break;
+			} catch (ValueChangedException e) {
+				continue;
+			}
+		}
+
+		int width = (int) toInvert.getWidth();
+		int height = (int) toInvert.getHeight();
 		return BgraPreImageBuffer.createBgraPreImage(buffer, width, height);
 	}
 
