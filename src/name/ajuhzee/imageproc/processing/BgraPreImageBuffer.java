@@ -17,15 +17,20 @@ public class BgraPreImageBuffer {
 	/**
 	 * Creates an image from the values of this buffer.
 	 * 
+	 * @param buffer
+	 *            the source buffer
+	 * @param width
+	 *            the width of the buffer
+	 * @param height
+	 *            the height of the buffer
+	 * 
 	 * @return the new image
 	 */
-	public static WritableImage createBgraPreImage(BgraPreImageBuffer buffer,
-			int width, int height) {
+	public static WritableImage createBgraPreImage(BgraPreImageBuffer buffer, int width, int height) {
 		final WritableImage newImage = new WritableImage(width, height);
 		final PixelWriter writer = newImage.getPixelWriter();
-		writer.setPixels(0, 0, width, height,
-				PixelFormat.getByteBgraPreInstance(), buffer.getRawBuffer(), 0,
-				width * BgraPreImageBuffer.BYTES_PER_PIXEL);
+		writer.setPixels(0, 0, width, height, PixelFormat.getByteBgraPreInstance(), buffer.getRawBuffer(), 0, width
+				* BgraPreImageBuffer.BYTES_PER_PIXEL);
 		return newImage;
 	}
 
@@ -38,13 +43,11 @@ public class BgraPreImageBuffer {
 	public static BgraPreImageBuffer getBgraPreBuffer(Image img) {
 		final int width = (int) img.getWidth();
 		final int height = (int) img.getHeight();
-		final byte[] buffer = new byte[width * height
-				* BgraPreImageBuffer.BYTES_PER_PIXEL];
+		final byte[] buffer = new byte[width * height * BgraPreImageBuffer.BYTES_PER_PIXEL];
 
 		final PixelReader reader = img.getPixelReader();
-		reader.getPixels(0, 0, width, height,
-				PixelFormat.getByteBgraPreInstance(), buffer, 0, width
-						* BgraPreImageBuffer.BYTES_PER_PIXEL);
+		reader.getPixels(0, 0, width, height, PixelFormat.getByteBgraPreInstance(), buffer, 0, width
+				* BgraPreImageBuffer.BYTES_PER_PIXEL);
 		return new BgraPreImageBuffer(buffer);
 	}
 
@@ -55,34 +58,73 @@ public class BgraPreImageBuffer {
 
 	private final byte[] buffer;
 
+	/**
+	 * @param buffer
+	 */
 	public BgraPreImageBuffer(byte[] buffer) {
 		this.buffer = buffer;
 	}
 
+	/**
+	 * @return the amount of pixels the buffer has
+	 */
 	public int getPixelCount() {
 		return buffer.length / BYTES_PER_PIXEL;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @return the blue value
+	 */
 	public int getBlue(int idx) {
 		return buffer[idx * BYTES_PER_PIXEL] & 0xFF;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @return the green value
+	 */
 	public int getGreen(int idx) {
 		return buffer[idx * BYTES_PER_PIXEL + 1] & 0xFF;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @return the red value
+	 */
 	public int getRed(int idx) {
 		return buffer[idx * BYTES_PER_PIXEL + 2] & 0xFF;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @param value
+	 *            the blue value to set
+	 */
 	public void setBlue(int idx, int value) {
 		buffer[idx * BYTES_PER_PIXEL] = (byte) value;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @param value
+	 *            the green value to set
+	 */
 	public void setGreen(int idx, int value) {
 		buffer[idx * BYTES_PER_PIXEL + 1] = (byte) value;
 	}
 
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @param value
+	 *            the red value to set
+	 */
 	public void setRed(int idx, int value) {
 		buffer[idx * BYTES_PER_PIXEL + 2] = (byte) value;
 	}
@@ -103,6 +145,9 @@ public class BgraPreImageBuffer {
 		return new BgraPreImageBuffer(sub);
 	}
 
+	/**
+	 * @return the raw buffer
+	 */
 	public byte[] getRawBuffer() {
 		return buffer;
 	}

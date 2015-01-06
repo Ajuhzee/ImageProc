@@ -4,6 +4,12 @@ import java.util.concurrent.RecursiveAction;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
+/**
+ * Performs the actual binarization.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class BinarizeAction extends RecursiveAction {
 
 	private static final long serialVersionUID = 1L;
