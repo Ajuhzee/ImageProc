@@ -5,10 +5,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import name.ajuhzee.imageproc.plugin.MenuPosition;
+import name.ajuhzee.imageproc.plugin.control.MenuControl;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 /**
@@ -17,7 +19,7 @@ import name.ajuhzee.imageproc.plugin.core.PluginInformation;
  * @author Ajuhzee
  *
  */
-public class MenuBarWrapper {
+public class MenuBarWrapper implements MenuControl {
 
 	private final MenuItemPool itemPool;
 
@@ -31,18 +33,26 @@ public class MenuBarWrapper {
 		topMenu = new TopMenuWrapper(new MenuBar(), itemPool);
 	}
 
-	/**
-	 * Enables menu items that require an image, when an image is loaded.
-	 * 
-	 * @return nothing
-	 */
-	public Void enablePlugins() {
-		for (Entry<MenuPosition, MenuItem> entry : itemPool.getMenuItems()) {
-			if (entry.getKey().getPluginInformation().get().doesRequireImage() == true) {
-				entry.getValue().setDisable(false);
+	@Override
+	public void enablePlugins() {
+		Platform.runLater(() -> {
+			for (Entry<MenuPosition, MenuItem> entry : itemPool.getMenuItems()) {
+				if (entry.getKey().getPluginInformation().get().doesRequireImage() == true) {
+					entry.getValue().setDisable(false);
+				}
 			}
-		}
-		return null;
+		});
+	}
+
+	@Override
+	public void disablePlugins() {
+		Platform.runLater(() -> {
+			for (Entry<MenuPosition, MenuItem> entry : itemPool.getMenuItems()) {
+				if (entry.getKey().getPluginInformation().get().doesRequireImage() == true) {
+					entry.getValue().setDisable(true);
+				}
+			}
+		});
 	}
 
 	/**

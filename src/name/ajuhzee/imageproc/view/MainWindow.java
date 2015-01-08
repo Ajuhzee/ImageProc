@@ -11,6 +11,7 @@ import name.ajuhzee.imageproc.plugin.control.ContentControl;
 import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
 import name.ajuhzee.imageproc.plugin.control.GeneralControl;
 import name.ajuhzee.imageproc.plugin.control.ImageControl;
+import name.ajuhzee.imageproc.plugin.control.MenuControl;
 
 /**
  * The main view of the program. It opens the main window.
@@ -50,7 +51,6 @@ public class MainWindow implements CorePluginContext {
 		sideMenu = ContentPane.create();
 		imageDisplay = ImageDisplay.create();
 		imageDisplay.addImageChangedCallback(this::resize);
-		imageDisplay.addImageChangedCallback(mainMenu::enablePlugins);
 
 		rootLayout = RootLayout.create(mainMenu, sideMenu, imageDisplay);
 
@@ -90,4 +90,8 @@ public class MainWindow implements CorePluginContext {
 		return sideMenu;
 	}
 
+	@Override
+	public MenuControl getMenuControl() {
+		return mainMenu.getMenuControl();
+	}
 }
