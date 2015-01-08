@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import name.ajuhzee.imageproc.view.Popup;
 
@@ -16,20 +17,31 @@ import name.ajuhzee.imageproc.view.Popup;
  */
 public class GeneralControl {
 
+	private final Stage mainStage;
+
+	/**
+	 * Provides a class to access general control .
+	 * 
+	 * @param primaryStage
+	 *            the main stage
+	 */
+	public GeneralControl(Stage primaryStage) {
+		mainStage = primaryStage;
+	}
+
 	/**
 	 * Opens a File Dialog to choose an Image from file.
 	 * 
 	 * @param fileChosen
 	 *            method that gets called with "file" as its parameter
 	 */
-	@SuppressWarnings("static-method")
 	public void fileChooser(Callback<File, Void> fileChosen) {
 		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
 
 		Platform.runLater(() -> {
 			final FileChooser fc = new FileChooser();
 			fc.getExtensionFilters().add(supportedImages);
-			final File file = fc.showOpenDialog(null);
+			final File file = fc.showOpenDialog(mainStage);
 			fileChosen.call(file);
 		});
 	}
@@ -44,4 +56,5 @@ public class GeneralControl {
 	public void showPopup(String title, String text) {
 		Popup.show(title, text);
 	}
+
 }
