@@ -7,10 +7,10 @@ import java.io.IOException;
 
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
-import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.plugin.MenuPosition;
 import name.ajuhzee.imageproc.plugin.PluginBase;
 import name.ajuhzee.imageproc.plugin.PluginExecutor;
+import name.ajuhzee.imageproc.plugin.control.MenuControl;
 import name.ajuhzee.imageproc.view.menubar.MenuBarWrapper;
 
 /**
@@ -32,17 +32,6 @@ public class PluginMenu implements NodeRepresentation {
 	private final MenuBarWrapper menuBar = new MenuBarWrapper();
 
 	/**
-	 * Executes the enablePlugin method of MenuBarWrapper
-	 * 
-	 * @param img
-	 * @return nothing
-	 */
-	public Void enablePlugins(Image img) {
-		menuBar.enablePlugins();
-		return null;
-	}
-
-	/**
 	 * Adds a new plugin to the PluginMenu.
 	 * 
 	 * @param newPlugin
@@ -61,5 +50,14 @@ public class PluginMenu implements NodeRepresentation {
 	@Override
 	public Node toNodeRepresentation() {
 		return menuBar.getMenuBar();
+	}
+
+	/**
+	 * Gives access to the menu bar.
+	 * 
+	 * @return the menu Bar
+	 */
+	public MenuControl getMenuControl() {
+		return menuBar;
 	}
 }

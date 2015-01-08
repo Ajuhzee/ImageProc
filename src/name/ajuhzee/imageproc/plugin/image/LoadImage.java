@@ -50,6 +50,7 @@ public class LoadImage extends ImagePlugin {
 
 			Platform.runLater(() -> {
 				context().getImageControl().showImage(fxImage);
+				context().getMenuControl().enablePlugins();
 			});
 		} catch (final Exception ex) {
 			logger.fatal("File loading failed", ex);

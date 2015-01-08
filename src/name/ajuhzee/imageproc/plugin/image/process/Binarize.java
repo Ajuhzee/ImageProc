@@ -54,6 +54,8 @@ public class Binarize extends ImagePlugin {
 		} catch (final IOException e) {
 			throw new PluginLoadException("Couldn't load the side menu", e);
 		}
+		sideMenu.addOkButtonPressedCallback(this::clearSideMenu);
+		sideMenu.addOkButtonPressedCallback(this::enablePlugins);
 	}
 
 	private void binarize(AtomicDouble threshold) {
@@ -64,6 +66,21 @@ public class Binarize extends ImagePlugin {
 			});
 			thread.start();
 		}
+		context().getMenuControl().disablePlugins();
+	}
+
+	/**
+	 * Disables the menu items temporarily.
+	 */
+	public void enablePlugins() {
+		context().getMenuControl().enablePlugins();
+	}
+
+	/**
+	 * Clears the content of the sideMenu.
+	 */
+	public void clearSideMenu() {
+		context().getSideMenuControl().clearContent();
 	}
 
 	@Override
@@ -75,4 +92,5 @@ public class Binarize extends ImagePlugin {
 
 		sideMenu.getSliderValue().addListener(listener);
 	}
+
 }

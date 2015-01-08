@@ -1,8 +1,8 @@
 package name.ajuhzee.imageproc.plugin.control;
 
 /**
- * Provides a class to give access to those program recources, that are
- * necessary for the plugin to work with or modify the image.
+ * Provides a class to give access to those program recources, that are necessary for the plugin to work with or modify
+ * the image.
  * 
  * @author Ajuhzee
  *
@@ -26,5 +26,11 @@ public interface ImagePluginContext {
 	 * @return access to control the side menu
 	 */
 	public ContentControl getSideMenuControl();
+
+	/**
+	 * 
+	 * @return access to control the menu
+	 */
+	public MenuControl getMenuControl();
 
 }

@@ -2,11 +2,14 @@ package name.ajuhzee.imageproc.view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
@@ -35,6 +38,9 @@ public class BinarizeMenuController implements NodeRepresentation {
 	@FXML
 	private Slider binarizeThresholdSlider;
 
+	@FXML
+	private Button binarizeOkButton;
+
 	/**
 	 * @return the slider value
 	 */
@@ -49,4 +55,26 @@ public class BinarizeMenuController implements NodeRepresentation {
 	public Node toNodeRepresentation() {
 		return binarizePane;
 	}
+
+	private List<Runnable> runnables = new ArrayList<>();
+
+	/**
+	 * Registers if the ok button was pressed and adds a runnable to a list.
+	 * 
+	 * @param runnable
+	 */
+	public void addOkButtonPressedCallback(Runnable runnable) {
+		runnables.add(runnable);
+	}
+
+	/**
+	 * Clears the content of the binarizePane.
+	 */
+	public void okButtonPressed() {
+		// andere bearbeitungen wieder zulassen
+		for (Runnable elem : runnables) {
+			elem.run();
+		}
+	}
+
 }
