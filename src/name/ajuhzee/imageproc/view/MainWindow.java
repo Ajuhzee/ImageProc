@@ -67,7 +67,7 @@ public class MainWindow implements CorePluginContext {
 
 	@Override
 	public GeneralControl getGeneralControl() {
-		return new GeneralControl();
+		return new GeneralControl(mainStage);
 	}
 
 	@Override
