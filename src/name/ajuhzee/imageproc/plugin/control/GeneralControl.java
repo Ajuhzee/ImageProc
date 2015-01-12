@@ -35,7 +35,7 @@ public class GeneralControl {
 	 * @param fileChosen
 	 *            method that gets called with "file" as its parameter
 	 */
-	public void fileChooser(Callback<File, Void> fileChosen) {
+	public void openDialog(Callback<File, Void> fileChosen) {
 		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
 
 		Platform.runLater(() -> {
@@ -43,6 +43,23 @@ public class GeneralControl {
 			fc.getExtensionFilters().add(supportedImages);
 			final File file = fc.showOpenDialog(mainStage);
 			fileChosen.call(file);
+		});
+	}
+
+	/**
+	 * Opens a File Dialog to save an Image to a file.
+	 * 
+	 * @param saveImage
+	 *            method that gets called with "file" as its parameter
+	 */
+	public void saveDialog(Callback<File, Void> saveImage) {
+		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
+
+		Platform.runLater(() -> {
+			final FileChooser fc = new FileChooser();
+			fc.getExtensionFilters().add(supportedImages);
+			final File file = fc.showSaveDialog(mainStage);
+			saveImage.call(file);
 		});
 	}
 
