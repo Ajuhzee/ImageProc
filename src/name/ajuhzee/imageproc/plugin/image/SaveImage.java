@@ -1,9 +1,8 @@
 package name.ajuhzee.imageproc.plugin.image;
 
-import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -19,15 +18,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Adds an image plugin, which loads an image.
+ * Adds an image plugin, which saves an image.
  * 
  * @author Ajuhzee
  *
  */
-public class LoadImage extends ImagePlugin {
+public class SaveImage extends ImagePlugin {
 
 	private static final Logger logger = LogManager.getLogger();
-	private static final PluginInformation INFO = new PluginInformation("Bild laden", false);
+	private static final PluginInformation INFO = new PluginInformation("Bild speichern", true);
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -35,31 +34,28 @@ public class LoadImage extends ImagePlugin {
 	 * @param context
 	 * @throws PluginLoadException
 	 */
-	public LoadImage(ImagePluginContext context) throws PluginLoadException {
+	public SaveImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("save", INFO).get(), INFO, context);
+		context().getGeneralControl().showPopup("TEST", "TEST");
 	}
 
-	private Void fileChosen(File file) {
+	private Void saveImage(File file) {
 		context().getSideMenuControl().clearContent();
 		try {
-			BufferedImage img = ImageIO.read(file);
-			Image fxImage = SwingFXUtils.toFXImage(img, null);
-
+			Image fxImage = context().getImageControl().getImage();
+			RenderedImage img = SwingFXUtils.fromFXImage(fxImage, null);
+			ImageIO.write(img, "JPG", file);
 			if (fxImage.isError()) throw fxImage.getException();
-
-			Platform.runLater(() -> {
-				context().getImageControl().showImage(fxImage);
-				context().getMenuControl().enablePlugins();
-			});
 		} catch (final Exception ex) {
-			logger.fatal("File loading failed", ex);
+			logger.fatal("File saving failed", ex);
 		}
+
 		return null;
 	}
 
 	@Override
 	public void started() {
-		context().getGeneralControl().openDialog(this::fileChosen);
+		context().getGeneralControl().saveDialog(this::saveImage);
 	}
 }
