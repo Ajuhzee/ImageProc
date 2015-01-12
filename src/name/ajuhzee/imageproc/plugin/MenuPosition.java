@@ -93,6 +93,9 @@ public class MenuPosition {
 		if (!Objects.equals(parent, other.parent)) {
 			return false;
 		}
+		if (!Objects.equals(label, other.label)) {
+			return false;
+		}
 		return true;
 	}
 
