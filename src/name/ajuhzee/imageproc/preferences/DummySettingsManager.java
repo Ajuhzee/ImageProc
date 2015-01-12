@@ -8,6 +8,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.core.CloseProgram;
 import name.ajuhzee.imageproc.plugin.core.Configuration;
 import name.ajuhzee.imageproc.plugin.image.LoadImage;
+import name.ajuhzee.imageproc.plugin.image.SaveImage;
 import name.ajuhzee.imageproc.plugin.image.generate.TestImageFast;
 import name.ajuhzee.imageproc.plugin.image.generate.TestImageSlow;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
@@ -37,6 +38,7 @@ public class DummySettingsManager implements SettingsManager {
 		// should be loaded from config
 		final Set<Class<? extends ImagePlugin>> imagePlugins = new HashSet<>();
 		imagePlugins.add(LoadImage.class);
+		imagePlugins.add(SaveImage.class);
 		imagePlugins.add(Binarize.class);
 		imagePlugins.add(Invert.class);
 		imagePlugins.add(Mean3x3.class);

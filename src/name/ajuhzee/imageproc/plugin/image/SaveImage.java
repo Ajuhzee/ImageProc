@@ -1,6 +1,6 @@
 package name.ajuhzee.imageproc.plugin.image;
 
-import java.awt.image.RenderedImage;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -37,15 +37,14 @@ public class SaveImage extends ImagePlugin {
 	public SaveImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
 		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("save", INFO).get(), INFO, context);
-		context().getGeneralControl().showPopup("TEST", "TEST");
 	}
 
 	private Void saveImage(File file) {
 		context().getSideMenuControl().clearContent();
 		try {
 			Image fxImage = context().getImageControl().getImage();
-			RenderedImage img = SwingFXUtils.fromFXImage(fxImage, null);
-			ImageIO.write(img, "JPG", file);
+			BufferedImage img = SwingFXUtils.fromFXImage(fxImage, null);
+			ImageIO.write(img, ".jpg", file);
 			if (fxImage.isError()) throw fxImage.getException();
 		} catch (final Exception ex) {
 			logger.fatal("File saving failed", ex);
