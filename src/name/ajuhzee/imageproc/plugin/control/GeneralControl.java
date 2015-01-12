@@ -57,7 +57,7 @@ public class GeneralControl {
 
 		Platform.runLater(() -> {
 			final FileChooser fc = new FileChooser();
-			fc.getExtensionFilters().add(supportedImages);
+			fc.setSelectedExtensionFilter(supportedImages);
 			final File file = fc.showSaveDialog(mainStage);
 			saveImage.call(file);
 		});
