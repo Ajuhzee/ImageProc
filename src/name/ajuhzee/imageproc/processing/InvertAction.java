@@ -6,7 +6,7 @@ package name.ajuhzee.imageproc.processing;
 import java.util.concurrent.RecursiveAction;
 
 /**
- * Performs the actual invertation.
+ * Performs the actual inverting.
  * 
  * @author Ajuhzee
  *
