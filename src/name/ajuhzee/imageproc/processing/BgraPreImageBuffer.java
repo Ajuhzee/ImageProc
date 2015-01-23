@@ -66,6 +66,16 @@ public class BgraPreImageBuffer {
 	}
 
 	/**
+	 * @param width
+	 *            the width of the buffer
+	 * @param height
+	 *            the height of the buffer
+	 */
+	public BgraPreImageBuffer(int width, int height) {
+		this.buffer = new byte[BYTES_PER_PIXEL * width * height];
+	}
+
+	/**
 	 * @return the amount of pixels the buffer has
 	 */
 	public int getPixelCount() {
@@ -150,6 +160,17 @@ public class BgraPreImageBuffer {
 	 */
 	public byte[] getRawBuffer() {
 		return buffer;
+	}
+
+	/**
+	 * @param idx
+	 *            the pixel index
+	 * @param value
+	 *            the alpha value to set
+	 */
+	public void setAlpha(int idx, int value) {
+		buffer[idx * BYTES_PER_PIXEL + 3] = (byte) value;
+
 	}
 
 }
