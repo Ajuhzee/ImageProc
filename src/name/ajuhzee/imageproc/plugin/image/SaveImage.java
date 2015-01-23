@@ -14,6 +14,7 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,16 +41,21 @@ public class SaveImage extends ImagePlugin {
 	}
 
 	private Void saveImage(File file) {
-		context().getSideMenuControl().clearContent();
 		try {
 			Image fxImage = context().getImageControl().getImage();
 			BufferedImage img = SwingFXUtils.fromFXImage(fxImage, null);
-			ImageIO.write(img, ".jpg", file);
-			if (fxImage.isError()) throw fxImage.getException();
+
+			String filename = file.getName();
+			if (FilenameUtils.getExtension(filename).equals("")) {
+				filename += ".png";
+			}
+
+			File fileWithExtension = new File(file.getPath() + filename);
+
+			ImageIO.write(img, "PNG", fileWithExtension);
 		} catch (final Exception ex) {
 			logger.fatal("File saving failed", ex);
 		}
-
 		return null;
 	}
 
