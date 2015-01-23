@@ -34,11 +34,11 @@ public class InvertAction extends RecursiveAction {
 		this.endIdx = buffer.getPixelCount();
 	}
 
-	private BgraPreImageBuffer invert(BgraPreImageBuffer buffer) {
+	private BgraPreImageBuffer invert(BgraPreImageBuffer imageBuffer) {
 		for (int pixelIdx = startIdx; pixelIdx != endIdx; ++pixelIdx) {
-			buffer.setRed(pixelIdx, 255 - buffer.getRed(pixelIdx));
-			buffer.setGreen(pixelIdx, 255 - buffer.getGreen(pixelIdx));
-			buffer.setBlue(pixelIdx, 255 - buffer.getBlue(pixelIdx));
+			imageBuffer.setRed(pixelIdx, 255 - buffer.getRed(pixelIdx));
+			imageBuffer.setGreen(pixelIdx, 255 - buffer.getGreen(pixelIdx));
+			imageBuffer.setBlue(pixelIdx, 255 - buffer.getBlue(pixelIdx));
 		}
 		return buffer;
 
