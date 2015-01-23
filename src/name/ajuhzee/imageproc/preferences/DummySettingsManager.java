@@ -9,8 +9,7 @@ import name.ajuhzee.imageproc.plugin.core.CloseProgram;
 import name.ajuhzee.imageproc.plugin.core.Configuration;
 import name.ajuhzee.imageproc.plugin.image.LoadImage;
 import name.ajuhzee.imageproc.plugin.image.SaveImage;
-import name.ajuhzee.imageproc.plugin.image.generate.TestImageFast;
-import name.ajuhzee.imageproc.plugin.image.generate.TestImageSlow;
+import name.ajuhzee.imageproc.plugin.image.generate.TestImage;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
 import name.ajuhzee.imageproc.plugin.image.process.Invert;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3;
@@ -44,8 +43,7 @@ public class DummySettingsManager implements SettingsManager {
 		imagePlugins.add(Mean3x3.class);
 		imagePlugins.add(Mean3x3Seperated.class);
 		imagePlugins.add(Mean3x3Threaded.class);
-		imagePlugins.add(TestImageSlow.class);
-		imagePlugins.add(TestImageFast.class);
+		imagePlugins.add(TestImage.class);
 		return imagePlugins;
 	}
 }
