@@ -74,11 +74,11 @@ public class BinarizeAction extends RecursiveAction {
 		}
 	}
 
-	private BgraPreImageBuffer binarize(BgraPreImageBuffer buffer) {
+	private BgraPreImageBuffer binarize(BgraPreImageBuffer imageBuffer) {
 		for (int pixelIdx = startIdx; pixelIdx != endIdx; ++pixelIdx) {
-			final int red = buffer.getRed(pixelIdx);
-			final int green = buffer.getGreen(pixelIdx);
-			final int blue = buffer.getBlue(pixelIdx);
+			final int red = imageBuffer.getRed(pixelIdx);
+			final int green = imageBuffer.getGreen(pixelIdx);
+			final int blue = imageBuffer.getBlue(pixelIdx);
 
 			// other brightness calculations possible
 			// final int brightness = toBrightnessPerceived(red, green,
