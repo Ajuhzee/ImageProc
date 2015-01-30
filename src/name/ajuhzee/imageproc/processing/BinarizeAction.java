@@ -5,7 +5,7 @@ import java.util.concurrent.RecursiveAction;
 import com.google.common.util.concurrent.AtomicDouble;
 
 /**
- * Performs the actual binarization.
+ * Binarizes the image.
  * 
  * @author Ajuhzee
  *
