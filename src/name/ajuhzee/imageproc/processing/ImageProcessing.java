@@ -70,4 +70,58 @@ public class ImageProcessing {
 		return BgraPreImageBuffer.createBgraPreImage(buffer, width, height);
 	}
 
+	/**
+	 * @param toFilter
+	 *            the source image
+	 * @param type
+	 *            the type of filter, that shall be applied
+	 * @return the filtered image
+	 */
+	public static Image filter(Image toFilter, String type) {
+		double[] filterMask1;
+		double[] filterMask2;
+		double c;
+		boolean threaded = false;
+		int kernelX;
+		int kernelY;
+
+		switch (type) {
+		default:
+			filterMask1 = new double[] {0, 0, 0, 0, 1, 0, 0, 0, 0};
+			filterMask2 = null;
+			kernelX = 3;
+			kernelY = 3;
+			break;
+		case "mean3x3":
+			c = 1d / 9d;
+			filterMask1 = new double[] {c, c, c, c, c, c, c, c, c};
+			filterMask2 = null;
+			kernelX = 3;
+			kernelY = 3;
+			break;
+		case "mean3x3seperated":
+			c = 1d / 3d;
+			filterMask1 = new double[] {c, c, c};
+			filterMask2 = new double[] {c, c, c};
+			kernelX = 3;
+			kernelY = 1;
+			break;
+		case "mean3x3threaded":
+			c = 1d / 9d;
+			filterMask1 = new double[] {c, c, c, c, c, c, c, c, c};
+			filterMask2 = null;
+			threaded = true;
+			kernelX = 3;
+			kernelY = 3;
+			break;
+		}
+
+		while (true) {
+			try {
+				return POOL.invoke(new FilterAction(toFilter, filterMask1, filterMask2, kernelX, kernelY, threaded));
+			} catch (ValueChangedException e) {
+				continue;
+			}
+		}
+	}
 }
