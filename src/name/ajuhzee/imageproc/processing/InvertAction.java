@@ -6,16 +6,13 @@ package name.ajuhzee.imageproc.processing;
 import java.util.concurrent.RecursiveAction;
 
 /**
- * Performs the actual inverting.
+ * Inverts the image.
  * 
  * @author Ajuhzee
  *
  */
 public class InvertAction extends RecursiveAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final BgraPreImageBuffer buffer;
@@ -25,7 +22,10 @@ public class InvertAction extends RecursiveAction {
 	private final int endIdx;
 
 	/**
+	 * Creates a new binarize action to be executed in a ForkJoinPool.
+	 * 
 	 * @param buffer
+	 *            the image buffer to invert
 	 */
 
 	public InvertAction(BgraPreImageBuffer buffer) {
