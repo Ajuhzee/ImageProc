@@ -87,7 +87,6 @@ public class FilterAction extends RecursiveTask<Image> {
 				}
 
 				int newRedValue = newRedValueSum / filterMask1.length;
-				System.out.println(newRedValue);
 				int newGreenValue = newGreenValueSum / filterMask1.length;
 				int newBlueValue = newBlueValueSum / filterMask1.length;
 
