@@ -38,9 +38,13 @@ public class FilterAction extends RecursiveTask<Image> {
 
 	boolean threaded;
 
-	private final int kernelX;
+	private final int kernelX1;
 
-	private final int kernelY;
+	private final int kernelY1;
+	
+	private final int kernelX2;
+
+	private final int kernelY2;
 
 	/**
 	 * Creates a new binarize action to be executed in a ForkJoinPool.
@@ -53,53 +57,59 @@ public class FilterAction extends RecursiveTask<Image> {
 	 *            the filtermask for the filter
 	 * @param filterMask2
 	 *            the optional 2nd filtermask (null if not needed)
-	 * @param kernelX
-	 *            kernel size of the filter mask in x direction
-	 * @param kernelY
-	 *            kernel size of the filter mask in y direction
+	 * @param kernelX1
+	 *            kernel size of the first filter mask in x direction
+	 * @param kernelY1
+	 *            kernel size of the first filter mask in y direction
+	 * @param kernelX2
+	 *            kernel size of the second filter mask in x direction (null if not needed)
+	 * @param kernelY2
+	 *            kernel size of the second filter mask in y direction (null if not needed)
 	 */
-	public FilterAction(Image toFilter, double[] filterMask1, double[] filterMask2, int kernelX, int kernelY,
+	public FilterAction(Image toFilter, double[] filterMask1, double[] filterMask2, int kernelX1, int kernelY1, int kernelX2, int kernelY2,
 			boolean threaded) {
 		this.toFilter = toFilter;
 		this.startIdx = 0;
 		this.filterMask1 = filterMask1;
 		this.filterMask2 = filterMask2;
 		this.threaded = threaded;
-		this.kernelX = kernelX;
-		this.kernelY = kernelY;
+		this.kernelX1 = kernelX1;
+		this.kernelY1 = kernelY1;
+		this.kernelX2 = kernelX2;
+		this.kernelY2 = kernelY2;
 	}
 	
-	private WritableImage filterWith(double[] filterMask){
-		WritableImage image = new WritableImage((int) toFilter.getWidth(), (int) toFilter.getHeight());
-		for (int x = startIdx; x < toFilter.getWidth(); x++) {
-			for (int y = startIdx; y < toFilter.getHeight(); y++) {
+	private WritableImage filterWith(Image image, double[] filterMask,  int kernelX,  int kernelY){
+		WritableImage newImage = new WritableImage((int) image.getWidth(), (int) image.getHeight());
+		for (int x = startIdx; x < image.getWidth(); x++) {
+			for (int y = startIdx; y < image.getHeight(); y++) {
 				int newRedValue = 0;
 				int newGreenValue = 0;
 				int newBlueValue = 0;
 				int filterMaskPosition = 0;
 				for (int i = -1 * (kernelX / 2); i <= (kernelX / 2); i++) {
 					for (int j = -1 * (kernelY / 2); j <= (kernelY / 2); j++) {
-						newRedValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getRed())*filterMask[filterMaskPosition];
-						newGreenValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getGreen())*filterMask[filterMaskPosition];
-						newBlueValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getBlue())*filterMask[filterMaskPosition];
+						newRedValue += (int) (255d * getPaddedColor(image, x + i, y + j).getRed())*filterMask[filterMaskPosition];
+						newGreenValue += (int) (255d * getPaddedColor(image, x + i, y + j).getGreen())*filterMask[filterMaskPosition];
+						newBlueValue += (int) (255d * getPaddedColor(image, x + i, y + j).getBlue())*filterMask[filterMaskPosition];
 						filterMaskPosition++;
 					}
 				}
+				
+				Color color = Color.rgb(Math.floorMod(newRedValue, 256), Math.floorMod(newGreenValue , 256), Math.floorMod(newBlueValue , 256));
 
-				Color color = Color.rgb(newRedValue, newGreenValue, newBlueValue);
-
-				image.getPixelWriter().setColor(x, y, color);
+				newImage.getPixelWriter().setColor(x, y, color);
 			}
 
 		}
-		return image;
+		return newImage;
 	}
 
 	private Image filter(Image toFilter) {
-		WritableImage filteredImage = filterWith(filterMask1);
+		WritableImage filteredImage = filterWith(toFilter, filterMask1, kernelX1, kernelY1);
 		
 		if(filterMask2!=null){
-			filteredImage = filterWith(filterMask2);
+			filteredImage = filterWith(filteredImage, filterMask2, kernelX2, kernelY2);
 		}
 		return filteredImage;
 	}
@@ -114,12 +124,14 @@ public class FilterAction extends RecursiveTask<Image> {
 		File file = new File("C:/users/ajuhzee/desktop/dormer.jpg");
 		BufferedImage img = ImageIO.read(file);
 		Image fxImage = SwingFXUtils.toFXImage(img, null);
-		Image out = ImageProcessing.filter(fxImage, "mean3x3seperated");
+		String filter = "mean3x3seperated";
+		Image out = ImageProcessing.filter(fxImage, filter);
 		BufferedImage outBuf = SwingFXUtils.fromFXImage(out, null);
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(new JLabel(new ImageIcon(outBuf)));
 		frame.pack();
 		frame.setVisible(true);
+		frame.setTitle(filter);
 	}
 
 	@Override
