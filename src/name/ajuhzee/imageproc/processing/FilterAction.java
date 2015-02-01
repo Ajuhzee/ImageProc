@@ -58,7 +58,6 @@ public class FilterAction extends RecursiveTask<Image> {
 	 * @param kernelY
 	 *            kernel size of the filter mask in y direction
 	 */
-
 	public FilterAction(Image toFilter, double[] filterMask1, double[] filterMask2, int kernelX, int kernelY,
 			boolean threaded) {
 		this.toFilter = toFilter;
@@ -69,44 +68,42 @@ public class FilterAction extends RecursiveTask<Image> {
 		this.kernelX = kernelX;
 		this.kernelY = kernelY;
 	}
-
-	private Image filter(Image toFilter) {
-		WritableImage filtered = new WritableImage((int) toFilter.getWidth(), (int) toFilter.getHeight());
+	
+	private WritableImage filterWith(double[] filterMask){
+		WritableImage image = new WritableImage((int) toFilter.getWidth(), (int) toFilter.getHeight());
 		for (int x = startIdx; x < toFilter.getWidth(); x++) {
 			for (int y = startIdx; y < toFilter.getHeight(); y++) {
-				// toFilter.getPixelReader().getColor(x, y).getBlue();
-				int newRedValueSum = 0;
-				int newGreenValueSum = 0;
-				int newBlueValueSum = 0;
+				int newRedValue = 0;
+				int newGreenValue = 0;
+				int newBlueValue = 0;
+				int filterMaskPosition = 0;
 				for (int i = -1 * (kernelX / 2); i <= (kernelX / 2); i++) {
 					for (int j = -1 * (kernelY / 2); j <= (kernelY / 2); j++) {
-						newRedValueSum += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getRed());
-						newGreenValueSum += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getGreen());
-						newBlueValueSum += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getBlue());
+						newRedValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getRed())*filterMask[filterMaskPosition];
+						newGreenValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getGreen())*filterMask[filterMaskPosition];
+						newBlueValue += (int) (255d * getPaddedColor(toFilter, x + i, y + j).getBlue())*filterMask[filterMaskPosition];
+						filterMaskPosition++;
 					}
 				}
 
-				int newRedValue = newRedValueSum / filterMask1.length;
-				int newGreenValue = newGreenValueSum / filterMask1.length;
-				int newBlueValue = newBlueValueSum / filterMask1.length;
-
 				Color color = Color.rgb(newRedValue, newGreenValue, newBlueValue);
 
-				filtered.getPixelWriter().setColor(x, y, color);
+				image.getPixelWriter().setColor(x, y, color);
 			}
 
 		}
-		return filtered;
+		return image;
 	}
 
-	/**
-	 * @param toFilter
-	 * @param x
-	 * @param y
-	 * @param i
-	 * @param j
-	 * @return
-	 */
+	private Image filter(Image toFilter) {
+		WritableImage filteredImage = filterWith(filterMask1);
+		
+		if(filterMask2!=null){
+			filteredImage = filterWith(filterMask2);
+		}
+		return filteredImage;
+	}
+
 	private Color getPaddedColor(Image toFilter, int x, int y) {
 		if (x < 0 || x >= toFilter.getWidth() || y < 0 || y >= toFilter.getHeight()) return Color.BLACK;
 
@@ -114,10 +111,10 @@ public class FilterAction extends RecursiveTask<Image> {
 	}
 
 	public static void main(String[] args) throws IOException {
-		File file = new File("C:/users/angi/desktop/10723650_1514147105507758_1714830986_n.jpg");
+		File file = new File("C:/users/ajuhzee/desktop/dormer.jpg");
 		BufferedImage img = ImageIO.read(file);
 		Image fxImage = SwingFXUtils.toFXImage(img, null);
-		Image out = ImageProcessing.filter(fxImage, "mean3x3");
+		Image out = ImageProcessing.filter(fxImage, "mean3x3seperated");
 		BufferedImage outBuf = SwingFXUtils.fromFXImage(out, null);
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(new JLabel(new ImageIcon(outBuf)));
