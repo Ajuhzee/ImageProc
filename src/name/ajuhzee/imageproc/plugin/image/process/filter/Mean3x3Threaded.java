@@ -19,7 +19,7 @@ public class Mean3x3Threaded extends ImagePlugin {
 	private static final PluginInformation INFO = new PluginInformation("Mittelwert 3x3 threaded", true);
 
 	private Image oldImage;
-	
+
 	/**
 	 * Positions a Menu-button for the plugin.
 	 * 
@@ -31,7 +31,7 @@ public class Mean3x3Threaded extends ImagePlugin {
 		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("filter", "Filter")
 				.subMenu("mean3x3Threaded", INFO).get(), INFO, context);
 	}
-	
+
 	private void applyFilter() {
 		final Image newImage = ImageProcessing.filter(oldImage, "mean3x3threaded");
 		context().getImageControl().showImage(newImage);
