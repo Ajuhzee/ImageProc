@@ -3,7 +3,6 @@
  */
 package name.ajuhzee.imageproc.processing;
 
-import java.util.OptionalInt;
 import java.util.concurrent.ForkJoinPool;
 
 import javafx.scene.image.Image;
@@ -127,7 +126,7 @@ public class ImageProcessing {
 			break;
 		case "laplace":
 			c = 1d / 4d;
-			filterMask1 = new double[] {c*0, c*1, c*01, c*1, c*-4, c*1, c*0, c*1, c*0};
+			filterMask1 = new double[] {c * 0, c * 1, c * 01, c * 1, c * -4, c * 1, c * 0, c * 1, c * 0};
 			filterMask2 = null;
 			isThreaded = true;
 			kernelX1 = 3;
@@ -139,7 +138,8 @@ public class ImageProcessing {
 
 		while (true) {
 			try {
-				return POOL.invoke(new FilterAction(toFilter, filterMask1, filterMask2, kernelX1, kernelY1, kernelX2, kernelY2, isThreaded));
+				return POOL.invoke(new FilterAction(toFilter, filterMask1, filterMask2, kernelX1, kernelY1, kernelX2,
+						kernelY2, isThreaded));
 			} catch (ValueChangedException e) {
 				continue;
 			}

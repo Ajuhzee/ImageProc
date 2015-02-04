@@ -41,7 +41,7 @@ public class FilterAction extends RecursiveTask<Image> {
 	private final int kernelX1;
 
 	private final int kernelY1;
-	
+
 	private final int kernelX2;
 
 	private final int kernelY2;
@@ -66,8 +66,8 @@ public class FilterAction extends RecursiveTask<Image> {
 	 * @param kernelY2
 	 *            kernel size of the second filter mask in y direction (null if not needed)
 	 */
-	public FilterAction(Image toFilter, double[] filterMask1, double[] filterMask2, int kernelX1, int kernelY1, int kernelX2, int kernelY2,
-			boolean threaded) {
+	public FilterAction(Image toFilter, double[] filterMask1, double[] filterMask2, int kernelX1, int kernelY1,
+			int kernelX2, int kernelY2, boolean threaded) {
 		this.toFilter = toFilter;
 		this.startIdx = 0;
 		this.filterMask1 = filterMask1;
@@ -78,8 +78,8 @@ public class FilterAction extends RecursiveTask<Image> {
 		this.kernelX2 = kernelX2;
 		this.kernelY2 = kernelY2;
 	}
-	
-	private WritableImage filterWith(Image image, double[] filterMask,  int kernelX,  int kernelY){
+
+	private WritableImage filterWith(Image image, double[] filterMask, int kernelX, int kernelY) {
 		WritableImage newImage = new WritableImage((int) image.getWidth(), (int) image.getHeight());
 		for (int x = startIdx; x < image.getWidth(); x++) {
 			for (int y = startIdx; y < image.getHeight(); y++) {
@@ -89,14 +89,18 @@ public class FilterAction extends RecursiveTask<Image> {
 				int filterMaskPosition = 0;
 				for (int i = -1 * (kernelX / 2); i <= (kernelX / 2); i++) {
 					for (int j = -1 * (kernelY / 2); j <= (kernelY / 2); j++) {
-						newRedValue += (int) (255d * getPaddedColor(image, x + i, y + j).getRed())*filterMask[filterMaskPosition];
-						newGreenValue += (int) (255d * getPaddedColor(image, x + i, y + j).getGreen())*filterMask[filterMaskPosition];
-						newBlueValue += (int) (255d * getPaddedColor(image, x + i, y + j).getBlue())*filterMask[filterMaskPosition];
+						newRedValue += (int) (255d * getPaddedColor(image, x + i, y + j).getRed())
+								* filterMask[filterMaskPosition];
+						newGreenValue += (int) (255d * getPaddedColor(image, x + i, y + j).getGreen())
+								* filterMask[filterMaskPosition];
+						newBlueValue += (int) (255d * getPaddedColor(image, x + i, y + j).getBlue())
+								* filterMask[filterMaskPosition];
 						filterMaskPosition++;
 					}
 				}
-				
-				Color color = Color.rgb(Math.floorMod(newRedValue, 256), Math.floorMod(newGreenValue , 256), Math.floorMod(newBlueValue , 256));
+
+				Color color = Color.rgb(Math.floorMod(newRedValue, 256), Math.floorMod(newGreenValue, 256),
+						Math.floorMod(newBlueValue, 256));
 
 				newImage.getPixelWriter().setColor(x, y, color);
 			}
@@ -107,8 +111,8 @@ public class FilterAction extends RecursiveTask<Image> {
 
 	private Image filter(Image toFilter) {
 		WritableImage filteredImage = filterWith(toFilter, filterMask1, kernelX1, kernelY1);
-		
-		if(filterMask2!=null){
+
+		if (filterMask2 != null) {
 			filteredImage = filterWith(filteredImage, filterMask2, kernelX2, kernelY2);
 		}
 		return filteredImage;
