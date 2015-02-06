@@ -45,18 +45,20 @@ public class SaveImage extends ImagePlugin {
 			Image fxImage = context().getImageControl().getImage();
 			BufferedImage img = SwingFXUtils.fromFXImage(fxImage, null);
 
-			String filename = file.getName();
-			if (FilenameUtils.getExtension(filename).equals("")) {
-				filename += ".png";
-			}
-
-			File fileWithExtension = new File(file.getPath() + filename);
-
-			ImageIO.write(img, "PNG", fileWithExtension);
+			ImageIO.write(img, "PNG", addPngExtension(file));
 		} catch (final Exception ex) {
 			logger.fatal("File saving failed", ex);
 		}
 		return null;
+	}
+
+	private static File addPngExtension(File file) {
+		String filename = file.getName();
+		if (FilenameUtils.getExtension(filename).equals("")) {
+			filename += ".png";
+		}
+
+		return new File(file.getPath() + filename);
 	}
 
 	@Override

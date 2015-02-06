@@ -10,14 +10,14 @@ import name.ajuhzee.imageproc.processing.ImageProcessing;
 import name.ajuhzee.imageproc.processing.filters.FilterActions;
 
 /**
- * Adds an image plugin, that provides a threaded 3x3 mean filter for image processing purposes.
+ * Adds an image plugin, that provides a 3x3 laplace filter for image processing purposes.
  * 
  * @author Ajuhzee
  *
  */
-public class Mean3x3Threaded extends ImagePlugin {
+public class Laplace extends ImagePlugin {
 
-	private static final PluginInformation INFO = new PluginInformation("Mittelwert 3x3 threaded", true);
+	private static final PluginInformation INFO = new PluginInformation("Laplace 3x3", true);
 
 	private Image oldImage;
 
@@ -27,14 +27,14 @@ public class Mean3x3Threaded extends ImagePlugin {
 	 * @param context
 	 * @throws PluginLoadException
 	 */
-	public Mean3x3Threaded(ImagePluginContext context) throws PluginLoadException {
+	public Laplace(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
 		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("filter", "Filter")
-				.subMenu("mean3x3Threaded", INFO).get(), INFO, context);
+				.subMenu("laplace3x3", INFO).get(), INFO, context);
 	}
 
 	private void applyFilter() {
-		final Image newImage = ImageProcessing.filter(oldImage, FilterActions.MEAN_3X3_THREADED);
+		final Image newImage = ImageProcessing.filter(oldImage, FilterActions.LAPLACE_3X3);
 		context().getImageControl().showImage(newImage);
 	}
 

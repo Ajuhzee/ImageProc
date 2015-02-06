@@ -12,6 +12,7 @@ import name.ajuhzee.imageproc.plugin.image.SaveImage;
 import name.ajuhzee.imageproc.plugin.image.generate.TestImage;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
 import name.ajuhzee.imageproc.plugin.image.process.Invert;
+import name.ajuhzee.imageproc.plugin.image.process.filter.Laplace;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3Seperated;
 import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3Threaded;
@@ -40,6 +41,7 @@ public class DummySettingsManager implements SettingsManager {
 		imagePlugins.add(SaveImage.class);
 		imagePlugins.add(Binarize.class);
 		imagePlugins.add(Invert.class);
+		imagePlugins.add(Laplace.class);
 		imagePlugins.add(Mean3x3.class);
 		imagePlugins.add(Mean3x3Seperated.class);
 		imagePlugins.add(Mean3x3Threaded.class);
