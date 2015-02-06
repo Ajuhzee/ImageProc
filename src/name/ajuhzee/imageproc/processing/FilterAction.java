@@ -46,24 +46,14 @@ public class FilterAction extends RecursiveTask<Image> {
 	 * 
 	 * @param toFilter
 	 *            the image
+	 * @param filterChain
+	 *            the filters that will be applied
 	 * @param threaded
 	 *            true if the filter is applied with multiple threads
-	 * @param filterMask1
-	 *            the filtermask for the filter
-	 * @param filterMask2
-	 *            the optional 2nd filtermask (null if not needed)
-	 * @param kernelX1
-	 *            kernel size of the first filter mask in x direction
-	 * @param kernelY1
-	 *            kernel size of the first filter mask in y direction
-	 * @param kernelX2
-	 *            kernel size of the second filter mask in x direction (null if not needed)
-	 * @param kernelY2
-	 *            kernel size of the second filter mask in y direction (null if not needed)
 	 */
 	public FilterAction(Image toFilter, FilterChain filterChain, boolean threaded) {
 		this.toFilter = toFilter;
-		this.startIdx = 0;
+		startIdx = 0;
 		this.filterChain = filterChain;
 		this.threaded = threaded;
 	}
@@ -79,7 +69,6 @@ public class FilterAction extends RecursiveTask<Image> {
 				int newRedValue = 0;
 				int newGreenValue = 0;
 				int newBlueValue = 0;
-				int filterMaskPosition = 0;
 
 				for (int maskX = -1 * xRadius; maskX <= xRadius; maskX++) {
 					for (int maskY = -1 * yRadius; maskY <= yRadius; maskY++) {
@@ -89,7 +78,6 @@ public class FilterAction extends RecursiveTask<Image> {
 								* mask.getMultiplier(maskX, maskY);
 						newBlueValue += (int) (255d * getPaddedColor(image, x + maskX, y + maskY).getBlue())
 								* mask.getMultiplier(maskX, maskY);
-						filterMaskPosition++;
 					}
 				}
 
@@ -118,7 +106,9 @@ public class FilterAction extends RecursiveTask<Image> {
 	}
 
 	private Color getPaddedColor(Image toFilter, int x, int y) {
-		if (isOutsideOfImage(toFilter, x, y)) return Color.BLACK;
+		if (isOutsideOfImage(toFilter, x, y)) {
+			return Color.BLACK;
+		}
 
 		return toFilter.getPixelReader().getColor(x, y);
 	}

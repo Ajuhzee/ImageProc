@@ -4,12 +4,14 @@ import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.processing.BgraPreImageBuffer;
 
 /**
- * Workes as a library for image generating algorithms
+ * A library for image generating algorithms
  *
  * @author Ajuhzee
  *
  */
 public class ImageGenerating {
+
+	private static final int DIMENSION = 512;
 
 	/**
 	 * Generates a test image.
@@ -17,11 +19,10 @@ public class ImageGenerating {
 	 * @return the generated image
 	 */
 	public static Image generate() {
-		int width = 512;
-		int height = 512;
-		BgraPreImageBuffer buffer = new BgraPreImageBuffer(width, height);
 
-		for (int pixelIdx = 0; pixelIdx != width * height; ++pixelIdx) {
+		BgraPreImageBuffer buffer = new BgraPreImageBuffer(DIMENSION, DIMENSION);
+
+		for (int pixelIdx = 0; pixelIdx != DIMENSION * DIMENSION; ++pixelIdx) {
 			buffer.setBlue(pixelIdx, pixelIdx / 2);
 			buffer.setGreen(pixelIdx, pixelIdx / 2);
 			buffer.setRed(pixelIdx, pixelIdx / 2);
