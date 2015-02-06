@@ -22,7 +22,7 @@ public class InvertAction extends RecursiveAction {
 	private final int endIdx;
 
 	/**
-	 * Creates a new binarize action to be executed in a ForkJoinPool.
+	 * Creates a new invert action to be executed in a ForkJoinPool.
 	 * 
 	 * @param buffer
 	 *            the image buffer to invert

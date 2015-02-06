@@ -6,6 +6,7 @@ package name.ajuhzee.imageproc.processing;
 import java.util.concurrent.ForkJoinPool;
 
 import javafx.scene.image.Image;
+import name.ajuhzee.imageproc.processing.filters.FilterActions;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
@@ -73,73 +74,14 @@ public class ImageProcessing {
 	/**
 	 * @param toFilter
 	 *            the source image
-	 * @param type
+	 * @param filterAction
 	 *            the type of filter, that shall be applied
 	 * @return the filtered image
 	 */
-	public static Image filter(Image toFilter, String type) {
-		double[] filterMask1;
-		double[] filterMask2;
-		double c;
-		boolean isThreaded = false;
-		int kernelX1;
-		int kernelY1;
-		int kernelX2;
-		int kernelY2;
-
-		switch (type) {
-		default:
-			filterMask1 = new double[] {0, 0, 0, 0, 1, 0, 0, 0, 0};
-			filterMask2 = null;
-			kernelX1 = 3;
-			kernelY1 = 3;
-			kernelX2 = 0;
-			kernelY2 = 0;
-			break;
-		case "mean3x3":
-			c = 1d / 9d;
-			filterMask1 = new double[] {c, c, c, c, c, c, c, c, c};
-			filterMask2 = null;
-			kernelX1 = 3;
-			kernelY1 = 3;
-			kernelX2 = 0;
-			kernelY2 = 0;
-			break;
-		case "mean3x3seperated":
-			c = 1d / 3d;
-			filterMask1 = new double[] {c, c, c};
-			filterMask2 = new double[] {c, c, c};
-			kernelX1 = 3;
-			kernelY1 = 1;
-			kernelX2 = 1;
-			kernelY2 = 3;
-			break;
-		case "mean3x3threaded":
-			c = 1d / 9d;
-			filterMask1 = new double[] {c, c, c, c, c, c, c, c, c};
-			filterMask2 = null;
-			isThreaded = true;
-			kernelX1 = 3;
-			kernelY1 = 3;
-			kernelX2 = 0;
-			kernelY2 = 0;
-			break;
-		case "laplace":
-			c = 1d / 4d;
-			filterMask1 = new double[] {c * 0, c * 1, c * 01, c * 1, c * -4, c * 1, c * 0, c * 1, c * 0};
-			filterMask2 = null;
-			isThreaded = true;
-			kernelX1 = 3;
-			kernelY1 = 3;
-			kernelX2 = 0;
-			kernelY2 = 0;
-			break;
-		}
-
+	public static Image filter(Image toFilter, FilterActions filterAction) {
 		while (true) {
 			try {
-				return POOL.invoke(new FilterAction(toFilter, filterMask1, filterMask2, kernelX1, kernelY1, kernelX2,
-						kernelY2, isThreaded));
+				return POOL.invoke(filterAction.getFilterAction(toFilter));
 			} catch (ValueChangedException e) {
 				continue;
 			}

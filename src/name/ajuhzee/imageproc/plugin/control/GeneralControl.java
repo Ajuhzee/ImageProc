@@ -36,14 +36,17 @@ public class GeneralControl {
 	 *            method that gets called with "file" as its parameter
 	 */
 	public void openDialog(Callback<File, Void> fileChosen) {
+		Platform.runLater(() -> {
+			fileChosen.call(createFileChooser().showOpenDialog(mainStage));
+		});
+	}
+
+	private static FileChooser createFileChooser() {
 		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
 
-		Platform.runLater(() -> {
-			final FileChooser fc = new FileChooser();
-			fc.getExtensionFilters().add(supportedImages);
-			final File file = fc.showOpenDialog(mainStage);
-			fileChosen.call(file);
-		});
+		final FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(supportedImages);
+		return fc;
 	}
 
 	/**
@@ -53,13 +56,8 @@ public class GeneralControl {
 	 *            method that gets called with "file" as its parameter
 	 */
 	public void saveDialog(Callback<File, Void> saveImage) {
-		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
-
 		Platform.runLater(() -> {
-			final FileChooser fc = new FileChooser();
-			fc.getExtensionFilters().add(supportedImages);
-			final File file = fc.showSaveDialog(mainStage);
-			saveImage.call(file);
+			saveImage.call(createFileChooser().showSaveDialog(mainStage));
 		});
 	}
 
