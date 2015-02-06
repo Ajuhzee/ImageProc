@@ -3,23 +3,12 @@
  */
 package name.ajuhzee.imageproc.processing;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.RecursiveTask;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import name.ajuhzee.imageproc.processing.filters.FilterActions;
 import name.ajuhzee.imageproc.processing.filters.FilterChain;
 import name.ajuhzee.imageproc.processing.filters.FilterMask;
 
@@ -42,7 +31,7 @@ public class FilterAction extends RecursiveTask<Image> {
 	boolean threaded;
 
 	/**
-	 * Creates a new binarize action to be executed in a ForkJoinPool.
+	 * Creates a new filter action to be executed in a ForkJoinPool.
 	 * 
 	 * @param toFilter
 	 *            the image
@@ -115,21 +104,6 @@ public class FilterAction extends RecursiveTask<Image> {
 
 	private boolean isOutsideOfImage(Image toFilter, int x, int y) {
 		return x < 0 || x >= toFilter.getWidth() || y < 0 || y >= toFilter.getHeight();
-	}
-
-	public static void main(String[] args) throws IOException {
-		FilterActions f = FilterActions.LAPLACE_3X3;
-
-		File file = new File(System.getProperty("image"));
-		BufferedImage img = ImageIO.read(file);
-		Image fxImage = SwingFXUtils.toFXImage(img, null);
-		Image out = ImageProcessing.filter(fxImage, f);
-		BufferedImage outBuf = SwingFXUtils.fromFXImage(out, null);
-		JFrame frame = new JFrame();
-		frame.getContentPane().add(new JLabel(new ImageIcon(outBuf)));
-		frame.pack();
-		frame.setVisible(true);
-		frame.setTitle(f.toString());
 	}
 
 	@Override
