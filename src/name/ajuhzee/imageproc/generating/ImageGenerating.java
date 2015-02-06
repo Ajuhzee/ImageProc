@@ -1,7 +1,8 @@
 package name.ajuhzee.imageproc.generating;
 
 import javafx.scene.image.Image;
-import name.ajuhzee.imageproc.processing.BgraPreImageBuffer;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 /**
  * A library for image generating algorithms
@@ -20,16 +21,14 @@ public class ImageGenerating {
 	 */
 	public static Image generate() {
 
-		BgraPreImageBuffer buffer = new BgraPreImageBuffer(DIMENSION, DIMENSION);
+		WritableImage newImage = new WritableImage(DIMENSION, DIMENSION);
 
-		for (int pixelIdx = 0; pixelIdx != DIMENSION * DIMENSION; ++pixelIdx) {
-			buffer.setBlue(pixelIdx, pixelIdx / 2);
-			buffer.setGreen(pixelIdx, pixelIdx / 2);
-			buffer.setRed(pixelIdx, pixelIdx / 2);
-			buffer.setAlpha(pixelIdx, 255);
+		for (int x = 0; x < newImage.getWidth(); x++) {
+			for (int y = 0; y < newImage.getHeight(); y++) {
+				Color color = Color.rgb(x / 2, x / 2, x / 2);
+				newImage.getPixelWriter().setColor(x, y, color);
+			}
 		}
-
-		Image testImg = BgraPreImageBuffer.createBgraPreImage(buffer, width, height);
-		return testImg;
+		return newImage;
 	}
 }
