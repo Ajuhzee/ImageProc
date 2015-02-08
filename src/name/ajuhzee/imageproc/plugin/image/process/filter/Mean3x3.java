@@ -7,7 +7,7 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageProcessing;
-import name.ajuhzee.imageproc.processing.filters.FilterActions;
+import name.ajuhzee.imageproc.processing.filters.FilterType;
 
 /**
  * Adds an image plugin, that provides a 3x3 mean filter for image processing purposes.
@@ -34,7 +34,7 @@ public class Mean3x3 extends ImagePlugin {
 	}
 
 	private void applyFilter() {
-		final Image newImage = ImageProcessing.filter(oldImage, FilterActions.MEAN_3X3);
+		final Image newImage = ImageProcessing.filter(oldImage, FilterType.MEAN_3X3.getFilterChain());
 		context().getImageControl().showImage(newImage);
 	}
 
