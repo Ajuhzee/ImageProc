@@ -32,6 +32,7 @@ public class TestImage extends ImagePlugin {
 
 	private void testImage() {
 		final Image newImage = ImageGenerating.generate();
+		context().getSideMenuControl().clearContent();
 		context().getImageControl().showImage(newImage);
 	}
 
