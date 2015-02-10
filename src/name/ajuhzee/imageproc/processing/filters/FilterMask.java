@@ -68,6 +68,10 @@ public class FilterMask {
 	}
 
 	/**
+	 * @param x
+	 *            the x coordinate of the filter mask
+	 * @param y
+	 *            the y coordinate of the filter mask
 	 * @return the prefactor of the filter
 	 */
 	public double getMultiplier(int x, int y) {
