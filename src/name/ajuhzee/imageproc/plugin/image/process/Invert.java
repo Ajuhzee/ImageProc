@@ -39,8 +39,6 @@ public class Invert extends ImagePlugin {
 
 	@Override
 	public void started() {
-		// context().getGeneralControl().showPopup("Invert", "Invert");
-
 		oldImage = context().getImageControl().getImage();
 		invert();
 	}
