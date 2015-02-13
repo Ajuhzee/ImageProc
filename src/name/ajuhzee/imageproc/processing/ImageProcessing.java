@@ -166,4 +166,8 @@ public class ImageProcessing {
 
 		}
 	}
+
+	public static void ocr(Image srcImage) {
+
+	}
 }
