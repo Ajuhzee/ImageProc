@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="binarizePane" prefHeight="146.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.BinarizeMenuController">
+  <children>
+    <Button fx:id="binarizeOkButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#okButtonPressed" prefWidth="50.0" text="Schritt 1: Zeilen erkennen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Button alignment="BASELINE_LEFT" layoutY="25.0" mnemonicParsing="false" text="Schritt 2: Zeilen ausrichten" AnchorPane.bottomAnchor="295.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
+      <Button alignment="BASELINE_LEFT" layoutY="50.0" mnemonicParsing="false" text="Schritt 3: Buchstaben separieren" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+      <Button alignment="BASELINE_LEFT" layoutY="75.0" mnemonicParsing="false" text="Schritt 4: Buchstabenmatching" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0" />
+      <Button alignment="BASELINE_LEFT" layoutY="100.0" mnemonicParsing="false" text="Schritt 5: Ausgabe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+  </children>
+</AnchorPane>
