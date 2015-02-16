@@ -28,7 +28,7 @@ public class BinarizeMenuController implements NodeRepresentation {
 	 *             if an I/O error occurs
 	 */
 	public static BinarizeMenuController create() throws IOException {
-		final URL fxml = Binarize.class.getClassLoader().getResource("name/ajuhzee/imageproc/view/BinarizeMenu.fxml");
+		final URL fxml = Binarize.class.getClassLoader().getResource("BinarizeMenu.fxml");
 		final FXMLLoader loader = new FXMLLoader(fxml);
 
 		loader.load();
