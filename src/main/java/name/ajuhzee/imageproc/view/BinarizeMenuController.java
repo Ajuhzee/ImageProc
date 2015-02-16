@@ -56,7 +56,7 @@ public class BinarizeMenuController implements NodeRepresentation {
 		return binarizePane;
 	}
 
-	private List<Runnable> runnables = new ArrayList<>();
+	private final List<Runnable> runnables = new ArrayList<>();
 
 	/**
 	 * Registers if the ok button was pressed and adds a runnable to a list.
@@ -71,7 +71,6 @@ public class BinarizeMenuController implements NodeRepresentation {
 	 * Clears the content of the binarizePane.
 	 */
 	public void okButtonPressed() {
-		// andere bearbeitungen wieder zulassen
 		for (Runnable elem : runnables) {
 			elem.run();
 		}
