@@ -32,7 +32,7 @@ public class ImageDisplay implements NodeRepresentation, ImageControl {
 	 */
 	public static ImageDisplay create() throws IOException {
 		final FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(ImageDisplay.class.getResource("ImageDisplay.fxml"));
+		loader.setLocation(ImageDisplay.class.getClassLoader().getResource("ImageDisplay.fxml"));
 		loader.load();
 
 		return loader.<ImageDisplay> getController();
