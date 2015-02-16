@@ -70,7 +70,7 @@ public class Binarize extends ImagePlugin {
 	}
 
 	/**
-	 * Disables the menu items temporarily.
+	 * Enables the menu items.
 	 */
 	public void enablePlugins() {
 		context().getMenuControl().enablePlugins();
