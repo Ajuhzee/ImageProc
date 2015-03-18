@@ -2,6 +2,7 @@ package name.ajuhzee.imageproc.plugin.image;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -14,6 +15,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+import name.ajuhzee.imageproc.preferences.SettingsManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +40,12 @@ public class LoadImage extends ImagePlugin {
 	public LoadImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
 		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", INFO).get(), INFO, context);
+		SettingsManager settings = context.getSettings();
+		Optional<String> imagePath = settings.getValue("imageproc.loadimage.startimage");
+
+		if (imagePath.isPresent()) {
+			fileChosen(new File(imagePath.get()));
+		}
 	}
 
 	private Void fileChosen(File file) {

@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.plugin.PluginManager;
 import name.ajuhzee.imageproc.preferences.DummySettingsManager;
-import name.ajuhzee.imageproc.preferences.SettingsManager;
 import name.ajuhzee.imageproc.view.MainWindow;
 
 import org.apache.logging.log4j.LogManager;
@@ -63,7 +62,7 @@ public class ImageProc extends Application {
 
 	private static final Logger logger = LogManager.getLogger();
 
-	private SettingsManager preferences;
+	private DummySettingsManager preferences;
 
 	private PluginManager plugins;
 
@@ -71,13 +70,15 @@ public class ImageProc extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws InitializationException {
+
+		preferences = new DummySettingsManager();
+		preferences.store("imageproc.loadimage.startimage", getParameters().getNamed().get("image"));
+
 		try {
-			mainWindow = new MainWindow(primaryStage);
+			mainWindow = new MainWindow(primaryStage, preferences);
 		} catch (final IOException e) {
 			throw new InitializationException("Could not load the main window.", e);
 		}
-
-		preferences = new DummySettingsManager();
 
 		plugins = new PluginManager(mainWindow);
 
@@ -86,5 +87,4 @@ public class ImageProc extends Application {
 
 		logger.info("Successfully started ImageProc");
 	}
-
 }

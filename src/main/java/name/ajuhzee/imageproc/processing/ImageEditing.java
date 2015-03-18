@@ -21,7 +21,7 @@ import com.google.common.util.concurrent.AtomicDouble;
  * @author Ajuhzee
  *
  */
-public class ImageProcessing {
+public class ImageEditing {
 
 	private static final ForkJoinPool POOL = new ForkJoinPool();
 

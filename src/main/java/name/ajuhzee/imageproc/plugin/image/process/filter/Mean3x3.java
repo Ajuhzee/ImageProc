@@ -6,7 +6,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-import name.ajuhzee.imageproc.processing.ImageProcessing;
+import name.ajuhzee.imageproc.processing.ImageEditing;
 import name.ajuhzee.imageproc.processing.filters.FilterType;
 
 /**
@@ -34,7 +34,7 @@ public class Mean3x3 extends ImagePlugin {
 	}
 
 	private void applyFilter() {
-		final Image newImage = ImageProcessing.filter(oldImage, FilterType.MEAN_3X3.getFilterChain());
+		final Image newImage = ImageEditing.filter(oldImage, FilterType.MEAN_3X3.getFilterChain());
 		context().getImageControl().showImage(newImage);
 	}
 
