@@ -1,5 +1,7 @@
 package name.ajuhzee.imageproc.plugin.control;
 
+import name.ajuhzee.imageproc.preferences.SettingsManager;
+
 /**
  * Provides a class to give access to those program recources, that are necessary for the plugin to work with or modify
  * the image.
@@ -32,5 +34,10 @@ public interface ImagePluginContext {
 	 * @return access to control the menu
 	 */
 	public MenuControl getMenuControl();
+
+	/**
+	 * @return the settings of the plugin
+	 */
+	public SettingsManager getSettings();
 
 }

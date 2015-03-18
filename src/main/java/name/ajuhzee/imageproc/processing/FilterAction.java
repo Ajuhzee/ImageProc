@@ -60,7 +60,7 @@ public class FilterAction extends RecursiveTask<Image> {
 
 		int startX = 0;
 		int endX = (int) toFilter.getWidth();
-		return ImageProcessing.filterPartial(toFilter, filterChain, startX, endX);
+		return ImageEditing.filterPartial(toFilter, filterChain, startX, endX);
 	}
 
 	@Override

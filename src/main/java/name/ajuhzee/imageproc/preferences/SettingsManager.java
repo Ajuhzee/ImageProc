@@ -1,5 +1,6 @@
 package name.ajuhzee.imageproc.preferences;
 
+import java.util.Optional;
 import java.util.Set;
 
 import name.ajuhzee.imageproc.plugin.CorePlugin;
@@ -24,5 +25,7 @@ public interface SettingsManager {
 	 * @return access to all given image plugins
 	 */
 	public Set<Class<? extends ImagePlugin>> getImagePlugins();
+
+	public <T extends Object> Optional<T> getValue(String string);
 
 }

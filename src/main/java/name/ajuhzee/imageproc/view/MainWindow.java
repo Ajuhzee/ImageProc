@@ -12,6 +12,7 @@ import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
 import name.ajuhzee.imageproc.plugin.control.GeneralControl;
 import name.ajuhzee.imageproc.plugin.control.ImageControl;
 import name.ajuhzee.imageproc.plugin.control.MenuControl;
+import name.ajuhzee.imageproc.preferences.SettingsManager;
 
 /**
  * The main view of the program. It opens the main window.
@@ -34,6 +35,7 @@ public class MainWindow implements CorePluginContext {
 	private final ContentPane sideMenu;
 
 	private final ImageDisplay imageDisplay;
+	private final SettingsManager manager;
 
 	/**
 	 * Creates the main window.
@@ -43,8 +45,10 @@ public class MainWindow implements CorePluginContext {
 	 * @throws IOException
 	 *             when the main window can't be created
 	 */
-	public MainWindow(Stage primaryStage) throws IOException {
+	public MainWindow(Stage primaryStage, SettingsManager manager) throws IOException {
 		mainStage = primaryStage;
+		this.manager = manager;
+
 		init(mainStage);
 
 		mainMenu = PluginMenu.create();
@@ -93,5 +97,10 @@ public class MainWindow implements CorePluginContext {
 	@Override
 	public MenuControl getMenuControl() {
 		return mainMenu.getMenuControl();
+	}
+
+	@Override
+	public SettingsManager getSettings() {
+		return manager;
 	}
 }

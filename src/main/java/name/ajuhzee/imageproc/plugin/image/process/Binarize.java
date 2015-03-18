@@ -9,7 +9,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-import name.ajuhzee.imageproc.processing.ImageProcessing;
+import name.ajuhzee.imageproc.processing.ImageEditing;
 import name.ajuhzee.imageproc.view.BinarizeMenuController;
 
 import com.google.common.util.concurrent.AtomicDouble;
@@ -61,7 +61,7 @@ public class Binarize extends ImagePlugin {
 	private void binarize(AtomicDouble threshold) {
 		if (!thread.isAlive()) {
 			thread = new Thread(() -> {
-				final Image newImage = ImageProcessing.binarizeDynamic(oldImage, threshold);
+				final Image newImage = ImageEditing.binarizeDynamic(oldImage, threshold);
 				context().getImageControl().showImage(newImage);
 			});
 			thread.start();

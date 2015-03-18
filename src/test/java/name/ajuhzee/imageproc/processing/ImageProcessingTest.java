@@ -41,11 +41,11 @@ public class ImageProcessingTest {
 	public void Binarize_Performance() {
 		AtomicDouble threshold = new AtomicDouble(127);
 		for (int i = 0; i != 100; ++i) {
-			ImageProcessing.binarizeDynamic(img, threshold);
+			ImageEditing.binarizeDynamic(img, threshold);
 		}
 		long start = System.nanoTime();
 		for (int i = 0; i != 100; ++i) {
-			ImageProcessing.binarizeDynamic(img, threshold);
+			ImageEditing.binarizeDynamic(img, threshold);
 		}
 		long end = System.nanoTime();
 		// nano -> milli -> milliAvg

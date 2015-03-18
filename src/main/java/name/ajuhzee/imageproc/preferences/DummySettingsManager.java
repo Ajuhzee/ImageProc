@@ -1,6 +1,9 @@
 package name.ajuhzee.imageproc.preferences;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import name.ajuhzee.imageproc.plugin.CorePlugin;
@@ -24,6 +27,8 @@ import name.ajuhzee.imageproc.plugin.image.process.filter.Mean3x3Threaded;
  * @author Ajuhzee
  */
 public class DummySettingsManager implements SettingsManager {
+
+	private Map<String, Object> settings = new HashMap<String, Object>();
 
 	@Override
 	public Set<Class<? extends CorePlugin>> getCorePlugins() {
@@ -49,5 +54,20 @@ public class DummySettingsManager implements SettingsManager {
 		imagePlugins.add(Mean3x3Threaded.class);
 		imagePlugins.add(TestImage.class);
 		return imagePlugins;
+	}
+
+	/**
+	 * Stores a settings value
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public void store(String key, Object value) {
+		settings.put(key, value);
+	}
+
+	@Override
+	public <T> Optional<T> getValue(String string) {
+		return Optional.ofNullable((T) settings.get(string));
 	}
 }

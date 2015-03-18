@@ -6,7 +6,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-import name.ajuhzee.imageproc.processing.ImageProcessing;
+import name.ajuhzee.imageproc.processing.ImageEditing;
 
 /**
  * Adds an image plugin, that provides a method to invert an image for image processing purposes.
@@ -33,7 +33,7 @@ public class Invert extends ImagePlugin {
 	}
 
 	private void invert() {
-		final Image newImage = ImageProcessing.invert(oldImage);
+		final Image newImage = ImageEditing.invert(oldImage);
 		context().getImageControl().showImage(newImage);
 	}
 
