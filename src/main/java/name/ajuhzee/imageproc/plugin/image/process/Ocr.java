@@ -2,6 +2,7 @@ package name.ajuhzee.imageproc.plugin.image.process;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
@@ -13,6 +14,7 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageOcr;
+import name.ajuhzee.imageproc.processing.RecognizedChar;
 import name.ajuhzee.imageproc.processing.RecognizedLine;
 import name.ajuhzee.imageproc.view.OcrMenuController;
 
@@ -29,6 +31,8 @@ public class Ocr extends ImagePlugin {
 	private Image srcImage;
 
 	private final OcrMenuController sideMenu;
+
+	private Optional<List<RecognizedLine>> recognizedLines = Optional.empty();
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -47,6 +51,7 @@ public class Ocr extends ImagePlugin {
 		sideMenu.getDoneButtonCallbacks().addCallback(this::clearSideMenu);
 		sideMenu.getDoneButtonCallbacks().addCallback(this::enablePlugins);
 		sideMenu.getRecognizeLineButtonCallbacks().addCallback(this::recognizeLines);
+		sideMenu.getSeperateCharactersButtonCallbacks().addCallback(this::seperateCharacters);
 	}
 
 	/**
@@ -71,14 +76,39 @@ public class Ocr extends ImagePlugin {
 
 	}
 
-	private void recognizeLines() {
-		List<RecognizedLine> recognizedLines = ImageOcr.recognizeLines(srcImage);
+	private void seperateCharacters() {
+		assertLinesRecognized();
+		List<RecognizedChar> recognizedChars = ImageOcr.recognizeChars(srcImage, recognizedLines.get());
+
 		int width = (int) srcImage.getWidth();
 		int height = (int) srcImage.getHeight();
 		WritableImage withMarkedLines = new WritableImage(srcImage.getPixelReader(), width, height);
 		PixelWriter writer = withMarkedLines.getPixelWriter();
 
-		recognizedLines.stream().forEach((line) -> {
+		for (RecognizedChar recChar : recognizedChars) {
+			int topY = (int) recChar.getBoundingBox().getTopLeft().getY();
+			int bottomY = (int) recChar.getBoundingBox().getBottomLeft().getY();
+			int leftX = (int) recChar.getBoundingBox().getTopLeft().getX();
+			int rightX = (int) recChar.getBoundingBox().getTopRight().getX();
+
+			for (int y = topY; y < bottomY; ++y) {
+				writer.setColor(leftX, y, Color.VIOLET);
+			}
+			for (int y = topY; y < bottomY; ++y) {
+				writer.setColor(rightX, y, Color.RED);
+			}
+		}
+		context().getImageControl().showImage(withMarkedLines);
+	}
+
+	private void recognizeLines() {
+		assertLinesRecognized();
+		int width = (int) srcImage.getWidth();
+		int height = (int) srcImage.getHeight();
+		WritableImage withMarkedLines = new WritableImage(srcImage.getPixelReader(), width, height);
+		PixelWriter writer = withMarkedLines.getPixelWriter();
+
+		recognizedLines.get().stream().forEach((line) -> {
 			for (int x = 0; x != width; ++x) {
 				writer.setColor(x, line.getTopY(), Color.VIOLET);
 			}
@@ -88,5 +118,11 @@ public class Ocr extends ImagePlugin {
 		});
 
 		context().getImageControl().showImage(withMarkedLines);
+	}
+
+	private void assertLinesRecognized() {
+		if (!recognizedLines.isPresent()) {
+			recognizedLines = Optional.of(ImageOcr.recognizeLines(srcImage));
+		}
 	}
 }
