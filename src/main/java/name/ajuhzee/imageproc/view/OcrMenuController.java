@@ -75,6 +75,10 @@ public class OcrMenuController implements NodeRepresentation {
 
 	private CallbackManager showOutputCallbacks = new CallbackManager();
 
+	public void setText(String text) {
+		outputTextField.setText(text);
+	}
+
 	/**
 	 * @return the object with which to register to get called when the done button is pressed
 	 */

@@ -1,7 +1,8 @@
 package name.ajuhzee.imageproc.plugin.control;
 
+import java.util.function.Consumer;
+
 import javafx.scene.image.Image;
-import javafx.util.Callback;
 
 /**
  * Provides some features to display the image.
@@ -17,7 +18,7 @@ public interface ImageControl {
 	 * @param callback
 	 *            to be added
 	 */
-	public void addImageChangedCallback(Callback<Image, Void> callback);
+	public void addImageChangedCallback(Consumer<Image> callback);
 
 	/**
 	 * 

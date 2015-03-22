@@ -1,12 +1,12 @@
 package name.ajuhzee.imageproc.plugin.control;
 
 import java.io.File;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import name.ajuhzee.imageproc.view.Popup;
 
 /**
@@ -35,9 +35,9 @@ public class GeneralControl {
 	 * @param fileChosen
 	 *            method that gets called with "file" as its parameter
 	 */
-	public void openDialog(Callback<File, Void> fileChosen) {
+	public void openDialog(Consumer<File> fileChosen) {
 		Platform.runLater(() -> {
-			fileChosen.call(createFileChooser().showOpenDialog(mainStage));
+			fileChosen.accept(createFileChooser().showOpenDialog(mainStage));
 		});
 	}
 
@@ -55,9 +55,9 @@ public class GeneralControl {
 	 * @param saveImage
 	 *            method that gets called with "file" as its parameter
 	 */
-	public void saveDialog(Callback<File, Void> saveImage) {
+	public void saveDialog(Consumer<File> saveImage) {
 		Platform.runLater(() -> {
-			saveImage.call(createFileChooser().showSaveDialog(mainStage));
+			saveImage.accept(createFileChooser().showSaveDialog(mainStage));
 		});
 	}
 

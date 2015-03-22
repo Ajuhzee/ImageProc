@@ -1,4 +1,4 @@
-package name.ajuhzee.imageproc.processing;
+package name.ajuhzee.imageproc.processing.ocr;
 
 /**
  * Represents a recognized line of text

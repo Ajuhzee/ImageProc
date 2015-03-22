@@ -27,4 +27,12 @@ public class BoundingBox {
 	public Point2D getBottomLeft() {
 		return new Point2D(topLeft.getX(), bottomRight.getY());
 	}
+
+	public double getWidth() {
+		return bottomRight.getX() - topLeft.getX();
+	}
+
+	public double getHeight() {
+		return bottomRight.getY() - topLeft.getY();
+	}
 }
