@@ -1,4 +1,6 @@
-package name.ajuhzee.imageproc.processing;
+package name.ajuhzee.imageproc.processing.ocr;
+
+import name.ajuhzee.imageproc.processing.BoundingBox;
 
 
 public class RecognizedChar {

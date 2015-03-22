@@ -1,21 +1,17 @@
 package name.ajuhzee.imageproc.plugin.image;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Optional;
 
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-
-import javax.imageio.ImageIO;
-
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.preferences.SettingsManager;
+import name.ajuhzee.imageproc.util.ImageUtils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,22 +44,17 @@ public class LoadImage extends ImagePlugin {
 		}
 	}
 
-	private Void fileChosen(File file) {
+	private void fileChosen(File file) {
 		context().getSideMenuControl().clearContent();
 		try {
-			BufferedImage img = ImageIO.read(file);
-			Image fxImage = SwingFXUtils.toFXImage(img, null);
-
-			if (fxImage.isError()) throw fxImage.getException();
-
+			Image fxImage = ImageUtils.loadImage(file);
 			Platform.runLater(() -> {
 				context().getImageControl().showImage(fxImage);
 				context().getMenuControl().enablePlugins();
 			});
-		} catch (final Exception ex) {
-			logger.fatal("File loading failed", ex);
+		} catch (Exception e) {
+			logger.fatal("File loading failed", e);
 		}
-		return null;
 	}
 
 	@Override

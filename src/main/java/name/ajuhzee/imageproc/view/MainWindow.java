@@ -64,9 +64,8 @@ public class MainWindow implements CorePluginContext {
 		primaryStage.show();
 	}
 
-	private Void resize(@SuppressWarnings("unused") Image img) {
+	private void resize(@SuppressWarnings("unused") Image img) {
 		Platform.runLater(() -> mainStage.sizeToScene());
-		return null;
 	}
 
 	@Override

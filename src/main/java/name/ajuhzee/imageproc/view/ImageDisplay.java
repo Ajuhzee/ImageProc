@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 import name.ajuhzee.imageproc.plugin.control.ImageControl;
 
 /**
@@ -44,10 +44,10 @@ public class ImageDisplay implements NodeRepresentation, ImageControl {
 	@FXML
 	private AnchorPane mainPane;
 
-	private List<Callback<Image, Void>> callbacks = new ArrayList<>();
+	private List<Consumer<Image>> callbacks = new ArrayList<>();
 
 	@Override
-	public void addImageChangedCallback(Callback<Image, Void> callback) {
+	public void addImageChangedCallback(Consumer<Image> callback) {
 		callbacks.add(callback);
 	}
 
@@ -60,8 +60,8 @@ public class ImageDisplay implements NodeRepresentation, ImageControl {
 	public void showImage(Image img) {
 		checkNotNull(img);
 		Platform.runLater(() -> imageView.setImage(img));
-		for (Callback<Image, Void> elem : callbacks) {
-			elem.call(img);
+		for (Consumer<Image> elem : callbacks) {
+			elem.accept(img);
 		}
 	}
 
