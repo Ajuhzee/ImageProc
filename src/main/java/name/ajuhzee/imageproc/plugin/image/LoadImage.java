@@ -59,6 +59,6 @@ public class LoadImage extends ImagePlugin {
 
 	@Override
 	public void started() {
-		context().getGeneralControl().openDialog(this::fileChosen);
+		context().getGeneralControl().openImageDialog(this::fileChosen);
 	}
 }

@@ -14,6 +14,7 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.BoundingBox;
+import name.ajuhzee.imageproc.processing.ocr.CharacterSet;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
@@ -29,11 +30,13 @@ public class Ocr extends ImagePlugin {
 
 	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
 
-	private Optional<List<RecognizedChar>> recognizedCharacters = Optional.empty();
+	private Optional<List<List<RecognizedChar>>> recognizedLineCharacters = Optional.empty();
 
 	private Optional<List<RecognizedLine>> recognizedLines = Optional.empty();
 
 	private Optional<String> recognizedText = Optional.empty();
+
+	private CharacterSet currentCharacterSet = CharacterSet.BASE_CHARACTER_SET;
 
 	private final OcrMenuController sideMenu;
 	private Image srcImage;
@@ -58,12 +61,18 @@ public class Ocr extends ImagePlugin {
 		sideMenu.getRecognizeLineButtonCallbacks().addCallback(this::recognizeLines);
 		sideMenu.getSeperateCharactersButtonCallbacks().addCallback(this::seperateCharacters);
 		sideMenu.getMatchCharactersButtonCallbacks().addCallback(this::matchCharacters);
+		sideMenu.getSelectCharacterSetButtonCallbacks().addCallback(this::selectCharacterSet);
+	}
+
+	private void selectCharacterSet() {
+		context().getGeneralControl().specifyDirectoryDialog(
+				(path) -> currentCharacterSet = CharacterSet.loadByFile(path));
 	}
 
 	private void assertCharactersRecognized() {
 		assertLinesRecognized();
-		if (!recognizedCharacters.isPresent()) {
-			recognizedCharacters = Optional.of(ImageOcr.recognizeChars(srcImage, recognizedLines.get()));
+		if (!recognizedLineCharacters.isPresent()) {
+			recognizedLineCharacters = Optional.of(ImageOcr.recognizeChars(srcImage, recognizedLines.get()));
 		}
 	}
 
@@ -74,9 +83,10 @@ public class Ocr extends ImagePlugin {
 	}
 
 	private void reset(@SuppressWarnings("unused") Image img) {
-		recognizedCharacters = Optional.empty();
+		recognizedLineCharacters = Optional.empty();
 		recognizedLines = Optional.empty();
 		recognizedText = Optional.empty();
+		sideMenu.setText("");
 	}
 
 	/**
@@ -101,11 +111,12 @@ public class Ocr extends ImagePlugin {
 	private void assertCharactersMatched() {
 		assertCharactersRecognized();
 		if (!recognizedText.isPresent()) {
-			recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedCharacters.get()));
+			recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedLineCharacters.get(),
+					currentCharacterSet));
 		}
 	}
 
-	private void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
+	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
 		double stepY;
 		double stepX;
 		double yLength = (double) endY - startY;
@@ -142,30 +153,19 @@ public class Ocr extends ImagePlugin {
 		WritableImage withMarkedLines = new WritableImage(srcImage.getPixelReader(), width, height);
 		PixelWriter writer = withMarkedLines.getPixelWriter();
 
-		int cur = 0;
-		for (RecognizedChar recChar : recognizedCharacters.get()) {
-			BoundingBox boundingBox = recChar.getBoundingBox();
-			int topY = (int) boundingBox.getTopLeft().getY();
-			int bottomY = (int) boundingBox.getBottomLeft().getY();
-			int leftX = (int) boundingBox.getTopLeft().getX();
-			int rightX = (int) boundingBox.getTopRight().getX();
-			// String base = "P:\\code\\java\\ImageProc\\src\\main\\resources\\baseTemplate\\";
-			// String charName = OcrResources.CHARACTER_LEARNING_ORDER.get(cur++);
-			// PixelReader reader = srcImage.getPixelReader();
-			// WritableImage charImage = new WritableImage(reader, leftX, topY, (int) boundingBox.getWidth(),
-			// (int) boundingBox.getHeight());
-			// try {
-			// ImageUtils.saveImage(new File(base, charName), charImage);
-			// } catch (IOException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
+		for (List<RecognizedChar> lineChars : recognizedLineCharacters.get()) {
+			for (RecognizedChar recChar : lineChars) {
+				BoundingBox boundingBox = recChar.getBoundingBox();
+				int topY = (int) boundingBox.getTopLeft().getY();
+				int bottomY = (int) boundingBox.getBottomLeft().getY();
+				int leftX = (int) boundingBox.getTopLeft().getX();
+				int rightX = (int) boundingBox.getTopRight().getX();
 
-			drawLine(writer, Color.VIOLET, leftX, leftX, topY, bottomY);
-			drawLine(writer, Color.VIOLET, leftX, rightX, topY, topY);
-			drawLine(writer, Color.RED, rightX, rightX, topY, bottomY);
-			drawLine(writer, Color.RED, leftX, rightX, bottomY, bottomY);
-
+				drawLine(writer, Color.VIOLET, leftX, leftX, topY, bottomY);
+				drawLine(writer, Color.VIOLET, leftX, rightX, topY, topY);
+				drawLine(writer, Color.RED, rightX, rightX, topY, bottomY);
+				drawLine(writer, Color.RED, leftX, rightX, bottomY, bottomY);
+			}
 		}
 		context().getImageControl().showImage(withMarkedLines);
 	}

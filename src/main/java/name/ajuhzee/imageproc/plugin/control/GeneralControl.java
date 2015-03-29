@@ -1,9 +1,11 @@
 package name.ajuhzee.imageproc.plugin.control;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 
 import javafx.application.Platform;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -35,13 +37,13 @@ public class GeneralControl {
 	 * @param fileChosen
 	 *            method that gets called with "file" as its parameter
 	 */
-	public void openDialog(Consumer<File> fileChosen) {
+	public void openImageDialog(Consumer<File> fileChosen) {
 		Platform.runLater(() -> {
-			fileChosen.accept(createFileChooser().showOpenDialog(mainStage));
+			fileChosen.accept(createImageFileChooser().showOpenDialog(mainStage));
 		});
 	}
 
-	private static FileChooser createFileChooser() {
+	private static FileChooser createImageFileChooser() {
 		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
 
 		final FileChooser fc = new FileChooser();
@@ -55,9 +57,20 @@ public class GeneralControl {
 	 * @param saveImage
 	 *            method that gets called with "file" as its parameter
 	 */
-	public void saveDialog(Consumer<File> saveImage) {
+	public void saveImageDialog(Consumer<File> saveImage) {
 		Platform.runLater(() -> {
-			saveImage.accept(createFileChooser().showSaveDialog(mainStage));
+			saveImage.accept(createImageFileChooser().showSaveDialog(mainStage));
+		});
+	}
+
+	public void specifyDirectoryDialog(Consumer<Path> callback) {
+		DirectoryChooser chooser = new DirectoryChooser();
+		Platform.runLater(() -> {
+			File file = chooser.showDialog(mainStage);
+			if (file == null) {
+				return;
+			}
+			callback.accept(file.toPath());
 		});
 	}
 

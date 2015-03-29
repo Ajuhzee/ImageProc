@@ -35,7 +35,7 @@ public class Popup {
 	 */
 	public static void show(String title, String text) {
 		Platform.runLater(() -> {
-			final URL fxml = Popup.class.getClassLoader().getResource("name/ajuhzee/imageproc/view/Popup.fxml");
+			final URL fxml = Popup.class.getClassLoader().getResource("Popup.fxml");
 			final MapResourceBundle<String> bundle = new MapResourceBundle<>();
 			bundle.put("label", text);
 			final FXMLLoader loader = new FXMLLoader(fxml, bundle);

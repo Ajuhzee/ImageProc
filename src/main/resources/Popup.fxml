@@ -24,6 +24,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label fx:id="label" text="%label" layoutX="81.0" layoutY="38.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <Label fx:id="label" layoutX="81.0" layoutY="38.0" text="%label" wrapText="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
    </children>
 </AnchorPane>

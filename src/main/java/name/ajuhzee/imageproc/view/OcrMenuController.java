@@ -38,6 +38,9 @@ public class OcrMenuController implements NodeRepresentation {
 	private AnchorPane ocrPane;
 
 	@FXML
+	private Button selectCharacterSet;
+
+	@FXML
 	private Button recognizeLine;
 
 	@FXML
@@ -65,6 +68,8 @@ public class OcrMenuController implements NodeRepresentation {
 
 	private CallbackManager doneButtonCallbacks = new CallbackManager();
 
+	private CallbackManager selectCharacterSetCallbacks = new CallbackManager();
+
 	private CallbackManager recognizeLineCallbacks = new CallbackManager();
 
 	private CallbackManager adjustLinesCallbacks = new CallbackManager();
@@ -91,6 +96,13 @@ public class OcrMenuController implements NodeRepresentation {
 	 */
 	public Callbacks getRecognizeLineButtonCallbacks() {
 		return recognizeLineCallbacks;
+	}
+
+	/**
+	 * @return the object with which to register to get called when the selectCharacterSet button is pressed
+	 */
+	public Callbacks getSelectCharacterSetButtonCallbacks() {
+		return selectCharacterSetCallbacks;
 	}
 
 	/**
@@ -126,6 +138,10 @@ public class OcrMenuController implements NodeRepresentation {
 	 */
 	public void doneButtonPressed() {
 		doneButtonCallbacks.executeCallbacks();
+	}
+
+	public void selectCharacterSetPressed() {
+		selectCharacterSetCallbacks.executeCallbacks();
 	}
 
 	public void recognizeLinePressed() {
