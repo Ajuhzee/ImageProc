@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -52,6 +53,11 @@ public final class ImageUtils {
 		ImageIO.write(img, "PNG", saveTo);
 	}
 
+	public static void saveImage(Path path, Image fxImage) throws IOException {
+		File file = path.toFile();
+		saveImage(file, fxImage);
+	}
+
 	private static File addPngExtension(File file) {
 		String filename = file.getName();
 		if (FilenameUtils.getExtension(filename).equals("")) {
@@ -69,8 +75,8 @@ public final class ImageUtils {
 		}
 
 		WritableImage result = new WritableImage(desiredWidth, desiredHeight);
-		PixelWriter resultWriter = result.getPixelWriter();
 		fillWith(result, fillColor);
+		PixelWriter resultWriter = result.getPixelWriter();
 
 		PixelReader srcReader = img.getPixelReader();
 		int offsetX = desiredWidth - width;
@@ -99,6 +105,6 @@ public final class ImageUtils {
 	public static void forEachPixel(Image img, PixelAction action) {
 		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();
-		forEachPixel(0, 0, width, height, action);
+		forEachPixel(0, width, 0, height, action);
 	}
 }

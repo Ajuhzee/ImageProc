@@ -46,6 +46,6 @@ public class SaveImage extends ImagePlugin {
 
 	@Override
 	public void started() {
-		context().getGeneralControl().saveDialog(this::saveImage);
+		context().getGeneralControl().saveImageDialog(this::saveImage);
 	}
 }

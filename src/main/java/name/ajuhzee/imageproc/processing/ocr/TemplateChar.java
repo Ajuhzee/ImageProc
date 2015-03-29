@@ -1,6 +1,8 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.util.ImageUtils;
@@ -24,11 +26,23 @@ public class TemplateChar {
 		return representedChar;
 	}
 
-	public static TemplateChar load(String templateName, String characterName) throws Exception {
-		String resourcePath = templateName + "/" + characterName + ".png";
+	public static TemplateChar loadByClassPath(String characterSetLocation, String characterName) throws Exception {
+		String resourcePath = characterSetLocation + characterName + ".png";
 
 		InputStream resource = TemplateChar.class.getClassLoader().getResourceAsStream(resourcePath);
-		Image charImage = ImageUtils.loadImage(resource);
+
+		return load(resource, characterName);
+	}
+
+	public static TemplateChar loadByFile(Path characterSetLocation, String characterName) throws Exception {
+		String charFileName = characterName + ".png";
+		Path characterPath = characterSetLocation.resolve(charFileName);
+
+		return load(Files.newInputStream(characterPath), characterName);
+	}
+
+	private static TemplateChar load(InputStream stream, String characterName) throws Exception {
+		Image charImage = ImageUtils.loadImage(stream);
 
 		return new TemplateChar(charImage, OcrResources.CHARACTER_NAMES.get(characterName));
 	}

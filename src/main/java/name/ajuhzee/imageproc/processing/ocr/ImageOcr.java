@@ -1,7 +1,5 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +15,13 @@ import name.ajuhzee.imageproc.util.ImageUtils;
 
 public final class ImageOcr {
 
-	private static final int MIN_SPACE_WIDTH = 7;
+	private static final int MIN_SPACE_WIDTH = 5;
 	private static final double LINE_TRANSITION_RATIO = 0.1;
 
 	private ImageOcr() {
 	}
 
 	public static List<RecognizedLine> recognizeLines(Image img) {
-		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();
 
 		List<RecognizedLine> recognizedLines = new ArrayList<>();
@@ -67,12 +64,14 @@ public final class ImageOcr {
 		return Optional.empty();
 	}
 
-	public static List<RecognizedChar> recognizeChars(Image img, List<RecognizedLine> lines) {
-		List<RecognizedChar> chars = new ArrayList<RecognizedChar>();
+	public static List<List<RecognizedChar>> recognizeChars(Image img, List<RecognizedLine> lines) {
+		List<List<RecognizedChar>> lineChars = new ArrayList<>();
 		for (RecognizedLine line : lines) {
+			List<RecognizedChar> chars = new ArrayList<RecognizedChar>();
 			chars.addAll(recognizeChars(img, line));
+			lineChars.add(chars);
 		}
-		return chars;
+		return lineChars;
 	}
 
 	public static List<RecognizedChar> recognizeChars(Image img, RecognizedLine line) {
@@ -220,34 +219,45 @@ public final class ImageOcr {
 		return blackPixels;
 	}
 
-	public static String matchCharacters(Image img, List<RecognizedChar> recognizedChars) {
+	public static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
+			CharacterSet characterSet) {
 		StringBuilder sb = new StringBuilder();
-		for (RecognizedChar recognizedChar : recognizedChars) {
-			BoundingBox boundingBox = recognizedChar.getBoundingBox();
-			Point2D topLeft = boundingBox.getTopLeft();
-			Image charImage = new WritableImage(img.getPixelReader(), (int) topLeft.getX(), (int) topLeft.getY(),
-					(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
-			sb.append(matchCharacter(charImage));
+		for (List<RecognizedChar> lineChars : recognizedLineChars) {
+			double prevRightX = Double.MAX_VALUE;
+			for (RecognizedChar recognizedChar : lineChars) {
+				addSpaces(sb, prevRightX, recognizedChar, characterSet);
+				prevRightX = recognizedChar.getBoundingBox().getBottomRight().getX();
+
+				BoundingBox boundingBox = recognizedChar.getBoundingBox();
+				Point2D topLeft = boundingBox.getTopLeft();
+				Image charImage = new WritableImage(img.getPixelReader(), (int) topLeft.getX(), (int) topLeft.getY(),
+						(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
+				sb.append(matchCharacter(charImage, characterSet));
+			}
+			sb.append('\n');
 		}
 		return sb.toString();
 	}
 
-	private static Character matchCharacter(Image recognizedChar) {
+	private static void addSpaces(StringBuilder sb, double prevRightX, RecognizedChar recognizedChar,
+			CharacterSet characterSet) {
+		double leftX = recognizedChar.getBoundingBox().getBottomLeft().getX();
+		int distanceToLastChar = (int) (leftX - prevRightX);
+		int spaceCount = distanceToLastChar / characterSet.getSpaceWidth();
+		for (int i = 0; i < spaceCount; ++i) {
+			sb.append(' ');
+		}
+	}
+
+	private static Character matchCharacter(Image recognizedChar, CharacterSet characterSet) {
 		Character matchedChar = null;
-		try {
-			ImageUtils.saveImage(new File("P:\\data\\curMatching\\curRecognized.png"), recognizedChar);
-			double minPixelDeviation = Double.MAX_VALUE;
-			for (TemplateChar templateChar : Templates.BASE_TEMPLATE.getCharacters()) {
-				ImageUtils.saveImage(new File("P:\\data\\curMatching\\curTemplate.png"), templateChar.getSourceImage());
-				double curPixelDeviation = getPixelDifference(recognizedChar, templateChar.getSourceImage());
-				if (curPixelDeviation < minPixelDeviation) {
-					matchedChar = new Character(templateChar.getRepresentedChar());
-					minPixelDeviation = curPixelDeviation;
-				}
+		double minPixelDeviation = Double.MAX_VALUE;
+		for (TemplateChar templateChar : characterSet.getCharacters()) {
+			double curPixelDeviation = getPixelDifference(recognizedChar, templateChar.getSourceImage());
+			if (curPixelDeviation < minPixelDeviation) {
+				matchedChar = new Character(templateChar.getRepresentedChar());
+				minPixelDeviation = curPixelDeviation;
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return matchedChar;
 	}
