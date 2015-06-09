@@ -63,6 +63,11 @@ public class GeneralControl {
 		});
 	}
 
+	/**
+	 * Opens a File Dialog to choose a directory.
+	 * 
+	 * @param callback
+	 */
 	public void specifyDirectoryDialog(Consumer<Path> callback) {
 		DirectoryChooser chooser = new DirectoryChooser();
 		Platform.runLater(() -> {

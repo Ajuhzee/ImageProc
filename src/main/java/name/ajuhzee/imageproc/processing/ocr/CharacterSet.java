@@ -7,8 +7,17 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+/**
+ * The character set that is needed to match characters, when using the ocr feature.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class CharacterSet {
 
+	/**
+	 * Sets the Base Character Set, for the case that no extra set was loaded before.
+	 */
 	public static final CharacterSet BASE_CHARACTER_SET = loadByClassPath("baseCharacterSet");
 
 	private final List<TemplateChar> characters;
@@ -17,6 +26,14 @@ public class CharacterSet {
 
 	private final String name;
 
+	/**
+	 * Creates the character set.
+	 * 
+	 * @param name
+	 *            the name of the character set
+	 * @param characters
+	 *            the template list of the character set
+	 */
 	public CharacterSet(String name, List<TemplateChar> characters) {
 		this.name = name;
 		this.characters = characters;
@@ -35,6 +52,13 @@ public class CharacterSet {
 
 	}
 
+	/**
+	 * Loads a character set from a directory.
+	 * 
+	 * @param characterSetLocation
+	 *            the location path
+	 * @return the character set
+	 */
 	public static CharacterSet loadByFile(Path characterSetLocation) {
 		try {
 			if (!Files.isDirectory(characterSetLocation)) {
@@ -67,6 +91,9 @@ public class CharacterSet {
 		})).intValue();
 	}
 
+	/**
+	 * @return the space width
+	 */
 	public int getSpaceWidth() {
 		return spaceWidth;
 	}
@@ -82,10 +109,16 @@ public class CharacterSet {
 		return templateChars;
 	}
 
+	/**
+	 * @return the character list of the set
+	 */
 	public List<TemplateChar> getCharacters() {
 		return characters;
 	}
 
+	/**
+	 * @return the character set name
+	 */
 	public String getName() {
 		return name;
 	}

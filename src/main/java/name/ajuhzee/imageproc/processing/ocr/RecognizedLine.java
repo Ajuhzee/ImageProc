@@ -1,9 +1,9 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
 /**
- * Represents a recognized line of text
+ * Represents a recognized line of text.
  * 
- * @author Timo
+ * @author Ajuhzee
  */
 public class RecognizedLine {
 
@@ -15,7 +15,9 @@ public class RecognizedLine {
 	 * Creates a new recognized line
 	 * 
 	 * @param topY
+	 *            the y value where the line begins
 	 * @param bottomY
+	 *            the y value where the line ends
 	 */
 	public RecognizedLine(int topY, int bottomY) {
 		this.topY = topY;
