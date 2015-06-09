@@ -7,7 +7,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
 /**
- * Represents an image buffer with the BGRA-premultiplied format
+ * Represents an image buffer with the BGRA-premultiplied format.
  * 
  * @see PixelFormat.Type#BYTE_BGRA_PRE
  * @see PixelFormat#getByteBgraPreInstance()

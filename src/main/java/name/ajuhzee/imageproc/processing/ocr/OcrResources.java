@@ -5,8 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Provides recources for teaching a character set.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public final class OcrResources {
 
+	/**
+	 * A map that contains a distinct caption for each characters.
+	 */
 	public static final Map<String, Character> CHARACTER_NAMES;
 	static {
 		Map<String, Character> characterNames = new HashMap<>();
@@ -106,6 +115,9 @@ public final class OcrResources {
 		CHARACTER_NAMES = characterNames;
 	}
 
+	/**
+	 * A list that contains the character learning order with the character captions.
+	 */
 	public static final List<String> CHARACTER_LEARNING_ORDER;
 	static {
 		List<String> characterOrder = new ArrayList<>();

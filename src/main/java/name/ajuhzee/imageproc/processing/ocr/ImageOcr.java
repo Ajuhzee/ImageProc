@@ -13,6 +13,12 @@ import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.BoundingBox;
 import name.ajuhzee.imageproc.util.ImageUtils;
 
+/**
+ * Provides several functions for the ocr plugin.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public final class ImageOcr {
 
 	private static final int MIN_SPACE_WIDTH = 5;
@@ -21,6 +27,13 @@ public final class ImageOcr {
 	private ImageOcr() {
 	}
 
+	/**
+	 * Recognizese lines in an image.
+	 * 
+	 * @param img
+	 *            the image to search and recognize lines in
+	 * @return a list with the recognized lines
+	 */
 	public static List<RecognizedLine> recognizeLines(Image img) {
 		int height = (int) img.getHeight();
 
@@ -64,6 +77,15 @@ public final class ImageOcr {
 		return Optional.empty();
 	}
 
+	/**
+	 * Recognizes single characters in a recognized line.
+	 * 
+	 * @param img
+	 *            the image to search and recognize chars in
+	 * @param lines
+	 *            a list with the recognized lines
+	 * @return a list with the recognized characters
+	 */
 	public static List<List<RecognizedChar>> recognizeChars(Image img, List<RecognizedLine> lines) {
 		List<List<RecognizedChar>> lineChars = new ArrayList<>();
 		for (RecognizedLine line : lines) {
@@ -74,6 +96,15 @@ public final class ImageOcr {
 		return lineChars;
 	}
 
+	/**
+	 * Recognizes single characters in a recognized line.
+	 * 
+	 * @param img
+	 *            the image to search and recognize chars in
+	 * @param line
+	 *            the recognized line where the charakter is in
+	 * @return a list with the recognized characters, which contains several characters for each line
+	 */
 	public static List<RecognizedChar> recognizeChars(Image img, RecognizedLine line) {
 		int width = (int) img.getWidth();
 		List<RecognizedChar> recognizedChars = new ArrayList<RecognizedChar>();
@@ -193,13 +224,18 @@ public final class ImageOcr {
 	}
 
 	/**
-	 * Sum the black pixels in the specified area. Indices are inclusive.
+	 * Sums the black pixels in the specified area. Indices are inclusive.
 	 * 
 	 * @param img
+	 *            the image
 	 * @param startY
+	 *            the column where to start the summation
 	 * @param endY
+	 *            the column where to stop the summation
 	 * @param startX
+	 *            the row where to start the summation
 	 * @param endX
+	 *            the row where to stop the summation
 	 * @return
 	 */
 	private static int sumBlackPixels(Image img, int startY, int endY, int startX, int endX) {
@@ -219,6 +255,16 @@ public final class ImageOcr {
 		return blackPixels;
 	}
 
+	/**
+	 * 
+	 * @param img
+	 *            the image
+	 * @param recognizedLineChars
+	 *            each recognized characters
+	 * @param characterSet
+	 *            the character set from the database
+	 * @return the matched character as a string
+	 */
 	public static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
 			CharacterSet characterSet) {
 		StringBuilder sb = new StringBuilder();

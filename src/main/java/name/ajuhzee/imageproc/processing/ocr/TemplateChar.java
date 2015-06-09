@@ -7,12 +7,24 @@ import java.nio.file.Path;
 import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.util.ImageUtils;
 
+/**
+ * Represents a template char.
+ * 
+ * @author Ajuhzee
+ *
+ */
 public class TemplateChar {
 
 	private final Image source;
 
 	private final char representedChar;
 
+	/**
+	 * Creates a new template character
+	 * 
+	 * @param source
+	 * @param representedChar
+	 */
 	public TemplateChar(Image source, char representedChar) {
 		this.source = source;
 		this.representedChar = representedChar;
