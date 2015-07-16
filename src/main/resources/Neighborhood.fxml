@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="neighborhoodPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.NeighborhoodMenuController">
+	<children>
+		<RadioButton fx:id="radio4" mnemonicParsing="false" onAction="#radio4Pressed" text="4-neighborhood" AnchorPane.topAnchor="0.0">
+			<toggleGroup>
+				<ToggleGroup fx:id="neighborhood" />
+			</toggleGroup>
+		</RadioButton>
+		<RadioButton fx:id="radio8" mnemonicParsing="false" onAction="#radio8Pressed" text="8-neighborhood" toggleGroup="$neighborhood" AnchorPane.bottomAnchor="25.0" AnchorPane.topAnchor="20.0" />
+		<Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="OK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+	</children>
+</AnchorPane>

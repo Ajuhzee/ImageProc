@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package name.ajuhzee.imageproc.plugin.core;
 
 /**
- * @author Ajuhzee
  *
+ *
+ * @author Ajuhzee
  */
 public class PluginInformation {
 

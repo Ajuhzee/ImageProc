@@ -1,9 +1,5 @@
 package name.ajuhzee.imageproc.plugin.image.process;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -20,15 +16,20 @@ import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
 import name.ajuhzee.imageproc.view.OcrMenuController;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Adds an image plugin, that provides a menu for a step by step character recognition.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class Ocr extends ImagePlugin {
 
 	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
+
+	private final OcrMenuController sideMenu;
 
 	private Optional<List<List<RecognizedChar>>> recognizedLineCharacters = Optional.empty();
 
@@ -38,12 +39,11 @@ public class Ocr extends ImagePlugin {
 
 	private CharacterSet currentCharacterSet = CharacterSet.BASE_CHARACTER_SET;
 
-	private final OcrMenuController sideMenu;
 	private Image srcImage;
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
@@ -55,13 +55,37 @@ public class Ocr extends ImagePlugin {
 		} catch (final IOException e) {
 			throw new PluginLoadException("Couldn't load the side menu", e);
 		}
-		context().getImageControl().addImageChangedCallback(this::reset);
+
 		sideMenu.getDoneButtonCallbacks().addCallback(this::clearSideMenu);
 		sideMenu.getDoneButtonCallbacks().addCallback(this::enablePlugins);
 		sideMenu.getRecognizeLineButtonCallbacks().addCallback(this::recognizeLines);
 		sideMenu.getSeperateCharactersButtonCallbacks().addCallback(this::seperateCharacters);
 		sideMenu.getMatchCharactersButtonCallbacks().addCallback(this::matchCharacters);
 		sideMenu.getSelectCharacterSetButtonCallbacks().addCallback(this::selectCharacterSet);
+	}
+
+	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
+		double stepY;
+		double stepX;
+		double yLength = (double) endY - startY;
+		double xLength = (double) endX - startX;
+		if (xLength < yLength) {
+			stepY = 1;
+			stepX = yLength == 0 ? 0 : (xLength / yLength);
+		} else {
+			stepX = 1;
+			stepY = xLength == 0 ? 0 : (yLength / xLength);
+		}
+
+		double y = startY;
+		double x = startX;
+		do {
+			do {
+				writer.setColor((int) x, (int) y, c);
+				x += stepX;
+			} while (x < endX);
+			y += stepY;
+		} while (y < endY);
 	}
 
 	private void selectCharacterSet() {
@@ -114,30 +138,6 @@ public class Ocr extends ImagePlugin {
 			recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedLineCharacters.get(),
 					currentCharacterSet));
 		}
-	}
-
-	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
-		double stepY;
-		double stepX;
-		double yLength = (double) endY - startY;
-		double xLength = (double) endX - startX;
-		if (xLength < yLength) {
-			stepY = 1;
-			stepX = yLength == 0 ? 0 : (xLength / yLength);
-		} else {
-			stepX = 1;
-			stepY = xLength == 0 ? 0 : (yLength / xLength);
-		}
-
-		double y = startY;
-		double x = startX;
-		do {
-			do {
-				writer.setColor((int) x, (int) y, c);
-				x += stepX;
-			} while (x < endX);
-			y += stepY;
-		} while (y < endY);
 	}
 
 	/**
@@ -197,6 +197,7 @@ public class Ocr extends ImagePlugin {
 
 	@Override
 	public void started() {
+		context().getImageControl().addImageChangedCallback(this::reset);
 		srcImage = context().getImageControl().getImage();
 		context().getSideMenuControl().setContent(sideMenu.toNodeRepresentation());
 		context().getImageControl().showImage(srcImage);
