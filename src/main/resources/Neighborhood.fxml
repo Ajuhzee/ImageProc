@@ -9,12 +9,14 @@
 
 <AnchorPane fx:id="neighborhoodPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.NeighborhoodMenuController">
 	<children>
-		<RadioButton fx:id="radio4" mnemonicParsing="false" onAction="#radio4Pressed" text="4-neighborhood" AnchorPane.topAnchor="0.0">
+		<RadioButton fx:id="radio4" mnemonicParsing="false" selected="true" text="4-neighborhood" AnchorPane.topAnchor="0.0">
 			<toggleGroup>
 				<ToggleGroup fx:id="neighborhood" />
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton fx:id="radio8" mnemonicParsing="false" onAction="#radio8Pressed" text="8-neighborhood" toggleGroup="$neighborhood" AnchorPane.bottomAnchor="25.0" AnchorPane.topAnchor="20.0" />
-		<Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="OK" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+		<RadioButton fx:id="radio8" mnemonicParsing="false" text="8-neighborhood" toggleGroup="$neighborhood" AnchorPane.bottomAnchor="65.0" AnchorPane.topAnchor="20.0" />
+		<Button fx:id="erodeButton" mnemonicParsing="false" onAction="#erodeButtonPressed" text="Erode" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="70.0" />
+      <Button fx:id="dilateButton" layoutX="54.0" layoutY="36.0" mnemonicParsing="false" onAction="#dilateButtonPressed" text="Dilate" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
+      <Button fx:id="okButton" layoutX="29.0" layoutY="66.0" mnemonicParsing="false" onAction="#okButtonPressed" text="Finalize" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
 	</children>
 </AnchorPane>

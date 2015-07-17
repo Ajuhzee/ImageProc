@@ -7,17 +7,16 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageEditing;
-import name.ajuhzee.imageproc.processing.Neighborhood;
-import name.ajuhzee.imageproc.view.NeighborhoodMenuController;
+import name.ajuhzee.imageproc.view.OpenCloseMenuController;
 
 import java.io.IOException;
 
-public class Erode extends ImagePlugin {
+public class OpenClose extends ImagePlugin {
 
 
-	public static final PluginInformation PLUGIN_INFO = new PluginInformation("Erode", true);
+	public static final PluginInformation PLUGIN_INFO = new PluginInformation("Opening/Closing", true);
 
-	private final NeighborhoodMenuController sideMenu;
+	private final OpenCloseMenuController sideMenu;
 
 	private Image srcImage;
 
@@ -27,12 +26,12 @@ public class Erode extends ImagePlugin {
 	 * @param context the context of the plugin
 	 * @throws PluginLoadException if context == null
 	 */
-	public Erode(ImagePluginContext context) throws PluginLoadException {
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("erode",
+	public OpenClose(ImagePluginContext context) throws PluginLoadException {
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("openCLose",
 				PLUGIN_INFO).get(), PLUGIN_INFO, context);
 
 		try {
-			sideMenu = NeighborhoodMenuController.create();
+			sideMenu = OpenCloseMenuController.create();
 		} catch (IOException e) {
 			throw new PluginLoadException("failed to load fxml", e);
 		}
@@ -40,19 +39,39 @@ public class Erode extends ImagePlugin {
 		sideMenu.addOkButtonPressedCallback(this::clearSideMenu);
 		sideMenu.addOkButtonPressedCallback(this::enablePlugins);
 
-		sideMenu.addRadio4PressedCallback(this::run4Erode);
-		sideMenu.addRadio8PressedCallback(this::run8Erode);
+		sideMenu.addOpenPressedCallback(this::open);
+		sideMenu.addClosePressedCallback(this::close);
 	}
 
 
-	private void run4Erode() {
-		Image erodedImage = ImageEditing.erode(srcImage, Neighborhood.NEIGHBORHOOD4);
-		context().getImageControl().showImage(erodedImage);
+	private void close() {
+		Image img = context().getImageControl().getImage();
+
+		for (int i = 0; i != sideMenu.getRepeatCount(); ++i) {
+			img = ImageEditing.dilate(img, sideMenu.getNeighborhoodStatus());
+		}
+
+		for (int i = 0; i != sideMenu.getRepeatCount(); ++i) {
+			img = ImageEditing.erode(img, sideMenu.getNeighborhoodStatus());
+		}
+
+
+		context().getImageControl().showImage(img);
 	}
 
-	private void run8Erode() {
-		Image erodedImage = ImageEditing.erode(srcImage, Neighborhood.NEIGHBORHOOD8);
-		context().getImageControl().showImage(erodedImage);
+	private void open() {
+		Image img = context().getImageControl().getImage();
+
+
+		for (int i = 0; i != sideMenu.getRepeatCount(); ++i) {
+			img = ImageEditing.erode(img, sideMenu.getNeighborhoodStatus());
+		}
+
+		for (int i = 0; i != sideMenu.getRepeatCount(); ++i) {
+			img = ImageEditing.dilate(img, sideMenu.getNeighborhoodStatus());
+		}
+
+		context().getImageControl().showImage(img);
 	}
 
 	/**

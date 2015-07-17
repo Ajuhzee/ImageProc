@@ -49,8 +49,8 @@ public class DummySettingsManager implements SettingsManager {
 		imagePlugins.add(Mean3x3Threaded.class);
 		imagePlugins.add(TestImage.class);
 		imagePlugins.add(CharacterSet.class);
-		imagePlugins.add(Dilate.class);
-		imagePlugins.add(Erode.class);
+		imagePlugins.add(ErodeDilate.class);
+		imagePlugins.add(OpenClose.class);
 		return imagePlugins;
 	}
 

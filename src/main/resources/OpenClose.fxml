@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="neighborhoodPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="150.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.OpenCloseMenuController">
+	<columnConstraints>
+		<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+	</rowConstraints>
+	<children>
+		<Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonPressed" text="Abschließen" GridPane.rowIndex="5" />
+		<RadioButton mnemonicParsing="false" text="8-Nachbarschaft" GridPane.rowIndex="1">
+			<toggleGroup>
+				<ToggleGroup fx:id="neighborhood" />
+			</toggleGroup>
+		</RadioButton>
+		<RadioButton mnemonicParsing="false" selected="true" text="4-Nachbarschaft" toggleGroup="$neighborhood" />
+		<GridPane alignment="CENTER" GridPane.rowIndex="4">
+			<columnConstraints>
+				<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closePressed" text="Open" />
+				<Button fx:id="openButton" mnemonicParsing="false" onAction="#openPressed" text="Close" GridPane.columnIndex="1" />
+			</children>
+		</GridPane>
+      <Label text="Strukturgröße (px)" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <Slider fx:id="repeatCount" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.rowIndex="3" />
+	</children>
+</GridPane>

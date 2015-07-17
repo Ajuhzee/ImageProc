@@ -7,17 +7,16 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageEditing;
-import name.ajuhzee.imageproc.processing.Neighborhood;
-import name.ajuhzee.imageproc.view.NeighborhoodMenuController;
+import name.ajuhzee.imageproc.view.ErodeDilateMenuController;
 
 import java.io.IOException;
 
-public class Dilate extends ImagePlugin {
+public class ErodeDilate extends ImagePlugin {
 
 
-	public static final PluginInformation PLUGIN_INFO = new PluginInformation("Dilate", true);
+	public static final PluginInformation PLUGIN_INFO = new PluginInformation("Erodieren/Dilatieren", true);
 
-	private final NeighborhoodMenuController sideMenu;
+	private final ErodeDilateMenuController sideMenu;
 
 	private Image srcImage;
 
@@ -27,12 +26,12 @@ public class Dilate extends ImagePlugin {
 	 * @param context the context of the plugin
 	 * @throws PluginLoadException if context == null
 	 */
-	public Dilate(ImagePluginContext context) throws PluginLoadException {
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("dilate",
+	public ErodeDilate(ImagePluginContext context) throws PluginLoadException {
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("erodeDilate",
 				PLUGIN_INFO).get(), PLUGIN_INFO, context);
 
 		try {
-			sideMenu = NeighborhoodMenuController.create();
+			sideMenu = ErodeDilateMenuController.create();
 		} catch (IOException e) {
 			throw new PluginLoadException("failed to load fxml", e);
 		}
@@ -40,18 +39,20 @@ public class Dilate extends ImagePlugin {
 		sideMenu.addOkButtonPressedCallback(this::clearSideMenu);
 		sideMenu.addOkButtonPressedCallback(this::enablePlugins);
 
-		sideMenu.addRadio4PressedCallback(this::run4Dilate);
-		sideMenu.addRadio8PressedCallback(this::run8Dilate);
+		sideMenu.addDilatePressedCallback(this::dilate);
+		sideMenu.addErodePressedCallback(this::erode);
 	}
 
 
-	private void run4Dilate() {
-		Image dilatedImage = ImageEditing.dilate(srcImage, Neighborhood.NEIGHBORHOOD4);
-		context().getImageControl().showImage(dilatedImage);
+	private void erode() {
+		Image erodedImage =
+				ImageEditing.erode(context().getImageControl().getImage(), sideMenu.getNeighborhoodStatus());
+		context().getImageControl().showImage(erodedImage);
 	}
 
-	private void run8Dilate() {
-		Image dilatedImage = ImageEditing.dilate(srcImage, Neighborhood.NEIGHBORHOOD8);
+	private void dilate() {
+		Image dilatedImage =
+				ImageEditing.dilate(context().getImageControl().getImage(), sideMenu.getNeighborhoodStatus());
 		context().getImageControl().showImage(dilatedImage);
 	}
 

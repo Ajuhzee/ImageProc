@@ -5,31 +5,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
+import name.ajuhzee.imageproc.processing.Neighborhood;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeighborhoodMenuController implements NodeRepresentation {
+public class OpenCloseMenuController implements NodeRepresentation {
 
 	private final List<Runnable> okCallbacks = new ArrayList<>();
 
-	private final List<Runnable> radio4Callbacks = new ArrayList<>();
+	private final List<Runnable> openCallbacks = new ArrayList<>();
 
-	private final List<Runnable> radio8Callbacks = new ArrayList<>();
+	private final List<Runnable> closeCallbacks = new ArrayList<>();
 
-	@FXML
-	private AnchorPane neighborhoodPane;
 
 	@FXML
-	private Button okButton;
-
-	@FXML
-	private ToggleGroup neighborhood;
+	private GridPane neighborhoodPane;
 
 	@FXML
 	private RadioButton radio8;
@@ -37,22 +34,40 @@ public class NeighborhoodMenuController implements NodeRepresentation {
 	@FXML
 	private RadioButton radio4;
 
+	@FXML
+	private Button closeButton;
+
+	@FXML
+	private Button okButton;
+
+	@FXML
+	private Slider repeatCount;
+
+	@FXML
+	private ToggleGroup neighborhood;
+
+	@FXML
+	private Button openButton;
 
 	/**
 	 * @return the BinarizeMenuController
 	 * @throws IOException if an I/O error occurs
 	 */
-	public static NeighborhoodMenuController create() throws IOException {
-		final URL fxml = Binarize.class.getClassLoader().getResource("Neighborhood.fxml");
+	public static OpenCloseMenuController create() throws IOException {
+		final URL fxml = Binarize.class.getClassLoader().getResource("OpenClose.fxml");
 		final FXMLLoader loader = new FXMLLoader(fxml);
 
 		loader.load();
-		return loader.<NeighborhoodMenuController>getController();
+		return loader.<OpenCloseMenuController>getController();
 	}
 
 	@Override
 	public Node toNodeRepresentation() {
 		return neighborhoodPane;
+	}
+
+	public int getRepeatCount() {
+		return (int) repeatCount.getValue();
 	}
 
 
@@ -79,15 +94,15 @@ public class NeighborhoodMenuController implements NodeRepresentation {
 	 *
 	 * @param runnable
 	 */
-	public void addRadio4PressedCallback(Runnable runnable) {
-		radio4Callbacks.add(runnable);
+	public void addClosePressedCallback(Runnable runnable) {
+		closeCallbacks.add(runnable);
 	}
 
 	/**
 	 * Clears the content of the binarizePane.
 	 */
-	public void radio4Pressed() {
-		for (Runnable elem : radio4Callbacks) {
+	public void closePressed() {
+		for (Runnable elem : closeCallbacks) {
 			elem.run();
 		}
 	}
@@ -97,16 +112,21 @@ public class NeighborhoodMenuController implements NodeRepresentation {
 	 *
 	 * @param runnable
 	 */
-	public void addRadio8PressedCallback(Runnable runnable) {
-		radio8Callbacks.add(runnable);
+	public void addOpenPressedCallback(Runnable runnable) {
+		openCallbacks.add(runnable);
 	}
 
 	/**
 	 * Clears the content of the binarizePane.
 	 */
-	public void radio8Pressed() {
-		for (Runnable elem : radio8Callbacks) {
+	public void openPressed() {
+		for (Runnable elem : openCallbacks) {
 			elem.run();
 		}
+	}
+
+	public Neighborhood getNeighborhoodStatus() {
+		return neighborhood.getSelectedToggle().equals(radio4) ? Neighborhood.NEIGHBORHOOD4 :
+				Neighborhood.NEIGHBORHOOD8;
 	}
 }
