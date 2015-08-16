@@ -1,10 +1,5 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -13,15 +8,20 @@ import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.BoundingBox;
 import name.ajuhzee.imageproc.util.ImageUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+
 /**
  * Provides several functions for the ocr plugin.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public final class ImageOcr {
 
 	private static final int MIN_SPACE_WIDTH = 5;
+
 	private static final double LINE_TRANSITION_RATIO = 0.1;
 
 	private ImageOcr() {
@@ -29,9 +29,8 @@ public final class ImageOcr {
 
 	/**
 	 * Recognizese lines in an image.
-	 * 
-	 * @param img
-	 *            the image to search and recognize lines in
+	 *
+	 * @param img the image to search and recognize lines in
 	 * @return a list with the recognized lines
 	 */
 	public static List<RecognizedLine> recognizeLines(Image img) {
@@ -79,11 +78,9 @@ public final class ImageOcr {
 
 	/**
 	 * Recognizes single characters in a recognized line.
-	 * 
-	 * @param img
-	 *            the image to search and recognize chars in
-	 * @param lines
-	 *            a list with the recognized lines
+	 *
+	 * @param img the image to search and recognize chars in
+	 * @param lines a list with the recognized lines
 	 * @return a list with the recognized characters
 	 */
 	public static List<List<RecognizedChar>> recognizeChars(Image img, List<RecognizedLine> lines) {
@@ -98,11 +95,9 @@ public final class ImageOcr {
 
 	/**
 	 * Recognizes single characters in a recognized line.
-	 * 
-	 * @param img
-	 *            the image to search and recognize chars in
-	 * @param line
-	 *            the recognized line where the charakter is in
+	 *
+	 * @param img the image to search and recognize chars in
+	 * @param line the recognized line where the charakter is in
 	 * @return a list with the recognized characters, which contains several characters for each line
 	 */
 	public static List<RecognizedChar> recognizeChars(Image img, RecognizedLine line) {
@@ -225,17 +220,12 @@ public final class ImageOcr {
 
 	/**
 	 * Sums the black pixels in the specified area. Indices are inclusive.
-	 * 
-	 * @param img
-	 *            the image
-	 * @param startY
-	 *            the column where to start the summation
-	 * @param endY
-	 *            the column where to stop the summation
-	 * @param startX
-	 *            the row where to start the summation
-	 * @param endX
-	 *            the row where to stop the summation
+	 *
+	 * @param img the image
+	 * @param startY the column where to start the summation
+	 * @param endY the column where to stop the summation
+	 * @param startX the row where to start the summation
+	 * @param endX the row where to stop the summation
 	 * @return
 	 */
 	private static int sumBlackPixels(Image img, int startY, int endY, int startX, int endX) {
@@ -256,17 +246,13 @@ public final class ImageOcr {
 	}
 
 	/**
-	 * 
-	 * @param img
-	 *            the image
-	 * @param recognizedLineChars
-	 *            each recognized characters
-	 * @param characterSet
-	 *            the character set from the database
+	 * @param img the image
+	 * @param recognizedLineChars each recognized characters
+	 * @param characterSet the character set from the database
 	 * @return the matched character as a string
 	 */
 	public static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
-			CharacterSet characterSet) {
+										 CharacterSet characterSet) {
 		StringBuilder sb = new StringBuilder();
 		for (List<RecognizedChar> lineChars : recognizedLineChars) {
 			double prevRightX = Double.MAX_VALUE;
@@ -286,7 +272,7 @@ public final class ImageOcr {
 	}
 
 	private static void addSpaces(StringBuilder sb, double prevRightX, RecognizedChar recognizedChar,
-			CharacterSet characterSet) {
+								  CharacterSet characterSet) {
 		double leftX = recognizedChar.getBoundingBox().getBottomLeft().getX();
 		int distanceToLastChar = (int) (leftX - prevRightX);
 		int spaceCount = distanceToLastChar / characterSet.getSpaceWidth();
@@ -295,11 +281,22 @@ public final class ImageOcr {
 		}
 	}
 
-	private static Character matchCharacter(Image recognizedChar, CharacterSet characterSet) {
+	private static Character matchCharacter(Image charToMatch, CharacterSet characterSet) {
 		Character matchedChar = null;
 		double minPixelDeviation = Double.MAX_VALUE;
 		for (TemplateChar templateChar : characterSet.getCharacters()) {
-			double curPixelDeviation = getPixelDifference(recognizedChar, templateChar.getSourceImage());
+			if (sizeDifference(charToMatch, templateChar.getSourceImage()) > 0.1) {
+				continue;
+			}
+
+			int charToMatchPixelAmount = pixelAmount(charToMatch, Color.BLACK);
+			int templateCharPixelAmount = pixelAmount(templateChar.getSourceImage(), Color.BLACK);
+
+			if (deviation(templateCharPixelAmount, charToMatchPixelAmount) > 0.1) {
+				continue;
+			}
+
+			double curPixelDeviation = getPixelDifference(charToMatch, templateChar.getSourceImage());
 			if (curPixelDeviation < minPixelDeviation) {
 				matchedChar = new Character(templateChar.getRepresentedChar());
 				minPixelDeviation = curPixelDeviation;
@@ -308,7 +305,31 @@ public final class ImageOcr {
 		return matchedChar;
 	}
 
+	private static int pixelAmount(Image img, Color color) {
+		PixelReader reader = img.getPixelReader();
+
+		int sum = 0;
+		for (int y = 0; y < img.getHeight(); ++y) {
+			for (int x = 0; x < img.getWidth(); ++x) {
+				if (color.equals(reader.getColor(x, y))) {
+					++sum;
+				}
+			}
+		}
+
+		return sum;
+	}
+
+	private static double sizeDifference(Image base, Image other) {
+		return Math.max(deviation(base.getHeight(), other.getHeight()), deviation(base.getWidth(), other.getWidth()));
+	}
+
+	private static double deviation(double base, double deviatingNumber) {return Math.abs(base / deviatingNumber - 1);}
+
+
 	private static double getPixelDifference(Image recognizedChar, Image templateChar) {
+
+
 		int width = Math.max((int) recognizedChar.getWidth(), (int) templateChar.getWidth());
 		int height = Math.max((int) recognizedChar.getHeight(), (int) templateChar.getHeight());
 		PixelReader scaledRecognizedChar = ImageUtils.increaseCanvasSize(recognizedChar, width, height, Color.WHITE)

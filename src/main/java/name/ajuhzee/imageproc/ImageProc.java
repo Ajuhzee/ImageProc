@@ -1,13 +1,10 @@
 package name.ajuhzee.imageproc;
 
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.plugin.PluginManager;
 import name.ajuhzee.imageproc.preferences.DummySettingsManager;
 import name.ajuhzee.imageproc.view.MainWindow;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.opencv.core.Core;
@@ -15,17 +12,18 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 
+import java.io.IOException;
+
 /**
  * Provides a program for image processing.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class ImageProc extends Application {
 
 	/**
 	 * Launches the program.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {

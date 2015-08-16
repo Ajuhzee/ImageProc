@@ -137,6 +137,7 @@ public class ImageEditing {
 				int newGreenValue = 0;
 				int newBlueValue = 0;
 
+
 				for (int maskX = -1 * xRadius; maskX <= xRadius; maskX++) {
 					for (int maskY = -1 * yRadius; maskY <= yRadius; maskY++) {
 						newRedValue += (int) (255d * getPaddedColor(image, x + maskX, y + maskY).getRed())

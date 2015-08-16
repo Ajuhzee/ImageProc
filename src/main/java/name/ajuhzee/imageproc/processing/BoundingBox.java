@@ -5,11 +5,20 @@ import javafx.geometry.Point2D;
 public class BoundingBox {
 
 	private final Point2D topLeft;
+
 	private final Point2D bottomRight;
 
 	public BoundingBox(Point2D topLeft, Point2D bottomRight) {
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
+
+		if (getWidth() <= 0) {
+			throw new IllegalArgumentException("The width can not be 0 or smaller");
+		}
+
+		if (getHeight() <= 0) {
+			throw new IllegalArgumentException("The height can not be 0 or smaller");
+		}
 	}
 
 	public Point2D getTopLeft() {
@@ -29,10 +38,10 @@ public class BoundingBox {
 	}
 
 	public double getWidth() {
-		return bottomRight.getX() - topLeft.getX();
+		return bottomRight.getX() - topLeft.getX() + 1;
 	}
 
 	public double getHeight() {
-		return bottomRight.getY() - topLeft.getY();
+		return bottomRight.getY() - topLeft.getY() + 1;
 	}
 }
