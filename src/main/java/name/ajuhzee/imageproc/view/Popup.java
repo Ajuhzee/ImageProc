@@ -13,13 +13,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import name.ajuhzee.imageproc.localization.MapResourceBundle;
+import name.ajuhzee.imageproc.util.localization.MapResourceBundle;
 
 import com.google.common.base.Throwables;
 
 /**
  * Is used to provide a simple popup for varying purposes.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -27,7 +27,7 @@ public class Popup {
 
 	/**
 	 * Opens the popup.
-	 * 
+	 *
 	 * @param title
 	 *            the name of the popup
 	 * @param text

@@ -4,7 +4,7 @@ import name.ajuhzee.imageproc.plugin.CorePlugin;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.core.CloseProgram;
 import name.ajuhzee.imageproc.plugin.core.Configuration;
-import name.ajuhzee.imageproc.plugin.image.LoadImage;
+import name.ajuhzee.imageproc.plugin.core.LoadImage;
 import name.ajuhzee.imageproc.plugin.image.SaveImage;
 import name.ajuhzee.imageproc.plugin.image.generate.CharacterSet;
 import name.ajuhzee.imageproc.plugin.image.generate.TestImage;

@@ -1,4 +1,4 @@
-package name.ajuhzee.imageproc.localization;
+package name.ajuhzee.imageproc.util.localization;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 /**
  * Map implementation of {@link ResourceBundle}
- * 
+ *
  * @author Ajuhzee
  *
  * @param <T>
@@ -30,7 +30,7 @@ public class MapResourceBundle<T> extends ResourceBundle {
 
 	/**
 	 * Stores an object by key in the bundle
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */

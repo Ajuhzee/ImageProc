@@ -1,4 +1,4 @@
-package name.ajuhzee.imageproc.plugin.image;
+package name.ajuhzee.imageproc.plugin.core;
 
 import java.io.File;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Adds an image plugin, which loads an image.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -29,7 +29,7 @@ public class LoadImage extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */

@@ -1,10 +1,5 @@
 package name.ajuhzee.imageproc.plugin.image.generate;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -20,9 +15,14 @@ import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
 import name.ajuhzee.imageproc.util.ImageUtils;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Adds an image plugin, which generates a Testimage.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -33,7 +33,7 @@ public class CharacterSet extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
