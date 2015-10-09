@@ -23,6 +23,9 @@ import java.util.OptionalInt;
  */
 public final class ImageOcr {
 
+	// Unicode FFFF is the "Noncharacter"
+	private static final String CHARACTER_NOT_RECOGNIZED_INDICATOR = "\uFFFF";
+
 	private static final int MIN_SPACE_WIDTH = 5;
 
 	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.1;
@@ -281,16 +284,17 @@ public final class ImageOcr {
 				Point2D topLeft = boundingBox.getTopLeft();
 				Image charImage = new WritableImage(img.getPixelReader(), (int) topLeft.getX(), (int) topLeft.getY(),
 						(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
-				Optional<Character> recognizedCharacter = matchCharacter(charImage, characterSet);
+				Optional<Character> matchedChar = matchCharacter(charImage, characterSet);
 
-				if (recognizedCharacter.isPresent()) {
-					sb.append(recognizedCharacter.get());
+				if (matchedChar.isPresent()) {
+					sb.append(matchedChar.get());
 				} else {
-					sb.append("<NF>");
+					sb.append(CHARACTER_NOT_RECOGNIZED_INDICATOR);
 				}
 			}
 			sb.append('\n');
 		}
+
 		return sb.toString();
 	}
 

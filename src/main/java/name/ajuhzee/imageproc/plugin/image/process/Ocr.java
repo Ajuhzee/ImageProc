@@ -29,6 +29,10 @@ public class Ocr extends ImagePlugin {
 
 	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
 
+	public static final Color START_COLOR = Color.LIMEGREEN;
+
+	public static final Color END_COLOR = Color.ORANGERED;
+
 	private final OcrMenuController sideMenu;
 
 	private Optional<List<List<RecognizedChar>>> recognizedLineCharacters = Optional.empty();
@@ -161,10 +165,10 @@ public class Ocr extends ImagePlugin {
 				int leftX = (int) boundingBox.getTopLeft().getX();
 				int rightX = (int) boundingBox.getTopRight().getX();
 
-				drawLine(writer, Color.VIOLET, leftX, leftX, topY, bottomY);
-				drawLine(writer, Color.VIOLET, leftX, rightX, topY, topY);
-				drawLine(writer, Color.RED, rightX, rightX, topY, bottomY);
-				drawLine(writer, Color.RED, leftX, rightX, bottomY, bottomY);
+				drawLine(writer, START_COLOR, leftX, leftX, topY, bottomY);
+				drawLine(writer, START_COLOR, leftX, rightX, topY, topY);
+				drawLine(writer, END_COLOR, rightX, rightX, topY, bottomY);
+				drawLine(writer, END_COLOR, leftX, rightX, bottomY, bottomY);
 			}
 		}
 		context().getImageControl().showImage(withMarkedLines);
@@ -177,8 +181,8 @@ public class Ocr extends ImagePlugin {
 		PixelWriter writer = withMarkedLines.getPixelWriter();
 
 		recognizedLines.get().stream().forEach((line) -> {
-			drawLine(writer, Color.VIOLET, 0, width, line.getTopY(), line.getTopY());
-			drawLine(writer, Color.RED, 0, width, line.getBottomY(), line.getBottomY());
+			drawLine(writer, START_COLOR, 0, width, line.getTopY(), line.getTopY());
+			drawLine(writer, END_COLOR, 0, width, line.getBottomY(), line.getBottomY());
 		});
 
 		context().getImageControl().showImage(withMarkedLines);

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ocrPane" prefHeight="146.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="name.ajuhzee.imageproc.view.OcrMenuController">
+<AnchorPane fx:id="ocrPane" prefHeight="146.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.OcrMenuController">
   <children>
     <Button fx:id="selectCharacterSet" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#selectCharacterSetPressed" prefWidth="50.0" text="Schritt 0: (optional) OCR-Schriftart auswählen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     <Button fx:id="recognizeLine" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#recognizeLinePressed" prefWidth="50.0" text="Schritt 1: Zeilen erkennen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
     <Button fx:id="adjustLines" alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" onAction="#adjustLinesPressed" text="Schritt 2: Zeilen ausrichten" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
     <Button fx:id="seperateCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#seperateCharactersPressed" text="Schritt 3: Buchstaben separieren" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0" />
     <Button fx:id="matchCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#matchCharactersPressed" text="Schritt 4: Buchstabenmatching &amp; Ausgabe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-    <TextArea fx:id="outputTextField" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0" />
+    <TextArea fx:id="outputTextField" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+         <font>
+            <Font name="Consolas" size="14.0" />
+         </font></TextArea>
     <Button fx:id="ocrDoneButton" mnemonicParsing="false" onAction="#doneButtonPressed" text="Fertig" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
   </children>
 </AnchorPane>
