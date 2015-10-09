@@ -6,7 +6,10 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.BoundingBox;
-import name.ajuhzee.imageproc.util.ImageUtils;
+import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterium;
+import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterium;
+import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterium;
+import name.ajuhzee.imageproc.processing.ocr.criteria.PixelDifferenceComparator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,19 @@ public final class ImageOcr {
 	private static final int MIN_SPACE_WIDTH = 5;
 
 	private static final double LINE_TRANSITION_RATIO = 0.1;
+
+	private static final double CRITERIUM_MAXIMUM_PIXEL_AMOUNT_DEVIATION = 0.1;
+
+	private static final double CRITERIUM_MAXIMUM_DIMENSION_DEVIATION = 0.1;
+
+	private static final List<MatchingCriterium> MATCHING_CRITERIA;
+
+	static {
+		ArrayList<MatchingCriterium> matchingCriteria = new ArrayList<>();
+		matchingCriteria.add(new DimensionsCriterium(CRITERIUM_MAXIMUM_DIMENSION_DEVIATION));
+		matchingCriteria.add(new PixelAmountCriterium(CRITERIUM_MAXIMUM_PIXEL_AMOUNT_DEVIATION));
+		MATCHING_CRITERIA = matchingCriteria;
+	}
 
 	private ImageOcr() {
 	}
@@ -264,7 +280,9 @@ public final class ImageOcr {
 				Point2D topLeft = boundingBox.getTopLeft();
 				Image charImage = new WritableImage(img.getPixelReader(), (int) topLeft.getX(), (int) topLeft.getY(),
 						(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
-				sb.append(matchCharacter(charImage, characterSet));
+				Optional<Character> recognizedCharacter = matchCharacter(charImage, characterSet);
+
+				sb.append(recognizedCharacter.orElse(' '));
 			}
 			sb.append('\n');
 		}
@@ -281,72 +299,18 @@ public final class ImageOcr {
 		}
 	}
 
-	private static Character matchCharacter(Image charToMatch, CharacterSet characterSet) {
-		Character matchedChar = null;
+	private static Optional<Character> matchCharacter(Image charToMatch, CharacterSet characterSet) {
 		double minPixelDeviation = Double.MAX_VALUE;
-		for (TemplateChar templateChar : characterSet.getCharacters()) {
-			if (sizeDifference(charToMatch, templateChar.getSourceImage()) > 0.1) {
-				continue;
-			}
 
-			int charToMatchPixelAmount = pixelAmount(charToMatch, Color.BLACK);
-			int templateCharPixelAmount = pixelAmount(templateChar.getSourceImage(), Color.BLACK);
-
-			if (deviation(templateCharPixelAmount, charToMatchPixelAmount) > 0.1) {
-				continue;
-			}
-
-			double curPixelDeviation = getPixelDifference(charToMatch, templateChar.getSourceImage());
-			if (curPixelDeviation < minPixelDeviation) {
-				matchedChar = new Character(templateChar.getRepresentedChar());
-				minPixelDeviation = curPixelDeviation;
-			}
-		}
-		return matchedChar;
+		return characterSet.getCharacters().stream()
+				.filter((potentialChar) -> {
+					return MATCHING_CRITERIA.stream()
+							.allMatch((criterium) -> {
+								return criterium.matches(charToMatch, potentialChar.getSourceImage());
+							});
+				})
+				.min(new PixelDifferenceComparator(charToMatch))
+				.map(TemplateChar::getRepresentedChar);
 	}
 
-	private static int pixelAmount(Image img, Color color) {
-		PixelReader reader = img.getPixelReader();
-
-		int sum = 0;
-		for (int y = 0; y < img.getHeight(); ++y) {
-			for (int x = 0; x < img.getWidth(); ++x) {
-				if (color.equals(reader.getColor(x, y))) {
-					++sum;
-				}
-			}
-		}
-
-		return sum;
-	}
-
-	private static double sizeDifference(Image base, Image other) {
-		return Math.max(deviation(base.getHeight(), other.getHeight()), deviation(base.getWidth(), other.getWidth()));
-	}
-
-	private static double deviation(double base, double deviatingNumber) {return Math.abs(base / deviatingNumber - 1);}
-
-
-	private static double getPixelDifference(Image recognizedChar, Image templateChar) {
-
-
-		int width = Math.max((int) recognizedChar.getWidth(), (int) templateChar.getWidth());
-		int height = Math.max((int) recognizedChar.getHeight(), (int) templateChar.getHeight());
-		PixelReader scaledRecognizedChar = ImageUtils.increaseCanvasSize(recognizedChar, width, height, Color.WHITE)
-				.getPixelReader();
-		PixelReader scaledTemplateChar = ImageUtils.increaseCanvasSize(templateChar, width, height, Color.WHITE)
-				.getPixelReader();
-
-		double difference = 0;
-
-		for (int x = 0; x < width; ++x) {
-			for (int y = 0; y < height; ++y) {
-				Color recognizedColor = scaledRecognizedChar.getColor(x, y);
-				Color templateColor = scaledTemplateChar.getColor(x, y);
-
-				difference += Math.abs(templateColor.getBrightness() - recognizedColor.getBrightness());
-			}
-		}
-		return difference;
-	}
 }

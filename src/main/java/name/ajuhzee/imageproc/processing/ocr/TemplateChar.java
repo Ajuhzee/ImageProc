@@ -1,17 +1,16 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
+import javafx.scene.image.Image;
+import name.ajuhzee.imageproc.util.ImageUtils;
+
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import javafx.scene.image.Image;
-import name.ajuhzee.imageproc.util.ImageUtils;
-
 /**
  * Represents a template char.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class TemplateChar {
 
@@ -21,7 +20,7 @@ public class TemplateChar {
 
 	/**
 	 * Creates a new template character
-	 * 
+	 *
 	 * @param source
 	 * @param representedChar
 	 */
@@ -58,4 +57,5 @@ public class TemplateChar {
 
 		return new TemplateChar(charImage, OcrResources.CHARACTER_NAMES.get(characterName));
 	}
+
 }
