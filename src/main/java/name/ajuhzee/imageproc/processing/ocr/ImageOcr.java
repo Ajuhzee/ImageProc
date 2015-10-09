@@ -6,9 +6,9 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.BoundingBox;
-import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterium;
-import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterium;
-import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterium;
+import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterion;
+import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
+import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelDifferenceComparator;
 
 import java.util.ArrayList;
@@ -25,18 +25,22 @@ public final class ImageOcr {
 
 	private static final int MIN_SPACE_WIDTH = 5;
 
-	private static final double LINE_TRANSITION_RATIO = 0.1;
+	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.1;
 
-	private static final double CRITERIUM_MAXIMUM_PIXEL_AMOUNT_DEVIATION = 0.1;
+	private static final int CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION = 2;
 
-	private static final double CRITERIUM_MAXIMUM_DIMENSION_DEVIATION = 0.1;
+	private static final double CRITERION_DIMENSION_MAXIMUM_DEVIATION = 0.1;
 
-	private static final List<MatchingCriterium> MATCHING_CRITERIA;
+	private static final int CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION = 2;
+
+	private static final List<MatchingCriterion> MATCHING_CRITERIA;
 
 	static {
-		ArrayList<MatchingCriterium> matchingCriteria = new ArrayList<>();
-		matchingCriteria.add(new DimensionsCriterium(CRITERIUM_MAXIMUM_DIMENSION_DEVIATION));
-		matchingCriteria.add(new PixelAmountCriterium(CRITERIUM_MAXIMUM_PIXEL_AMOUNT_DEVIATION));
+		ArrayList<MatchingCriterion> matchingCriteria = new ArrayList<>();
+		matchingCriteria.add(new DimensionsCriterion(CRITERION_DIMENSION_MAXIMUM_DEVIATION,
+				CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION));
+		matchingCriteria.add(new PixelAmountCriterion(CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION,
+				CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION));
 		MATCHING_CRITERIA = matchingCriteria;
 	}
 
@@ -44,7 +48,7 @@ public final class ImageOcr {
 	}
 
 	/**
-	 * Recognizese lines in an image.
+	 * Recognises lines in an image.
 	 *
 	 * @param img the image to search and recognize lines in
 	 * @return a list with the recognized lines
@@ -68,10 +72,9 @@ public final class ImageOcr {
 	}
 
 	private static Optional<RecognizedLine> getNextLine(Image img, int startY) {
-		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();
 
-		List<Integer> lineTransitions = new ArrayList<Integer>();
+		List<Integer> lineTransitions = new ArrayList<>();
 		int previousBlacks = sumBlackPixelsInRow(img, startY);
 		for (int y = startY + 1; y < height; ++y) {
 			int curBlackPixels = sumBlackPixelsInRow(img, y);
@@ -102,7 +105,7 @@ public final class ImageOcr {
 	public static List<List<RecognizedChar>> recognizeChars(Image img, List<RecognizedLine> lines) {
 		List<List<RecognizedChar>> lineChars = new ArrayList<>();
 		for (RecognizedLine line : lines) {
-			List<RecognizedChar> chars = new ArrayList<RecognizedChar>();
+			List<RecognizedChar> chars = new ArrayList<>();
 			chars.addAll(recognizeChars(img, line));
 			lineChars.add(chars);
 		}
@@ -113,12 +116,11 @@ public final class ImageOcr {
 	 * Recognizes single characters in a recognized line.
 	 *
 	 * @param img the image to search and recognize chars in
-	 * @param line the recognized line where the charakter is in
+	 * @param line the recognized line where the character is in
 	 * @return a list with the recognized characters, which contains several characters for each line
 	 */
-	public static List<RecognizedChar> recognizeChars(Image img, RecognizedLine line) {
-		int width = (int) img.getWidth();
-		List<RecognizedChar> recognizedChars = new ArrayList<RecognizedChar>();
+	private static List<RecognizedChar> recognizeChars(Image img, RecognizedLine line) {
+		List<RecognizedChar> recognizedChars = new ArrayList<>();
 
 		Optional<RecognizedChar> recognizedChar = getNextChar(img, line, 0);
 		while (recognizedChar.isPresent()) {
@@ -131,8 +133,6 @@ public final class ImageOcr {
 	}
 
 	private static Optional<RecognizedChar> getNextChar(Image img, RecognizedLine line, int startX) {
-		int width = (int) img.getWidth();
-
 		OptionalInt charStartXOptional = findCharStartX(img, line, startX);
 
 		if (!charStartXOptional.isPresent()) {
@@ -181,7 +181,8 @@ public final class ImageOcr {
 			int curBlackPixels = sumBlackPixels(img, line.getTopY(), line.getBottomY(), x, x + 1);
 			boolean isEnd = curBlackPixels == 0 && prevBlacks != 0;
 			if (isEnd && nextSpaceWidth(img, line, x) > MIN_SPACE_WIDTH) {
-				charEndX = x;
+				// the end was in the previous column
+				charEndX = x - 1;
 				break;
 			}
 
@@ -242,7 +243,7 @@ public final class ImageOcr {
 	 * @param endY the column where to stop the summation
 	 * @param startX the row where to start the summation
 	 * @param endX the row where to stop the summation
-	 * @return
+	 * @return the amount of black pixels
 	 */
 	private static int sumBlackPixels(Image img, int startY, int endY, int startX, int endX) {
 		PixelReader pixelReader = img.getPixelReader();
@@ -282,7 +283,11 @@ public final class ImageOcr {
 						(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
 				Optional<Character> recognizedCharacter = matchCharacter(charImage, characterSet);
 
-				sb.append(recognizedCharacter.orElse(' '));
+				if (recognizedCharacter.isPresent()) {
+					sb.append(recognizedCharacter.get());
+				} else {
+					sb.append("<NF>");
+				}
 			}
 			sb.append('\n');
 		}
@@ -300,15 +305,13 @@ public final class ImageOcr {
 	}
 
 	private static Optional<Character> matchCharacter(Image charToMatch, CharacterSet characterSet) {
-		double minPixelDeviation = Double.MAX_VALUE;
-
 		return characterSet.getCharacters().stream()
-				.filter((potentialChar) -> {
-					return MATCHING_CRITERIA.stream()
-							.allMatch((criterium) -> {
-								return criterium.matches(charToMatch, potentialChar.getSourceImage());
-							});
-				})
+				.filter((potentialChar) ->
+						MATCHING_CRITERIA.stream()
+								.allMatch(
+										(criterion) -> criterion.matches(charToMatch, potentialChar.getSourceImage())
+								)
+				)
 				.min(new PixelDifferenceComparator(charToMatch))
 				.map(TemplateChar::getRepresentedChar);
 	}

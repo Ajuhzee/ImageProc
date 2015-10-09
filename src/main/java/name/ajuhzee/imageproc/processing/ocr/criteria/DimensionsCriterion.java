@@ -6,7 +6,7 @@ import name.ajuhzee.imageproc.util.MathUtil;
 /**
  * Compares the dimensions (width and height) of the matching and potential character.
  */
-public class DimensionsCriterium implements MatchingCriterium {
+public class DimensionsCriterion implements MatchingCriterion {
 
 	/**
 	 * Compares the image height and width.
@@ -23,12 +23,17 @@ public class DimensionsCriterium implements MatchingCriterium {
 
 	private final double maximumDeviation;
 
-	public DimensionsCriterium(double maximumDeviation) {
+	private final int allowedPixelDifference;
+
+	public DimensionsCriterion(double maximumDeviation, int allowedPixelDifference) {
 		this.maximumDeviation = maximumDeviation;
+		this.allowedPixelDifference = allowedPixelDifference;
 	}
 
 	@Override
 	public boolean matches(Image characterToMatch, Image potentialCharacter) {
-		return sizeDifference(characterToMatch, potentialCharacter) > maximumDeviation;
+		double sizeDifference = sizeDifference(characterToMatch, potentialCharacter);
+
+		return sizeDifference <= allowedPixelDifference || sizeDifference < maximumDeviation;
 	}
 }

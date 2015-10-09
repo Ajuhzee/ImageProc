@@ -17,6 +17,7 @@ import name.ajuhzee.imageproc.util.ImageUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,9 +63,7 @@ public class CharacterSet extends ImagePlugin {
 				return;
 			}
 
-			List<RecognizedChar> recognizedChars = charsPerLine.stream().flatMap((list) -> {
-				return list.stream();
-			}).collect(Collectors.toList());
+			List<RecognizedChar> recognizedChars = charsPerLine.stream().flatMap(Collection::stream).collect(Collectors.toList());
 
 			int cur = 0;
 			for (RecognizedChar recChar : recognizedChars) {

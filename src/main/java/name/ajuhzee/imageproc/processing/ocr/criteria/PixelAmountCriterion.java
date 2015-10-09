@@ -5,7 +5,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.util.MathUtil;
 
-public class PixelAmountCriterium implements MatchingCriterium {
+public class PixelAmountCriterion implements MatchingCriterion {
 
 	/**
 	 * Gets the amount of pixels of the given color in the image
@@ -31,8 +31,11 @@ public class PixelAmountCriterium implements MatchingCriterium {
 
 	private final double maximumDeviation;
 
-	public PixelAmountCriterium(double maximumDeviation) {
+	private final int allowedPixelDifference;
+
+	public PixelAmountCriterion(double maximumDeviation, int allowedPixelDifference) {
 		this.maximumDeviation = maximumDeviation;
+		this.allowedPixelDifference = allowedPixelDifference;
 	}
 
 	@Override
@@ -40,6 +43,9 @@ public class PixelAmountCriterium implements MatchingCriterium {
 
 		int charToMatchPixelAmount = pixelAmount(characterToMatch, Color.BLACK);
 		int potentialCharacterPixelAmount = pixelAmount(potentialCharacter, Color.BLACK);
-		return MathUtil.deviation(potentialCharacterPixelAmount, charToMatchPixelAmount) < 0.1;
+		int difference = Math.abs(charToMatchPixelAmount - potentialCharacterPixelAmount);
+
+		return difference <= allowedPixelDifference || MathUtil.deviation(potentialCharacterPixelAmount,
+				charToMatchPixelAmount) < maximumDeviation;
 	}
 }
