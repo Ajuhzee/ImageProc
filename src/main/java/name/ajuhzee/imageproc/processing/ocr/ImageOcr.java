@@ -10,7 +10,7 @@ import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelDifferenceComparator;
-import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumber;
+import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumberCriterion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,27 +28,6 @@ public final class ImageOcr {
 	private static final String CHARACTER_NOT_RECOGNIZED_INDICATOR = "\uFFFF";
 
 	private static final int MIN_SPACE_WIDTH = 5;
-
-	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.2;
-
-	private static final int CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION = 2;
-
-	private static final double CRITERION_DIMENSION_MAXIMUM_DEVIATION = 0.1;
-
-	private static final int CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION = 2;
-
-	private static final List<MatchingCriterion> MATCHING_CRITERIA;
-
-	static {
-		ArrayList<MatchingCriterion> matchingCriteria = new ArrayList<>();
-		matchingCriteria.add(new DimensionsCriterion(CRITERION_DIMENSION_MAXIMUM_DEVIATION,
-				CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION));
-		matchingCriteria.add(new PixelAmountCriterion(CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION,
-				CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION));
-		matchingCriteria.add(new EulerNumber());
-
-		MATCHING_CRITERIA = matchingCriteria;
-	}
 
 	private ImageOcr() {
 	}
@@ -275,7 +254,26 @@ public final class ImageOcr {
 	 * @return the matched character as a string
 	 */
 	public static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
-										 CharacterSet characterSet) {
+										 CharacterSet characterSet, boolean pixelDeviationEnabled,
+										 double pixelDeviationPercent, int pixelDeviationAllowed,
+										 boolean dimensionDeviationEnabled, double dimensionDeviationPercent,
+										 int dimensionDeviationAllowed, boolean eulerNumberEnabled) {
+		List<MatchingCriterion> matchingCriteria = new ArrayList<>();
+		if (pixelDeviationEnabled) {
+			matchingCriteria.add(new PixelAmountCriterion(pixelDeviationPercent, pixelDeviationAllowed));
+		}
+		if (dimensionDeviationEnabled) {
+			matchingCriteria.add(new DimensionsCriterion(dimensionDeviationPercent, dimensionDeviationAllowed));
+		}
+		if (eulerNumberEnabled) {
+			matchingCriteria.add(new EulerNumberCriterion());
+		}
+
+		return matchCharacters(img, recognizedLineChars, characterSet, matchingCriteria);
+	}
+
+	private static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
+										  CharacterSet characterSet, List<MatchingCriterion> matchingCriteria) {
 		StringBuilder sb = new StringBuilder();
 		int row = 1;
 		for (List<RecognizedChar> lineChars : recognizedLineChars) {
@@ -289,7 +287,7 @@ public final class ImageOcr {
 				Point2D topLeft = boundingBox.getTopLeft();
 				Image charImage = new WritableImage(img.getPixelReader(), (int) topLeft.getX(), (int) topLeft.getY(),
 						(int) boundingBox.getWidth(), (int) boundingBox.getHeight());
-				Optional<Character> matchedChar = matchCharacter(charImage, characterSet);
+				Optional<Character> matchedChar = matchCharacter(charImage, characterSet, matchingCriteria);
 
 				if (matchedChar.isPresent()) {
 					sb.append(matchedChar.get());
@@ -315,10 +313,11 @@ public final class ImageOcr {
 		}
 	}
 
-	private static Optional<Character> matchCharacter(Image charToMatch, CharacterSet characterSet) {
+	private static Optional<Character> matchCharacter(Image charToMatch, CharacterSet characterSet,
+													  List<MatchingCriterion> matchingCriteria) {
 		return characterSet.getCharacters().stream()
 				.filter((potentialChar) ->
-						MATCHING_CRITERIA.stream()
+						matchingCriteria.stream()
 								.allMatch(
 										(criterion) -> criterion.matches(charToMatch, potentialChar.getSourceImage())
 								)

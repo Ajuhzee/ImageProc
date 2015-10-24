@@ -1,7 +1,7 @@
 package name.ajuhzee.imageproc.processing.ocr.criteria;
 
 import javafx.scene.image.Image;
-import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumber;
+import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumberCriterion;
 import name.ajuhzee.imageproc.util.ImageUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class EulerNumberTest {
+public class EulerNumberCriterionTest {
 
 	@Test
 	public void Matches_ShouldReturnTrue_WhenImagesHaveSameNumberOfHolesAndObjects() throws Exception {
@@ -41,7 +41,7 @@ public class EulerNumberTest {
 
 		@Override
 		protected boolean matchesSafely(Image item, Description mismatchDescription) {
-			boolean matches = new EulerNumber().matches(toTest, item);
+			boolean matches = new EulerNumberCriterion().matches(toTest, item);
 			mismatchDescription.appendText("they did not have the same euler number");
 			return matches;
 		}

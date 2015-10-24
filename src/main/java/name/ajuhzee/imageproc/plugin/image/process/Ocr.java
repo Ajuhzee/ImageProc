@@ -15,6 +15,7 @@ import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
 import name.ajuhzee.imageproc.view.OcrMenuController;
+import name.ajuhzee.imageproc.view.ValidationException;
 
 import java.io.IOException;
 import java.util.List;
@@ -138,9 +139,24 @@ public class Ocr extends ImagePlugin {
 
 	private void assertCharactersMatched() {
 		assertCharactersRecognized();
-		if (!recognizedText.isPresent()) {
+		try {
+			boolean pixelDeviationEnabled = sideMenu.isPixelDeviationEnabled();
+			double pixelDeviationPercent = sideMenu.getPixelDeviationPercent();
+			int pixelDeviationAllowed = sideMenu.getPixelDeviationAllowed();
+			boolean dimensionDeviationEnabled = sideMenu.isDimensionDeviationEnabled();
+			double dimensionDeviationPercent = sideMenu.getDimensionDeviationPercent();
+			int dimensionDeviationAllowed = sideMenu.getDimensionDeviationAllowed();
+			boolean eulerNumberEnabled = sideMenu.isEulerNumberEnabled();
 			recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedLineCharacters.get(),
-					currentCharacterSet));
+					currentCharacterSet, pixelDeviationEnabled,
+					pixelDeviationPercent,
+					pixelDeviationAllowed,
+					dimensionDeviationEnabled,
+					dimensionDeviationPercent,
+					dimensionDeviationAllowed,
+					eulerNumberEnabled));
+		} catch (ValidationException e) {
+
 		}
 	}
 
