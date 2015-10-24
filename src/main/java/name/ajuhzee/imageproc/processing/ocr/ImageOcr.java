@@ -32,6 +32,27 @@ public final class ImageOcr {
 	private ImageOcr() {
 	}
 
+	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.2;
+
+	private static final int CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION = 2;
+
+	private static final double CRITERION_DIMENSION_MAXIMUM_DEVIATION = 0.1;
+
+	private static final int CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION = 2;
+
+	private static final List<MatchingCriterion> MATCHING_CRITERIA;
+
+	static {
+		ArrayList<MatchingCriterion> matchingCriteria = new ArrayList<>();
+		matchingCriteria.add(new DimensionsCriterion(CRITERION_DIMENSION_MAXIMUM_DEVIATION,
+				CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION));
+		matchingCriteria.add(new PixelAmountCriterion(CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION,
+				CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION));
+		matchingCriteria.add(new EulerNumberCriterion());
+
+		MATCHING_CRITERIA = matchingCriteria;
+	}
+
 	/**
 	 * Recognises lines in an image.
 	 *
