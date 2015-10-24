@@ -1,6 +1,7 @@
-package name.ajuhzee.imageproc.processing.ocr.criteria;
+package name.ajuhzee.imageproc.processing.ocr.criteria.pixelamount;
 
 import javafx.scene.image.Image;
+import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
 import name.ajuhzee.imageproc.util.MathUtil;
 import name.ajuhzee.imageproc.util.cache.ImagePropertyCache;
 

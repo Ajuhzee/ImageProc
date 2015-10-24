@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.BoundingBox;
 import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
-import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterion;
+import name.ajuhzee.imageproc.processing.ocr.criteria.pixelamount.PixelAmountCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelDifferenceComparator;
 import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumberCriterion;
 
