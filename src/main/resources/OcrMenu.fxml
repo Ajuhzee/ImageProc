@@ -1,19 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="ocrPane" prefHeight="146.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.OcrMenuController">
+<AnchorPane fx:id="ocrPane" prefHeight="575.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="name.ajuhzee.imageproc.view.OcrMenuController">
   <children>
-    <Button fx:id="selectCharacterSet" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#selectCharacterSetPressed" prefWidth="50.0" text="Schritt 0: (optional) OCR-Schriftart auswählen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    <Button fx:id="recognizeLine" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#recognizeLinePressed" prefWidth="50.0" text="Schritt 1: Zeilen erkennen" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
-    <Button fx:id="adjustLines" alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" onAction="#adjustLinesPressed" text="Schritt 2: Zeilen ausrichten" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-    <Button fx:id="seperateCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#seperateCharactersPressed" text="Schritt 3: Buchstaben separieren" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0" />
-    <Button fx:id="matchCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#matchCharactersPressed" text="Schritt 4: Buchstabenmatching &amp; Ausgabe" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-    <TextArea fx:id="outputTextField" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+      <GridPane prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+          <Button fx:id="selectCharacterSet" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#selectCharacterSetPressed" text="Start" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Button>
+            <Label prefHeight="34.0" text="Schritt 0: (optional) OCR-Schriftart auswählen" wrapText="true" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="10.0" layoutY="10.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+         <children>
+            <Label prefHeight="34.0" text="Schritt 1: Zeilen erkennen" wrapText="true" />
+          <Button fx:id="recognizeLine" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#recognizeLinePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane layoutY="68.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
+         <children>
+            <Label prefHeight="34.0" text="Schritt 2: Zeilen ausrichten" wrapText="true" />
+          <Button fx:id="adjustLines" alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" onAction="#adjustLinesPressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane layoutX="10.0" layoutY="10.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="102.0">
+         <children>
+            <Label prefHeight="34.0" text="Schritt 3: Buchstaben separieren" wrapText="true" />
+          <Button fx:id="seperateCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#seperateCharactersPressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane layoutX="20.0" layoutY="20.0" prefHeight="150.0" style="-fx-border-width: 0 0 1px 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="136.0">
+         <children>
+            <Label prefHeight="34.0" text="Schritt 4: Buchstabenmatching &amp; Ausgabe" wrapText="true" />
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="110.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="50.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <CheckBox fx:id="pixelAmountDeviation" mnemonicParsing="false" selected="true" text="Pixelunterschied" wrapText="true" />
+                  <Label text="Immer erlaubter Pixelunterschied" textAlignment="RIGHT" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="pixelAmountDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="20%" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="pixelAmountDeviationAllowed" alignment="CENTER_RIGHT" maxWidth="50.0" prefWidth="50.0" text="2" GridPane.columnIndex="3">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip>
+                  </TextField>
+                  <CheckBox fx:id="dimensionPixelDeviation" mnemonicParsing="false" selected="true" text="Größenunterschied" textOverrun="CLIP" wrapText="true" GridPane.rowIndex="1" />
+                  <TextField fx:id="dimensionPixelDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="10%" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Immer erlaubter Größenunterschied" textAlignment="RIGHT" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="dimensionPixelDeviationAllowed" alignment="CENTER_RIGHT" maxWidth="50.0" prefWidth="50.0" text="2" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <CheckBox fx:id="eulerNumber" mnemonicParsing="false" selected="true" text="Eulerzahl überprüfen" GridPane.rowIndex="2" />
+                <Button fx:id="matchCharacters" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#matchCharactersPressed" text="Start" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="34.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+    <TextArea fx:id="outputTextField" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="286.0">
          <font>
             <Font name="Consolas" size="14.0" />
          </font></TextArea>

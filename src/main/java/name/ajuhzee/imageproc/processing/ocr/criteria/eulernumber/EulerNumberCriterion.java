@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
 import name.ajuhzee.imageproc.util.cache.ImagePropertyCache;
 
-public class EulerNumber implements MatchingCriterion {
+public class EulerNumberCriterion implements MatchingCriterion {
 
 	@Override
 	public boolean matches(Image characterToMatch, Image potentialCharacter) {
