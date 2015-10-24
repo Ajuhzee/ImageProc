@@ -1,21 +1,19 @@
 package name.ajuhzee.imageproc.util;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FilenameUtils;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 
 public final class ImageUtils {
 
@@ -98,6 +96,20 @@ public final class ImageUtils {
 		for (int x = startX; x < endX; ++x) {
 			for (int y = startY; y < endY; ++y) {
 				action.forPixels(x, y);
+			}
+		}
+	}
+
+	@FunctionalInterface
+	public interface Array2DPointAction {
+
+		void execute(int x, int y);
+	}
+
+	public static <T> void forEach2DArrayElement(T[][] array, Array2DPointAction action) {
+		for (int y = 0; y < array.length; ++y) {
+			for (int x = 0; x < array[0].length; ++x) {
+				action.execute(x, y);
 			}
 		}
 	}

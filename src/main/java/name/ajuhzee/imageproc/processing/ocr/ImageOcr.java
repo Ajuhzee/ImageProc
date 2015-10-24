@@ -10,6 +10,7 @@ import name.ajuhzee.imageproc.processing.ocr.criteria.DimensionsCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelAmountCriterion;
 import name.ajuhzee.imageproc.processing.ocr.criteria.PixelDifferenceComparator;
+import name.ajuhzee.imageproc.processing.ocr.criteria.eulernumber.EulerNumber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,8 @@ public final class ImageOcr {
 				CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION));
 		matchingCriteria.add(new PixelAmountCriterion(CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION,
 				CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION));
+		matchingCriteria.add(new EulerNumber());
+
 		MATCHING_CRITERIA = matchingCriteria;
 	}
 
@@ -274,8 +277,10 @@ public final class ImageOcr {
 	public static String matchCharacters(Image img, List<List<RecognizedChar>> recognizedLineChars,
 										 CharacterSet characterSet) {
 		StringBuilder sb = new StringBuilder();
+		int row = 1;
 		for (List<RecognizedChar> lineChars : recognizedLineChars) {
 			double prevRightX = Double.MAX_VALUE;
+			int charInRow = 1;
 			for (RecognizedChar recognizedChar : lineChars) {
 				addSpaces(sb, prevRightX, recognizedChar, characterSet);
 				prevRightX = recognizedChar.getBoundingBox().getBottomRight().getX();
@@ -291,8 +296,10 @@ public final class ImageOcr {
 				} else {
 					sb.append(CHARACTER_NOT_RECOGNIZED_INDICATOR);
 				}
+				charInRow++;
 			}
 			sb.append('\n');
+			row++;
 		}
 
 		return sb.toString();
