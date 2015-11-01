@@ -3,6 +3,7 @@ package name.ajuhzee.imageproc.view;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -24,18 +25,6 @@ import java.util.Locale;
  * @author Ajuhzee
  */
 public class OcrMenuController implements NodeRepresentation {
-
-	/**
-	 * @return the OcrMenuController
-	 * @throws IOException if an I/O error occurs
-	 */
-	public static OcrMenuController create() throws IOException {
-		final URL fxml = Ocr.class.getClassLoader().getResource("OcrMenu.fxml");
-		final FXMLLoader loader = new FXMLLoader(fxml);
-
-		loader.load();
-		return loader.<OcrMenuController>getController();
-	}
 
 	@FXML
 	private AnchorPane ocrPane;
@@ -59,15 +48,16 @@ public class OcrMenuController implements NodeRepresentation {
 	private TextArea outputTextField;
 
 	@FXML
+	private CheckBox shouldAdjustImage;
+
+	@FXML
+	private Button adjustImage;
+
+	@FXML
 	private CheckBox eulerNumber;
 
 	@FXML
 	private TextField pixelAmountDeviationAllowed;
-
-	@Override
-	public Node toNodeRepresentation() {
-		return ocrPane;
-	}
 
 	private CallbackManager doneButtonCallbacks = new CallbackManager();
 
@@ -82,6 +72,23 @@ public class OcrMenuController implements NodeRepresentation {
 	private CallbackManager matchCharactersCallbacks = new CallbackManager();
 
 	private CallbackManager showOutputCallbacks = new CallbackManager();
+
+	/**
+	 * @return the OcrMenuController
+	 * @throws IOException if an I/O error occurs
+	 */
+	public static OcrMenuController create() throws IOException {
+		final URL fxml = Ocr.class.getClassLoader().getResource("OcrMenu.fxml");
+		final FXMLLoader loader = new FXMLLoader(fxml);
+
+		loader.load();
+		return loader.<OcrMenuController>getController();
+	}
+
+	@Override
+	public Node toNodeRepresentation() {
+		return ocrPane;
+	}
 
 	public void setText(String text) {
 		outputTextField.setText(text);
@@ -163,6 +170,10 @@ public class OcrMenuController implements NodeRepresentation {
 		matchCharactersCallbacks.executeCallbacks();
 	}
 
+	public void shouldAdjustImageClicked() {
+		adjustImage.disableProperty().set(!shouldAdjustImage());
+	}
+
 	public void showOutputPressed() {
 		showOutputCallbacks.executeCallbacks();
 	}
@@ -229,6 +240,10 @@ public class OcrMenuController implements NodeRepresentation {
 		}
 
 		throw new ValidationException("Could not parse the string");
+	}
+
+	public boolean shouldAdjustImage() {
+		return shouldAdjustImage.isSelected();
 	}
 
 }

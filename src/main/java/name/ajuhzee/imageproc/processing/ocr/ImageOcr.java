@@ -31,9 +31,6 @@ public final class ImageOcr {
 
 	private static final int MIN_SPACE_WIDTH = 5;
 
-	private ImageOcr() {
-	}
-
 	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.2;
 
 	private static final int CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION = 2;
@@ -116,7 +113,6 @@ public final class ImageOcr {
 			curRotate += step;
 		}
 	}
-
 
 	/**
 	 * Recognises lines in an image.
@@ -222,7 +218,6 @@ public final class ImageOcr {
 		return Optional.of(new RecognizedChar(new Area(topLeft, bottomRight)));
 	}
 
-
 	private static int findCharEndX(final Image img, final Area searchArea) {
 
 		OptionalInt potentialCharEnd = ImageUtils.getFirstSliceWithoutColor(img, searchArea, Color.BLACK,
@@ -255,7 +250,6 @@ public final class ImageOcr {
 		return potentialCharEnd.orElse(width) - 1;
 	}
 
-
 	/**
 	 * @param img the image
 	 * @param recognizedLineChars each recognized characters
@@ -286,7 +280,6 @@ public final class ImageOcr {
 										  final CharacterSet characterSet,
 										  final List<MatchingCriterion> matchingCriteria) {
 		final StringBuilder sb = new StringBuilder();
-		int row = 1;
 		for (final List<RecognizedChar> lineChars : recognizedLineChars) {
 			double prevRightX = Double.MAX_VALUE;
 			int charInRow = 1;
@@ -309,7 +302,6 @@ public final class ImageOcr {
 				charInRow++;
 			}
 			sb.append('\n');
-			row++;
 		}
 
 		return sb.toString();
@@ -336,6 +328,9 @@ public final class ImageOcr {
 				)
 				.min(new PixelDifferenceComparator(charToMatch))
 				.map(TemplateChar::getRepresentedChar);
+	}
+
+	private ImageOcr() {
 	}
 
 }

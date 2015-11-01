@@ -81,7 +81,7 @@ public class LineOrientationScore {
 		final OptionalDouble average =
 				averages.stream().filter(OptionalDouble::isPresent).mapToDouble(OptionalDouble::getAsDouble).average();
 
-		return average.orElse(Double.POSITIVE_INFINITY);
+		return average.orElse(Double.NEGATIVE_INFINITY);
 	}
 
 	private static int calculateBlankLines(final Image img) {
@@ -89,7 +89,7 @@ public class LineOrientationScore {
 	}
 
 	public double getScore() {
-		return averageGapWidth;
+		return blankLines;
 	}
 
 	@Override

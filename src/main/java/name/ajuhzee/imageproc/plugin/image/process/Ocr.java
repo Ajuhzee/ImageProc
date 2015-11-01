@@ -15,7 +15,6 @@ import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
 import name.ajuhzee.imageproc.view.OcrMenuController;
-import name.ajuhzee.imageproc.view.ValidationException;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,11 +27,11 @@ import java.util.Optional;
  */
 public class Ocr extends ImagePlugin {
 
-	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
-
 	public static final Color START_COLOR = Color.LIMEGREEN;
 
 	public static final Color END_COLOR = Color.ORANGERED;
+
+	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
 
 	private final OcrMenuController sideMenu;
 
@@ -47,6 +46,30 @@ public class Ocr extends ImagePlugin {
 	private boolean imageAdjusted = false;
 
 	private Image srcImage;
+
+	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
+		double stepY;
+		double stepX;
+		double yLength = (double) endY - startY;
+		double xLength = (double) endX - startX;
+		if (xLength < yLength) {
+			stepY = 1;
+			stepX = yLength == 0 ? 0 : (xLength / yLength);
+		} else {
+			stepX = 1;
+			stepY = xLength == 0 ? 0 : (yLength / xLength);
+		}
+
+		double y = startY;
+		double x = startX;
+		do {
+			do {
+				writer.setColor((int) x, (int) y, c);
+				x += stepX;
+			} while (x < endX);
+			y += stepY;
+		} while (y < endY);
+	}
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -77,38 +100,13 @@ public class Ocr extends ImagePlugin {
 		context().getImageControl().showImage(srcImage);
 	}
 
-
 	private void assertImageAdjusted() {
-		if (imageAdjusted) {
-			return;
+		if (!imageAdjusted && sideMenu.shouldAdjustImage()) {
+			reset();
+			srcImage = ImageOcr.adjustImage(srcImage);
+			context().getImageControl().showImage(srcImage);
+			imageAdjusted = true;
 		}
-		srcImage = ImageOcr.adjustImage(srcImage);
-		context().getImageControl().showImage(srcImage);
-		imageAdjusted = true;
-	}
-
-	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
-		double stepY;
-		double stepX;
-		double yLength = (double) endY - startY;
-		double xLength = (double) endX - startX;
-		if (xLength < yLength) {
-			stepY = 1;
-			stepX = yLength == 0 ? 0 : (xLength / yLength);
-		} else {
-			stepX = 1;
-			stepY = xLength == 0 ? 0 : (yLength / xLength);
-		}
-
-		double y = startY;
-		double x = startX;
-		do {
-			do {
-				writer.setColor((int) x, (int) y, c);
-				x += stepX;
-			} while (x < endX);
-			y += stepY;
-		} while (y < endY);
 	}
 
 	private void selectCharacterSet() {
@@ -160,25 +158,21 @@ public class Ocr extends ImagePlugin {
 
 	private void assertCharactersMatched() {
 		assertCharactersRecognized();
-		try {
-			boolean pixelDeviationEnabled = sideMenu.isPixelDeviationEnabled();
-			double pixelDeviationPercent = sideMenu.getPixelDeviationPercent();
-			int pixelDeviationAllowed = sideMenu.getPixelDeviationAllowed();
-			boolean dimensionDeviationEnabled = sideMenu.isDimensionDeviationEnabled();
-			double dimensionDeviationPercent = sideMenu.getDimensionDeviationPercent();
-			int dimensionDeviationAllowed = sideMenu.getDimensionDeviationAllowed();
-			boolean eulerNumberEnabled = sideMenu.isEulerNumberEnabled();
-			recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedLineCharacters.get(),
-					currentCharacterSet, pixelDeviationEnabled,
-					pixelDeviationPercent,
-					pixelDeviationAllowed,
-					dimensionDeviationEnabled,
-					dimensionDeviationPercent,
-					dimensionDeviationAllowed,
-					eulerNumberEnabled));
-		} catch (ValidationException e) {
-
-		}
+		boolean pixelDeviationEnabled = sideMenu.isPixelDeviationEnabled();
+		double pixelDeviationPercent = sideMenu.getPixelDeviationPercent();
+		int pixelDeviationAllowed = sideMenu.getPixelDeviationAllowed();
+		boolean dimensionDeviationEnabled = sideMenu.isDimensionDeviationEnabled();
+		double dimensionDeviationPercent = sideMenu.getDimensionDeviationPercent();
+		int dimensionDeviationAllowed = sideMenu.getDimensionDeviationAllowed();
+		boolean eulerNumberEnabled = sideMenu.isEulerNumberEnabled();
+		recognizedText = Optional.of(ImageOcr.matchCharacters(srcImage, recognizedLineCharacters.get(),
+				currentCharacterSet, pixelDeviationEnabled,
+				pixelDeviationPercent,
+				pixelDeviationAllowed,
+				dimensionDeviationEnabled,
+				dimensionDeviationPercent,
+				dimensionDeviationAllowed,
+				eulerNumberEnabled));
 	}
 
 	/**

@@ -28,12 +28,13 @@
       </GridPane>
       <GridPane layoutX="10.0" layoutY="10.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
          <children>
-            <Label prefHeight="34.0" text="Schritt 1: Bildausrichtung korrigieren" wrapText="true" />
-          <Button fx:id="adjustImage" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#adjustImagePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <Label prefHeight="34.0" text="Schritt 1: Bildausrichtung korrigieren (optional)" wrapText="true" />
+          <Button fx:id="adjustImage" alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" onAction="#adjustImagePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Button>
+            <CheckBox fx:id="shouldAdjustImage" mnemonicParsing="false" onAction="#shouldAdjustImageClicked" GridPane.halignment="RIGHT" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
