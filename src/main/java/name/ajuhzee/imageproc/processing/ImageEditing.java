@@ -4,6 +4,7 @@
 package name.ajuhzee.imageproc.processing;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -12,7 +13,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.filters.FilterChain;
 import name.ajuhzee.imageproc.processing.filters.FilterMask;
+import name.ajuhzee.imageproc.util.MathUtil;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
@@ -278,5 +282,53 @@ public class ImageEditing {
 
 		return neighbors;
 
+	}
+
+
+	public static Image rotate(Image img, double angle, Color toFill) {
+		BufferedImage bufferedImg = SwingFXUtils.fromFXImage(img, null);
+
+		double positiveAngle = angle < 0 ? 360 - Math.abs(angle) : angle;
+		double normalizedAngle = positiveAngle % 360;
+		double radiansAngle = Math.toRadians(normalizedAngle);
+
+		double height1 = Math.abs(Math.sin(radiansAngle) * img.getWidth());
+		double height2 = Math.abs(Math.cos(radiansAngle) * img.getHeight());
+		int newHeight = (int) MathUtil.roundCustom(height1 + height2, 0.01);
+		double width1 = Math.abs(Math.sin(radiansAngle) * img.getHeight());
+		double width2 = Math.abs(Math.cos(radiansAngle) * img.getWidth());
+		int newWidth = (int) MathUtil.roundCustom(width1 + width2, 0.01);
+
+
+		BufferedImage rotatedImg =
+				new BufferedImage(newWidth, newHeight, bufferedImg.getType());
+
+		Graphics2D graphics = (Graphics2D) rotatedImg.getGraphics();
+		graphics.setColor(
+				new java.awt.Color((float) toFill.getRed(), (float) toFill.getGreen(), (float) toFill.getBlue(),
+						(float) toFill.getOpacity()));
+		graphics.fillRect(0, 0, newWidth, newHeight);
+
+
+		double moveX;
+		double moveY;
+		if (normalizedAngle < 90) {
+			moveX = width1;
+			moveY = 0;
+		} else if (normalizedAngle < 180) {
+			moveX = newWidth;
+			moveY = height2;
+		} else if (normalizedAngle < 270) {
+			moveX = width2;
+			moveY = newHeight;
+		} else {
+			moveX = 0;
+			moveY = height1;
+		}
+		graphics.translate(moveX, moveY);
+		graphics.rotate(radiansAngle);
+
+		graphics.drawImage(bufferedImg, 0, 0, bufferedImg.getWidth(), bufferedImg.getHeight(), null);
+		return SwingFXUtils.toFXImage(rotatedImg, null);
 	}
 }

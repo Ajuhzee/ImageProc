@@ -1,18 +1,16 @@
 package name.ajuhzee.imageproc.processing;
 
-import java.awt.image.BufferedImage;
-
+import com.google.common.util.concurrent.AtomicDouble;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
-
-import javax.imageio.ImageIO;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import com.google.common.util.concurrent.AtomicDouble;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class ImageProcessingTest {
 
@@ -26,8 +24,9 @@ public class ImageProcessingTest {
 				.getClassLoader().getResourceAsStream("donny.jpg"));
 		Image fxImage = SwingFXUtils.toFXImage(img, null);
 
-		if (fxImage.isError())
+		if (fxImage.isError()) {
 			throw fxImage.getException();
+		}
 		template = fxImage;
 	}
 
@@ -37,6 +36,7 @@ public class ImageProcessingTest {
 				(int) template.getWidth(), (int) template.getHeight());
 	}
 
+	@Ignore("Only Performance")
 	@Test
 	public void Binarize_Performance() {
 		AtomicDouble threshold = new AtomicDouble(127);

@@ -1,9 +1,5 @@
 package name.ajuhzee.imageproc.plugin.control;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.function.Consumer;
-
 import javafx.application.Platform;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -11,11 +7,14 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import name.ajuhzee.imageproc.view.Popup;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.function.Consumer;
+
 /**
  * Provides some general features for ImageProc.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class GeneralControl {
 
@@ -23,9 +22,8 @@ public class GeneralControl {
 
 	/**
 	 * Provides a class to access general control .
-	 * 
-	 * @param primaryStage
-	 *            the main stage
+	 *
+	 * @param primaryStage the main stage
 	 */
 	public GeneralControl(Stage primaryStage) {
 		mainStage = primaryStage;
@@ -33,9 +31,8 @@ public class GeneralControl {
 
 	/**
 	 * Opens a File Dialog to choose an Image from file.
-	 * 
-	 * @param fileChosen
-	 *            method that gets called with "file" as its parameter
+	 *
+	 * @param fileChosen method that gets called with "file" as its parameter
 	 */
 	public void openImageDialog(Consumer<File> fileChosen) {
 		Platform.runLater(() -> {
@@ -53,9 +50,8 @@ public class GeneralControl {
 
 	/**
 	 * Opens a File Dialog to save an Image to a file.
-	 * 
-	 * @param saveImage
-	 *            method that gets called with "file" as its parameter
+	 *
+	 * @param saveImage method that gets called with "file" as its parameter
 	 */
 	public void saveImageDialog(Consumer<File> saveImage) {
 		Platform.runLater(() -> {
@@ -65,7 +61,7 @@ public class GeneralControl {
 
 	/**
 	 * Opens a File Dialog to choose a directory.
-	 * 
+	 *
 	 * @param callback
 	 */
 	public void specifyDirectoryDialog(Consumer<Path> callback) {
@@ -81,7 +77,7 @@ public class GeneralControl {
 
 	/**
 	 * Opens a popup with specific text.
-	 * 
+	 *
 	 * @param title
 	 * @param text
 	 */

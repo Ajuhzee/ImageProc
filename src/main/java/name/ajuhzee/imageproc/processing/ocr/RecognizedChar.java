@@ -1,31 +1,31 @@
 package name.ajuhzee.imageproc.processing.ocr;
 
-import name.ajuhzee.imageproc.processing.BoundingBox;
+import name.ajuhzee.imageproc.processing.Area;
 
 /**
  * Represents a recognized char with its circumscribing rectangle.
- * 
+ *
  * @author Ajuhzee
  *
  */
 public class RecognizedChar {
 
-	private final BoundingBox boundingBox;
+	private final Area boundingBox;
 
 	/**
 	 * Creates a new recognized character and sets the bounding box it.
-	 * 
+	 *
 	 * @param boundingBox
 	 *            the bounding box
 	 */
-	public RecognizedChar(BoundingBox boundingBox) {
+	public RecognizedChar(Area boundingBox) {
 		this.boundingBox = boundingBox;
 	}
 
 	/**
 	 * @return the bounding box
 	 */
-	public BoundingBox getBoundingBox() {
+	public Area getBoundingBox() {
 		return boundingBox;
 	}
 }

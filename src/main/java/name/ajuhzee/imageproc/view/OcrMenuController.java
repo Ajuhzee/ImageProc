@@ -3,7 +3,6 @@ package name.ajuhzee.imageproc.view;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -39,12 +38,6 @@ public class OcrMenuController implements NodeRepresentation {
 	}
 
 	@FXML
-	private Button selectCharacterSet;
-
-	@FXML
-	private Button adjustLines;
-
-	@FXML
 	private AnchorPane ocrPane;
 
 	@FXML
@@ -57,19 +50,7 @@ public class OcrMenuController implements NodeRepresentation {
 	private CheckBox pixelAmountDeviation;
 
 	@FXML
-	private Button seperateCharacters;
-
-	@FXML
-	private Button recognizeLine;
-
-	@FXML
-	private Button matchCharacters;
-
-	@FXML
 	private TextField pixelAmountDeviationPercent;
-
-	@FXML
-	private Button ocrDoneButton;
 
 	@FXML
 	private TextField dimensionPixelDeviationAllowed;
@@ -94,7 +75,7 @@ public class OcrMenuController implements NodeRepresentation {
 
 	private CallbackManager recognizeLineCallbacks = new CallbackManager();
 
-	private CallbackManager adjustLinesCallbacks = new CallbackManager();
+	private CallbackManager adjustImageCallbacks = new CallbackManager();
 
 	private CallbackManager seperateCharactersCallbacks = new CallbackManager();
 
@@ -130,8 +111,8 @@ public class OcrMenuController implements NodeRepresentation {
 	/**
 	 * @return the object with which to register to get called when the AdjustLines button is pressed
 	 */
-	public Callbacks getAdjustLinesButtonCallbacks() {
-		return adjustLinesCallbacks;
+	public Callbacks getAdjustImageButtonCallbacks() {
+		return adjustImageCallbacks;
 	}
 
 	/**
@@ -170,8 +151,8 @@ public class OcrMenuController implements NodeRepresentation {
 		recognizeLineCallbacks.executeCallbacks();
 	}
 
-	public void adjustLinesPressed() {
-		adjustLinesCallbacks.executeCallbacks();
+	public void adjustImagePressed() {
+		adjustImageCallbacks.executeCallbacks();
 	}
 
 	public void seperateCharactersPressed() {

@@ -28,8 +28,8 @@
       </GridPane>
       <GridPane layoutX="10.0" layoutY="10.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
          <children>
-            <Label prefHeight="34.0" text="Schritt 1: Zeilen erkennen" wrapText="true" />
-          <Button fx:id="recognizeLine" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#recognizeLinePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <Label prefHeight="34.0" text="Schritt 1: Bildausrichtung korrigieren" wrapText="true" />
+          <Button fx:id="adjustImage" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#adjustImagePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
@@ -45,8 +45,8 @@
       </GridPane>
       <GridPane layoutY="68.0" prefHeight="34.0" style="-fx-border-width: 0 0 1px 0; -fx-border-color: #000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
          <children>
-            <Label prefHeight="34.0" text="Schritt 2: Zeilen ausrichten" wrapText="true" />
-          <Button fx:id="adjustLines" alignment="BASELINE_LEFT" disable="true" mnemonicParsing="false" onAction="#adjustLinesPressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <Label prefHeight="34.0" text="Schritt 2: Zeilen erkennen" wrapText="true" />
+          <Button fx:id="recognizeLine" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#recognizeLinePressed" text="Start" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>

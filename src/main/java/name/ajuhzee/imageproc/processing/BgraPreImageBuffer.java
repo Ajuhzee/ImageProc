@@ -8,7 +8,7 @@ import javafx.scene.image.WritableImage;
 
 /**
  * Represents an image buffer with the BGRA-premultiplied format.
- * 
+ *
  * @see PixelFormat.Type#BYTE_BGRA_PRE
  * @see PixelFormat#getByteBgraPreInstance()
  */
@@ -16,14 +16,14 @@ public class BgraPreImageBuffer {
 
 	/**
 	 * Creates an image from the values of this buffer.
-	 * 
+	 *
 	 * @param buffer
 	 *            the source buffer
 	 * @param width
 	 *            the width of the buffer
 	 * @param height
 	 *            the height of the buffer
-	 * 
+	 *
 	 * @return the new image
 	 */
 	public static WritableImage createBgraPreImage(BgraPreImageBuffer buffer, int width, int height) {
@@ -36,7 +36,7 @@ public class BgraPreImageBuffer {
 
 	/**
 	 * Gets the BGRA-premultiplied buffer out of the image.
-	 * 
+	 *
 	 * @param img
 	 * @return the BGRA premultiplied buffer
 	 */
@@ -140,7 +140,7 @@ public class BgraPreImageBuffer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param startPixelIdx
 	 *            inclusive
 	 * @param endPixelIdx
@@ -170,7 +170,6 @@ public class BgraPreImageBuffer {
 	 */
 	public void setAlpha(int idx, int value) {
 		buffer[idx * BYTES_PER_PIXEL + 3] = (byte) value;
-
 	}
 
 }

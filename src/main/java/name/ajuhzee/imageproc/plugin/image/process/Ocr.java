@@ -9,7 +9,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-import name.ajuhzee.imageproc.processing.BoundingBox;
+import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.ocr.CharacterSet;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
@@ -44,6 +44,8 @@ public class Ocr extends ImagePlugin {
 
 	private CharacterSet currentCharacterSet = CharacterSet.BASE_CHARACTER_SET;
 
+	private boolean imageAdjusted = false;
+
 	private Image srcImage;
 
 	/**
@@ -62,11 +64,27 @@ public class Ocr extends ImagePlugin {
 		}
 
 		sideMenu.getDoneButtonCallbacks().addCallback(this::clearSideMenu);
+		sideMenu.getDoneButtonCallbacks().addCallback(this::restoreSrcImage);
 		sideMenu.getDoneButtonCallbacks().addCallback(this::enablePlugins);
+		sideMenu.getAdjustImageButtonCallbacks().addCallback(this::assertImageAdjusted);
 		sideMenu.getRecognizeLineButtonCallbacks().addCallback(this::recognizeLines);
 		sideMenu.getSeperateCharactersButtonCallbacks().addCallback(this::seperateCharacters);
 		sideMenu.getMatchCharactersButtonCallbacks().addCallback(this::matchCharacters);
 		sideMenu.getSelectCharacterSetButtonCallbacks().addCallback(this::selectCharacterSet);
+	}
+
+	private void restoreSrcImage() {
+		context().getImageControl().showImage(srcImage);
+	}
+
+
+	private void assertImageAdjusted() {
+		if (imageAdjusted) {
+			return;
+		}
+		srcImage = ImageOcr.adjustImage(srcImage);
+		context().getImageControl().showImage(srcImage);
+		imageAdjusted = true;
 	}
 
 	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
@@ -106,12 +124,15 @@ public class Ocr extends ImagePlugin {
 	}
 
 	private void assertLinesRecognized() {
+		assertImageAdjusted();
+
 		if (!recognizedLines.isPresent()) {
 			recognizedLines = Optional.of(ImageOcr.recognizeLines(srcImage));
 		}
 	}
 
-	private void reset(@SuppressWarnings("unused") Image img) {
+	private void reset() {
+		imageAdjusted = false;
 		recognizedLineCharacters = Optional.empty();
 		recognizedLines = Optional.empty();
 		recognizedText = Optional.empty();
@@ -175,7 +196,7 @@ public class Ocr extends ImagePlugin {
 
 		for (List<RecognizedChar> lineChars : recognizedLineCharacters.get()) {
 			for (RecognizedChar recChar : lineChars) {
-				BoundingBox boundingBox = recChar.getBoundingBox();
+				Area boundingBox = recChar.getBoundingBox();
 				int topY = (int) boundingBox.getTopLeft().getY();
 				int bottomY = (int) boundingBox.getBottomLeft().getY();
 				int leftX = (int) boundingBox.getTopLeft().getX();
@@ -217,10 +238,8 @@ public class Ocr extends ImagePlugin {
 
 	@Override
 	public void started() {
-		context().getImageControl().addImageChangedCallback(this::reset);
+		reset();
 		srcImage = context().getImageControl().getImage();
 		context().getSideMenuControl().setContent(sideMenu.toNodeRepresentation());
-		context().getImageControl().showImage(srcImage);
-
 	}
 }

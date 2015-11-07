@@ -1,14 +1,14 @@
 package name.ajuhzee.imageproc.view;
 
-import java.io.IOException;
-
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
+
 /**
  * Consolidates the main elements of the program to a Rootlayout.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -16,7 +16,7 @@ public class RootLayout implements NodeRepresentation {
 
 	/**
 	 * Creates the Rootlayout.
-	 * 
+	 *
 	 * @param mainMenu
 	 *            the main menu view
 	 * @param sideMenu

@@ -8,7 +8,7 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-import name.ajuhzee.imageproc.processing.BoundingBox;
+import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.OcrResources;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
@@ -67,7 +67,7 @@ public class CharacterSet extends ImagePlugin {
 
 			int cur = 0;
 			for (RecognizedChar recChar : recognizedChars) {
-				BoundingBox boundingBox = recChar.getBoundingBox();
+				Area boundingBox = recChar.getBoundingBox();
 				int topY = (int) boundingBox.getTopLeft().getY();
 				int leftX = (int) boundingBox.getTopLeft().getX();
 

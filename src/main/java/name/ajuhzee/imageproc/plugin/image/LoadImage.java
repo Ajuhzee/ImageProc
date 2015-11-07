@@ -1,7 +1,4 @@
-package name.ajuhzee.imageproc.plugin.core;
-
-import java.io.File;
-import java.util.Optional;
+package name.ajuhzee.imageproc.plugin.image;
 
 import javafx.application.Platform;
 import javafx.scene.image.Image;
@@ -12,19 +9,21 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.preferences.SettingsManager;
 import name.ajuhzee.imageproc.util.ImageUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.Optional;
 
 /**
  * Adds an image plugin, which loads an image.
  *
  * @author Ajuhzee
- *
  */
 public class LoadImage extends ImagePlugin {
 
 	private static final Logger logger = LogManager.getLogger();
+
 	private static final PluginInformation INFO = new PluginInformation("Bild laden", false);
 
 	/**
