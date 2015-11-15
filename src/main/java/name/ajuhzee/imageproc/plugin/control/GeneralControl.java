@@ -9,7 +9,11 @@ import name.ajuhzee.imageproc.view.Popup;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Provides some general features for ImageProc.
@@ -20,12 +24,22 @@ public class GeneralControl {
 
 	private final Stage mainStage;
 
+	private static FileChooser createImageFileChooser(final List<String> fileTypes) {
+		List<String> wildcardFileTypes = fileTypes.stream().map((type) -> "*." + type).collect(Collectors.toList());
+		final ExtensionFilter supportedImages =
+				new ExtensionFilter("Images", wildcardFileTypes.toArray(new String[wildcardFileTypes.size()]));
+
+		final FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(supportedImages);
+		return fc;
+	}
+
 	/**
 	 * Provides a class to access general control .
 	 *
 	 * @param primaryStage the main stage
 	 */
-	public GeneralControl(Stage primaryStage) {
+	public GeneralControl(final Stage primaryStage) {
 		mainStage = primaryStage;
 	}
 
@@ -34,18 +48,14 @@ public class GeneralControl {
 	 *
 	 * @param fileChosen method that gets called with "file" as its parameter
 	 */
-	public void openImageDialog(Consumer<File> fileChosen) {
+	public void openImageDialog(final Consumer<File> fileChosen) {
 		Platform.runLater(() -> {
-			fileChosen.accept(createImageFileChooser().showOpenDialog(mainStage));
+			final File chosenFile =
+					createImageFileChooser(Arrays.asList("png", "jpg", "bmp")).showOpenDialog(mainStage);
+			if (chosenFile != null) {
+				fileChosen.accept(chosenFile);
+			}
 		});
-	}
-
-	private static FileChooser createImageFileChooser() {
-		ExtensionFilter supportedImages = new ExtensionFilter("Images", "*.jpg", "*.png", "*.bmp");
-
-		final FileChooser fc = new FileChooser();
-		fc.getExtensionFilters().add(supportedImages);
-		return fc;
 	}
 
 	/**
@@ -53,9 +63,9 @@ public class GeneralControl {
 	 *
 	 * @param saveImage method that gets called with "file" as its parameter
 	 */
-	public void saveImageDialog(Consumer<File> saveImage) {
+	public void saveImageDialog(final Consumer<File> saveImage) {
 		Platform.runLater(() -> {
-			saveImage.accept(createImageFileChooser().showSaveDialog(mainStage));
+			saveImage.accept(createImageFileChooser(Collections.singletonList("png")).showSaveDialog(mainStage));
 		});
 	}
 
@@ -64,10 +74,10 @@ public class GeneralControl {
 	 *
 	 * @param callback
 	 */
-	public void specifyDirectoryDialog(Consumer<Path> callback) {
-		DirectoryChooser chooser = new DirectoryChooser();
+	public void specifyDirectoryDialog(final Consumer<Path> callback) {
+		final DirectoryChooser chooser = new DirectoryChooser();
 		Platform.runLater(() -> {
-			File file = chooser.showDialog(mainStage);
+			final File file = chooser.showDialog(mainStage);
 			if (file == null) {
 				return;
 			}
@@ -82,7 +92,7 @@ public class GeneralControl {
 	 * @param text
 	 */
 	@SuppressWarnings("static-method")
-	public void showPopup(String title, String text) {
+	public void showPopup(final String title, final String text) {
 		Popup.show(title, text);
 	}
 
