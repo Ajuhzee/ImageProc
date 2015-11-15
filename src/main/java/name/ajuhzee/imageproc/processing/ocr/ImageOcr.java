@@ -55,9 +55,9 @@ public final class ImageOcr {
 	public static Image adjustImage(final Image img) {
 		final Map<Double, LineOrientationScore> scoreForAngle = new TreeMap<>();
 
-		int curStep = 14;
+		int curStep = 2;
 		Entry<Double, LineOrientationScore> bestEntry = null;
-		while ((bestEntry == null || bestEntry.getValue().getScore() < 0) && curStep > 1) {
+		while ((bestEntry == null || bestEntry.getValue().getScore() < getMinBlank(img)) && curStep > 1) {
 			curStep *= 0.75;
 			collectScoreForAngles(img, scoreForAngle, -90, 89, curStep);
 			bestEntry = getEntryWithMaxScore(scoreForAngle);
@@ -65,12 +65,13 @@ public final class ImageOcr {
 
 		assert bestEntry != null;
 		final double inaccurateBestAngle = bestEntry.getKey();
-		collectScoreForAngles(img, scoreForAngle, inaccurateBestAngle - curStep, inaccurateBestAngle + curStep, 0.25);
+		collectScoreForAngles(img, scoreForAngle, inaccurateBestAngle - curStep, inaccurateBestAngle + curStep,
+				.0625);
 		final double bestAngle = getEntryWithMaxScore(scoreForAngle).getKey();
 
 
 		Image result = img;
-		if (DoubleMath.fuzzyEquals(0.0, bestAngle, 0.01)) {
+		if (!DoubleMath.fuzzyEquals(0.0, bestAngle, 0.01)) {
 			result = ImageEditing.rotate(img, bestAngle, Color.WHITE);
 		}
 		return ImageUtils.cropToContent(result, Color.BLACK);
