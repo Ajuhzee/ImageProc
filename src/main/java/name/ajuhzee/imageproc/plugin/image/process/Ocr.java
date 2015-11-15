@@ -233,6 +233,7 @@ public class Ocr extends ImagePlugin {
 	@Override
 	public void started() {
 		reset();
+		context().getMenuControl().disablePlugins();
 		srcImage = context().getImageControl().getImage();
 		context().getSideMenuControl().setContent(sideMenu.toNodeRepresentation());
 	}
