@@ -21,7 +21,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>fully.qualified.MainClass</mainClass>
+							<mainClass>name.ajuhzee.imageproc.ImageProc</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
