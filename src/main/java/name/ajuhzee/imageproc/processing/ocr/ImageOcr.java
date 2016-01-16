@@ -31,27 +31,6 @@ public final class ImageOcr {
 
 	private static final int MIN_SPACE_WIDTH = 5;
 
-	private static final double CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION = 0.2;
-
-	private static final int CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION = 2;
-
-	private static final double CRITERION_DIMENSION_MAXIMUM_DEVIATION = 0.1;
-
-	private static final int CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION = 2;
-
-	private static final List<MatchingCriterion> MATCHING_CRITERIA;
-
-	static {
-		final List<MatchingCriterion> matchingCriteria = new ArrayList<>();
-		matchingCriteria.add(new DimensionsCriterion(CRITERION_DIMENSION_MAXIMUM_DEVIATION,
-				CRITERION_DIMENSION_ALLOWED_PIXEL_DEVIATION));
-		matchingCriteria.add(new PixelAmountCriterion(CRITERION_PIXEL_AMOUNT_MAXIMUM_DEVIATION,
-				CRITERION_PIXEL_AMOUNT_ALLOWED_PIXEL_DEVIATION));
-		matchingCriteria.add(new EulerNumberCriterion());
-
-		MATCHING_CRITERIA = matchingCriteria;
-	}
-
 	public static Image adjustImage(final Image img) {
 		final Map<Double, LineOrientationScore> scoreForAngle = new TreeMap<>();
 
