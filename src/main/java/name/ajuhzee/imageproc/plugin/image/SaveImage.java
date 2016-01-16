@@ -1,7 +1,5 @@
 package name.ajuhzee.imageproc.plugin.image;
 
-import java.io.File;
-
 import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
@@ -9,13 +7,14 @@ import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.util.ImageUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 /**
  * Adds an image plugin, which saves an image.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -26,7 +25,7 @@ public class SaveImage extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
