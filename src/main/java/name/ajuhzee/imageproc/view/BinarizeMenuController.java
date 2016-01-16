@@ -1,22 +1,20 @@
 package name.ajuhzee.imageproc.view;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import name.ajuhzee.imageproc.plugin.image.process.Binarize;
+import name.ajuhzee.imageproc.util.CallbackManager;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * Provides features specifically for the binarize plugin.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -38,8 +36,8 @@ public class BinarizeMenuController implements NodeRepresentation {
 	@FXML
 	private Slider binarizeThresholdSlider;
 
-	@FXML
-	private Button binarizeOkButton;
+	private CallbackManager okButtonCallbacks = new CallbackManager();
+	private CallbackManager cancelButtonCallbacks = new CallbackManager();
 
 	/**
 	 * @return the slider value
@@ -56,24 +54,36 @@ public class BinarizeMenuController implements NodeRepresentation {
 		return binarizePane;
 	}
 
-	private final List<Runnable> runnables = new ArrayList<>();
-
 	/**
-	 * Registers if the ok button was pressed and adds a runnable to a list.
-	 * 
+	 * Adds a runnable to the list of functions to be executed when the OK-button is pressed
+	 *
 	 * @param runnable
 	 */
 	public void addOkButtonPressedCallback(Runnable runnable) {
-		runnables.add(runnable);
+		okButtonCallbacks.addCallback(runnable);
 	}
 
 	/**
-	 * Clears the content of the binarizePane.
+	 * Adds a runnable to the list of functions to be executed when the Cancel-button is pressed
+	 *
+	 * @param runnable
+	 */
+	public void addCancelButtonPressedCallback(Runnable runnable) {
+		cancelButtonCallbacks.addCallback(runnable);
+	}
+
+	/**
+	 * Calls the functions listening for an OK-button press
 	 */
 	public void okButtonPressed() {
-		for (Runnable elem : runnables) {
-			elem.run();
-		}
+		okButtonCallbacks.executeCallbacks();
+	}
+
+	/**
+	 * Calls the functions listening for an Cancel-button press
+	 */
+	public void cancelButtonPressed() {
+		cancelButtonCallbacks.executeCallbacks();
 	}
 
 }

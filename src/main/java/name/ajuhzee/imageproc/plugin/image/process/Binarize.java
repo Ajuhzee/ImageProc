@@ -1,7 +1,6 @@
 package name.ajuhzee.imageproc.plugin.image.process;
 
-import java.io.IOException;
-
+import com.google.common.util.concurrent.AtomicDouble;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
@@ -12,7 +11,7 @@ import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageEditing;
 import name.ajuhzee.imageproc.view.BinarizeMenuController;
 
-import com.google.common.util.concurrent.AtomicDouble;
+import java.io.IOException;
 
 /**
  * Adds an image plugin, that provides a method to invert an image for image processing purposes.
@@ -56,6 +55,9 @@ public class Binarize extends ImagePlugin {
 		}
 		sideMenu.addOkButtonPressedCallback(this::clearSideMenu);
 		sideMenu.addOkButtonPressedCallback(this::enablePlugins);
+		sideMenu.addCancelButtonPressedCallback(() -> context.getImageControl().showImage(oldImage));
+		sideMenu.addCancelButtonPressedCallback(this::enablePlugins);
+		sideMenu.addCancelButtonPressedCallback(this::clearSideMenu);
 	}
 
 	private void binarize(AtomicDouble threshold) {
