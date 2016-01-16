@@ -236,7 +236,7 @@ public final class ImageOcr {
 			}
 
 			final int spaceWidth = nextCharStart.getAsInt() - potentialCharEnd.getAsInt();
-			if (spaceWidth > MIN_SPACE_WIDTH) {
+			if (spaceWidth >= MIN_SPACE_WIDTH) {
 				break;
 			}
 
