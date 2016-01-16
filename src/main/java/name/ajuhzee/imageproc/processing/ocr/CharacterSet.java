@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * The character set that is needed to match characters, when using the ocr feature.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -28,7 +28,7 @@ public class CharacterSet {
 
 	/**
 	 * Creates the character set.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the character set
 	 * @param characters
@@ -54,7 +54,7 @@ public class CharacterSet {
 
 	/**
 	 * Loads a character set from a directory.
-	 * 
+	 *
 	 * @param characterSetLocation
 	 *            the location path
 	 * @return the character set
@@ -85,10 +85,16 @@ public class CharacterSet {
 		return templateChars;
 	}
 
+	private static final String CHARS_TO_USE_FOR_SPACE_WIDTH_CALCULATION = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private static int calculateSpaceWidth(List<TemplateChar> characters) {
-		return characters.stream().collect(Collectors.averagingDouble((character) -> {
-			return character.getSourceImage().getWidth();
-		})).intValue();
+		return characters.stream().filter(
+			(templateChar)-> {
+				char representedChar = templateChar.getRepresentedChar();
+				return CHARS_TO_USE_FOR_SPACE_WIDTH_CALCULATION.contains(String.valueOf(representedChar));
+			}
+		).collect(
+			Collectors.averagingDouble((character) -> character.getSourceImage().getWidth())
+		).intValue();
 	}
 
 	/**
