@@ -54,6 +54,12 @@ public class Rotate extends ImagePlugin {
 		}
 		sideMenu.addOkButtonPressedCallback(this::clearSideMenu);
 		sideMenu.addOkButtonPressedCallback(this::enablePlugins);
+
+		sideMenu.addCancelButtonPressedCallback(this::clearSideMenu);
+		sideMenu.addCancelButtonPressedCallback(this::enablePlugins);
+		sideMenu.addCancelButtonPressedCallback(() -> {
+			context.getImageControl().showImage(oldImage);
+		});
 	}
 
 	private void rotate(AtomicDouble angle) {
