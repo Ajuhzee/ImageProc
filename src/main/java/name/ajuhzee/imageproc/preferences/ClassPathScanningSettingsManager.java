@@ -33,7 +33,8 @@ public class ClassPathScanningSettingsManager implements SettingsManager {
 					.getTopLevelClassesRecursive(packageName);
 			return corePlugins.stream().filter((info) -> {
 				Class<?> potentialCorePlugin = info.load();
-				return potentialCorePlugin.getSuperclass().equals(pluginType);
+
+				return pluginType.isAssignableFrom(potentialCorePlugin);
 			}).map((info) -> {
 				return (Class<? extends T>) info.load();
 			}).collect(Collectors.toSet());
