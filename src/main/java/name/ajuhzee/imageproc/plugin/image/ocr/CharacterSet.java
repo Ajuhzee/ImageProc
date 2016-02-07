@@ -40,8 +40,7 @@ public class CharacterSet extends ImagePlugin {
 	 */
 	public CharacterSet(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("characterSet", INFO).get(), INFO,
-				context);
+		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("characterSet", INFO).get(), 				context);
 	}
 
 	@Override

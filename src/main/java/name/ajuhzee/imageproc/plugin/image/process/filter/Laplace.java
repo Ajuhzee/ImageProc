@@ -11,9 +11,8 @@ import name.ajuhzee.imageproc.processing.filters.FilterType;
 
 /**
  * Adds an image plugin, that provides a 3x3 laplace filter for image processing purposes.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class Laplace extends ImagePlugin {
 
@@ -23,14 +22,14 @@ public class Laplace extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
 	public Laplace(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
 		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("filter", "Filter")
-				.subMenu("laplace3x3", INFO).get(), INFO, context);
+				.subMenu("laplace3x3", INFO).get(), context);
 	}
 
 	private void applyFilter() {

@@ -34,7 +34,7 @@ public class LoadImage extends ImagePlugin {
 	 */
 	public LoadImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("load", INFO).get(), context);
 		SettingsManager settings = context.getSettings();
 		Optional<String> imagePath = settings.getValue("imageproc.loadimage.startimage");
 

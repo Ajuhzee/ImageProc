@@ -10,7 +10,7 @@ import name.ajuhzee.imageproc.processing.ImageEditing;
 
 /**
  * Adds an image plugin, that provides a method to invert an image for image processing purposes.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -22,13 +22,13 @@ public class Invert extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
 	public Invert(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("invert", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("invert", INFO).get(), context);
 		// TODO Auto-generated constructor stub
 	}
 

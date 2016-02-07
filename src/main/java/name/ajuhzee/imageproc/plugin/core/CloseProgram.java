@@ -9,9 +9,8 @@ import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
 
 /**
  * Adds a core plugin, which closes the program.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class CloseProgram extends CorePlugin {
 
@@ -19,13 +18,13 @@ public class CloseProgram extends CorePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
 	public CloseProgram(CorePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("close", INFO, 100).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("close", INFO, 100).get(), context);
 	}
 
 	@Override

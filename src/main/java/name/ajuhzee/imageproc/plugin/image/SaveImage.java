@@ -31,7 +31,7 @@ public class SaveImage extends ImagePlugin {
 	 */
 	public SaveImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("save", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("file", "Datei", 0).subMenu("save", INFO).get(), context);
 	}
 
 	private void saveImage(File file) {

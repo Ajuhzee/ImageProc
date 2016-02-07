@@ -6,7 +6,6 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
  * Base class for plugins which work with the image.
  *
  * @author Ajuhzee
- *
  */
 public abstract class ImagePlugin extends PluginBase {
 
@@ -15,18 +14,13 @@ public abstract class ImagePlugin extends PluginBase {
 	/**
 	 * Creates an instance of an image plugin.
 	 *
-	 * @param menuPosition
-	 *            the menu position of the plugin
-	 * @param pInfo
-	 *            plugin information of the plugin
-	 * @param context
-	 *            the context of the plugin
-	 * @throws PluginLoadException
-	 *             if context == null
+	 * @param menuPosition the menu position of the plugin
+	 * @param context the context of the plugin
+	 * @throws PluginLoadException if context == null
 	 */
-	public ImagePlugin(MenuPosition menuPosition, PluginInformation pInfo, ImagePluginContext context)
+	public ImagePlugin(MenuPosition menuPosition, ImagePluginContext context)
 			throws PluginLoadException {
-		super(menuPosition, pInfo);
+		super(menuPosition);
 		if (context == null) {
 			throw new PluginLoadException("Plugin context not correctly loaded!");
 		}
@@ -34,7 +28,6 @@ public abstract class ImagePlugin extends PluginBase {
 	}
 
 	/**
-	 *
 	 * @return access to the image context
 	 */
 	public ImagePluginContext context() {

@@ -46,7 +46,7 @@ public class Rotate extends ImagePlugin {
 	 */
 	public Rotate(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("rotate", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("rotate", INFO).get(), context);
 		try {
 			sideMenu = RotateMenuController.create();
 		} catch (final IOException e) {

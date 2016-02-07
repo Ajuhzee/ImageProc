@@ -79,7 +79,7 @@ public class Ocr extends ImagePlugin {
 	 */
 	public Ocr(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("ocr", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("ocr", INFO).get(), context);
 		try {
 			sideMenu = OcrMenuController.create();
 		} catch (final IOException e) {

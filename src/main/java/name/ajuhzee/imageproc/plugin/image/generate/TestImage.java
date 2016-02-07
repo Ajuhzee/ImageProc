@@ -10,7 +10,7 @@ import name.ajuhzee.imageproc.plugin.PluginInformation;
 
 /**
  * Adds an image plugin, which generates a Testimage.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -20,14 +20,13 @@ public class TestImage extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
 	public TestImage(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("generate", "Generieren", 100).subMenu("testImage", INFO).get(), INFO,
-				context);
+		super(MenuPositionBuilder.topMenu("generate", "Generieren", 100).subMenu("testImage", INFO).get(), 				context);
 	}
 
 	private void testImage() {

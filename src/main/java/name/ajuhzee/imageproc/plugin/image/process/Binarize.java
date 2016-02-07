@@ -47,7 +47,7 @@ public class Binarize extends ImagePlugin {
 	 */
 	public Binarize(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("binarize", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("binarize", INFO).get(), context);
 		try {
 			sideMenu = BinarizeMenuController.create();
 		} catch (final IOException e) {

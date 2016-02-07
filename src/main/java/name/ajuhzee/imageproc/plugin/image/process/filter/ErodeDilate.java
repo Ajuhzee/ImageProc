@@ -28,7 +28,7 @@ public class ErodeDilate extends ImagePlugin {
 	 */
 	public ErodeDilate(ImagePluginContext context) throws PluginLoadException {
 		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("filter", "Filter")
-				.subMenu("erodeDilate", PLUGIN_INFO).get(), PLUGIN_INFO, context);
+				.subMenu("erodeDilate", PLUGIN_INFO).get(), context);
 
 		try {
 			sideMenu = ErodeDilateMenuController.create();

@@ -11,9 +11,8 @@ import name.ajuhzee.imageproc.processing.filters.FilterType;
 
 /**
  * Adds an image plugin, that provides a threaded 3x3 mean filter for image processing purposes.
- * 
- * @author Ajuhzee
  *
+ * @author Ajuhzee
  */
 public class Mean3x3Threaded extends ImagePlugin {
 
@@ -23,14 +22,14 @@ public class Mean3x3Threaded extends ImagePlugin {
 
 	/**
 	 * Positions a Menu-button for the plugin.
-	 * 
+	 *
 	 * @param context
 	 * @throws PluginLoadException
 	 */
 	public Mean3x3Threaded(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
 		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("filter", "Filter")
-				.subMenu("mean3x3Threaded", INFO).get(), INFO, context);
+				.subMenu("mean3x3Threaded", INFO).get(), context);
 	}
 
 	private void applyFilter() {
