@@ -1,7 +1,6 @@
 package name.ajuhzee.imageproc.plugin;
 
 import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
 
 /**
  * Base class for plugins which use core functionalities of the program.

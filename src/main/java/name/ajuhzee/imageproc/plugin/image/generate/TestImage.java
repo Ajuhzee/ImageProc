@@ -6,7 +6,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 
 /**
  * Adds an image plugin, which generates a Testimage.

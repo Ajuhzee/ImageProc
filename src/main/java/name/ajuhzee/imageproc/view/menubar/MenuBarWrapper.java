@@ -11,7 +11,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import name.ajuhzee.imageproc.plugin.MenuPosition;
 import name.ajuhzee.imageproc.plugin.control.MenuControl;
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 
 /**
  * "Wraps" the functionality of the {@link MenuBar}, to make it possible to control it easier.

@@ -3,6 +3,7 @@ package name.ajuhzee.imageproc.plugin.core;
 import javafx.application.Platform;
 import name.ajuhzee.imageproc.plugin.CorePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.CorePluginContext;
 

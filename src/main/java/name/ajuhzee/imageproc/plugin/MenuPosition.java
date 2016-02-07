@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-
 import com.google.common.collect.ComparisonChain;
 
 /**

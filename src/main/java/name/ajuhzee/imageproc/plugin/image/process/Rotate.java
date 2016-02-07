@@ -7,7 +7,7 @@ import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.processing.ImageEditing;
 import name.ajuhzee.imageproc.view.RotateMenuController;
 

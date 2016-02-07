@@ -1,7 +1,7 @@
 /**
  *
  */
-package name.ajuhzee.imageproc.plugin.core;
+package name.ajuhzee.imageproc.plugin;
 
 /**
  *

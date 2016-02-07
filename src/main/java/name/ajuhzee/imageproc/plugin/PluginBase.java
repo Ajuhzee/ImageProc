@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Objects;
 
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-
 /**
  * Provides basic functionalities for plugins.
  * 

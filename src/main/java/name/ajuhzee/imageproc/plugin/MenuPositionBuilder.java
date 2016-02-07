@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Optional;
 
-import name.ajuhzee.imageproc.plugin.core.PluginInformation;
-
 /**
  * Builds a menu position.
  * 
