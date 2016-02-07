@@ -3,11 +3,11 @@ package name.ajuhzee.imageproc.plugin.image.process.filter;
 import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.plugin.PluginInformation;
-import name.ajuhzee.imageproc.processing.ImageEditing;
-import name.ajuhzee.imageproc.processing.filters.FilterType;
+import name.ajuhzee.imageproc.processing.filters.Filtering;
+import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterType;
 
 /**
  * Adds an image plugin, that provides a 3x3 laplace filter for image processing purposes.
@@ -33,7 +33,7 @@ public class Laplace extends ImagePlugin {
 	}
 
 	private void applyFilter() {
-		final Image newImage = ImageEditing.filter(oldImage, FilterType.LAPLACE_3X3.getFilterChain());
+		final Image newImage = Filtering.filterLinear(oldImage, LinearFilterType.LAPLACE_3X3.getFilterChain());
 		context().getImageControl().showImage(newImage);
 	}
 

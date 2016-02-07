@@ -1,16 +1,16 @@
-package name.ajuhzee.imageproc.processing.filters;
+package name.ajuhzee.imageproc.processing.filters.linear;
 
 /**
  * A filter mask that is applied when filtering an image.
- * 
+ *
  * @author Ajuhzee
  *
  */
-public class FilterMask {
+public class LinearFilterMask {
 
 	/**
 	 * Defines the directions of the filter mask.
-	 * 
+	 *
 	 * @author Ajuhzee
 	 *
 	 */
@@ -29,22 +29,22 @@ public class FilterMask {
 
 	/**
 	 * Creates the filter mask.
-	 * 
+	 *
 	 * @param filterMask
 	 *            the filter mask to be created
 	 */
-	public FilterMask(double[][] filterMask) {
+	public LinearFilterMask(double[][] filterMask) {
 		this.filterMask = filterMask;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filterMask
 	 *            the filter mask with its containing multipliers
 	 * @param d
 	 *            the direction of the filter mask
 	 */
-	public FilterMask(double[] filterMask, Direction d) {
+	public LinearFilterMask(double[] filterMask, Direction d) {
 		int x;
 		int y;
 		if (d == Direction.HORIZONTAL) {
