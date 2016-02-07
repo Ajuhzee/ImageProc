@@ -112,4 +112,58 @@ public class Filtering {
 		return GlobalThreadPool.FORK_JOIN_POOL.invoke(new LinearFilterAction(toFilter, linearFilterChain));
 	}
 
+	/**
+	 * Applies the given morphological filter to the given image.
+	 *
+	 * @param toFilter
+	 * @param filter
+	 * @return the filtered image
+	 */
+	public static Image filterMorph(Image toFilter, MorphologicalFilter filter) {
+		return applyMorphFilter(toFilter, filter, 0, (int) toFilter.getWidth(), 0, (int) toFilter.getHeight());
+	}
+
+	private static Image applyMorphFilter(Image toFilter, MorphologicalFilter filter, int startX, int endX, int startY,
+										  int endY) {
+
+		WritableImage newImage = new WritableImage((int) toFilter.getWidth(), (int) toFilter.getHeight());
+		PixelWriter pixelWriter = newImage.getPixelWriter();
+
+		for (int y = startY; y != endY; ++y) {
+			for (int x = startX; x != endX; ++x) {
+				int neighborhoodSizeY = MORPHOLOGICAL_NEIGHBORHOOD_SIZE;
+				int neighborhoodSizeX = MORPHOLOGICAL_NEIGHBORHOOD_SIZE;
+
+				List<Color> pixelList = getPixelList(toFilter, x, y, neighborhoodSizeY, neighborhoodSizeX);
+				Color newColor = filter.apply(pixelList);
+
+				pixelWriter.setColor(x, y, newColor);
+			}
+		}
+
+		return newImage;
+	}
+
+	private static List<Color> getPixelList(Image toFilter, int curPixelX, int curPixelY, int neighborhoodSizeY,
+											int neighborhoodSizeX) {
+		PixelReader pixelReader = toFilter.getPixelReader();
+
+		List<Color> colors = new ArrayList<>((neighborhoodSizeX + 1) * (neighborhoodSizeY + 1));
+
+		int minX = curPixelX - neighborhoodSizeX;
+		int maxX = curPixelX + neighborhoodSizeX + 1;
+		int minY = curPixelY - neighborhoodSizeY;
+		int maxY = curPixelY + neighborhoodSizeY + 1;
+
+		for (int y = minY; y != maxY; ++y) {
+			for (int x = minX; x != maxX; ++x) {
+				if (!isOutsideOfImage(toFilter, x, y)) {
+					colors.add(pixelReader.getColor(x, y));
+				}
+			}
+		}
+
+		return colors;
+	}
+
 }
