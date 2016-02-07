@@ -85,7 +85,7 @@ public class CharacterSet {
 		return templateChars;
 	}
 
-	private static final String CHARS_TO_USE_FOR_SPACE_WIDTH_CALCULATION = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String CHARS_TO_USE_FOR_SPACE_WIDTH_CALCULATION = "abcdefghijklmnopqrstuvwxyz";
 	private static int calculateSpaceWidth(List<TemplateChar> characters) {
 		return characters.stream().filter(
 			(templateChar)-> {
