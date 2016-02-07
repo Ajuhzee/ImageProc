@@ -11,15 +11,11 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import name.ajuhzee.imageproc.processing.filters.FilterChain;
-import name.ajuhzee.imageproc.processing.filters.FilterMask;
 import name.ajuhzee.imageproc.util.MathUtil;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 
 /**
  * A library for image processing algorithms.
@@ -28,7 +24,6 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class ImageEditing {
 
-	private static final ForkJoinPool POOL = new ForkJoinPool();
 
 	/**
 	 * Binarizes a given image, dynamically changing its computation and result as the threshold changes.
@@ -42,7 +37,7 @@ public class ImageEditing {
 		while (true) {
 			try {
 				buffer = BgraPreImageBuffer.getBgraPreBuffer(toBinarize);
-				POOL.invoke(new BinarizeAction(buffer, threshold));
+				GlobalThreadPool.FORK_JOIN_POOL.invoke(new BinarizeAction(buffer, threshold));
 				break;
 			} catch (ValueChangedException e) {
 				continue;
