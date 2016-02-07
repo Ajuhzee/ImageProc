@@ -117,7 +117,7 @@ public class MenuPosition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the plugin
 	 */
 	public Optional<PluginInformation> getPluginInformation() {

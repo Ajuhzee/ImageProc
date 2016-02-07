@@ -15,7 +15,7 @@ import name.ajuhzee.imageproc.plugin.PluginInformation;
 
 /**
  * "Wraps" the functionality of the {@link MenuBar}, to make it possible to control it easier.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -57,7 +57,7 @@ public class MenuBarWrapper implements MenuControl {
 
 	/**
 	 * Adds a menu item to the menu bar.
-	 * 
+	 *
 	 * @param position
 	 *            the position where the menu item is placed
 	 * @param action

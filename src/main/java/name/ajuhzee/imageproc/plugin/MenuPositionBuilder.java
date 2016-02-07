@@ -6,7 +6,7 @@ import java.util.Optional;
 
 /**
  * Builds a menu position.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -14,7 +14,7 @@ public class MenuPositionBuilder {
 
 	/**
 	 * Generates the menu position for the main menu.
-	 * 
+	 *
 	 * @author Ajuhzee
 	 *
 	 */
@@ -34,7 +34,7 @@ public class MenuPositionBuilder {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return the menu position of the plugin
 		 */
 		public MenuPosition get() {
@@ -43,7 +43,7 @@ public class MenuPositionBuilder {
 
 		/**
 		 * Adds another sub menu to the current builder.
-		 * 
+		 *
 		 * @param key
 		 *            a unique menu identifier
 		 * @param label
@@ -56,7 +56,7 @@ public class MenuPositionBuilder {
 
 		/**
 		 * Adds another sub menu to the current builder.
-		 * 
+		 *
 		 * @param key
 		 *            a unique menu identifier
 		 * @param pInfo
@@ -69,7 +69,7 @@ public class MenuPositionBuilder {
 
 		/**
 		 * Adds another sub menu to the current builder.
-		 * 
+		 *
 		 * @param key
 		 *            a unique menu identifier
 		 * @param label
@@ -84,7 +84,7 @@ public class MenuPositionBuilder {
 
 		/**
 		 * Adds another sub menu to the current builder.
-		 * 
+		 *
 		 * @param key
 		 *            a unique menu identifier
 		 * @param label
@@ -102,7 +102,7 @@ public class MenuPositionBuilder {
 
 	/**
 	 * Adds another top menu to the current builder.
-	 * 
+	 *
 	 * @param key
 	 *            a unique menu identifier
 	 * @param label
@@ -115,7 +115,7 @@ public class MenuPositionBuilder {
 
 	/**
 	 * Adds another top menu to the current builder.
-	 * 
+	 *
 	 * @param key
 	 *            a unique menu identifier
 	 * @param pInfo
@@ -128,7 +128,7 @@ public class MenuPositionBuilder {
 
 	/**
 	 * Adds another top menu to the current builder.
-	 * 
+	 *
 	 * @param key
 	 *            a unique menu identifier
 	 * @param label
@@ -143,7 +143,7 @@ public class MenuPositionBuilder {
 
 	/**
 	 * Adds another top menu to the current builder.
-	 * 
+	 *
 	 * @param key
 	 *            a unique menu identifier
 	 * @param label

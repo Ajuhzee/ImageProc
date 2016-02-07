@@ -4,7 +4,7 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 
 /**
  * Base class for plugins which work with the image.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -14,7 +14,7 @@ public abstract class ImagePlugin extends PluginBase {
 
 	/**
 	 * Creates an instance of an image plugin.
-	 * 
+	 *
 	 * @param menuPosition
 	 *            the menu position of the plugin
 	 * @param pInfo
@@ -34,7 +34,7 @@ public abstract class ImagePlugin extends PluginBase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return access to the image context
 	 */
 	public ImagePluginContext context() {

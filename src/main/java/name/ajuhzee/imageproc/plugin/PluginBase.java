@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Provides basic functionalities for plugins.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -17,7 +17,7 @@ public abstract class PluginBase {
 
 	/**
 	 * Creates the basic part of the plugin.
-	 * 
+	 *
 	 * @param menuPosition
 	 *            the position of the plugin (may not be null)
 	 * @param pInfo
@@ -54,7 +54,7 @@ public abstract class PluginBase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the menu position
 	 */
 	public MenuPosition getMenuPosition() {
