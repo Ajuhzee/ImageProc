@@ -96,4 +96,17 @@ public class GeneralControl {
 		Popup.show(title, text);
 	}
 
+
+	/**
+	 * Opens a popup with specific text and calls the given callback when the popup is closed by the user
+	 *
+	 * @param title
+	 * @param text
+	 * @param onClose the function to call on popup close
+	 */
+	@SuppressWarnings("static-method")
+	public void showPopup(final String title, final String text, Runnable onClose) {
+		Popup.show(title, text, onClose);
+	}
+
 }
