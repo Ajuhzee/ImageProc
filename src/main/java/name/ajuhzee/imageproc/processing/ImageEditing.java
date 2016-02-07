@@ -288,10 +288,12 @@ public class ImageEditing {
 	public static Image rotate(Image img, double angle, Color toFill) {
 		BufferedImage bufferedImg = SwingFXUtils.fromFXImage(img, null);
 
+		// converts the input angle
 		double positiveAngle = angle < 0 ? 360 - Math.abs(angle) : angle;
 		double normalizedAngle = positiveAngle % 360;
 		double radiansAngle = Math.toRadians(normalizedAngle);
 
+		// trigonometry
 		double height1 = Math.abs(Math.sin(radiansAngle) * img.getWidth());
 		double height2 = Math.abs(Math.cos(radiansAngle) * img.getHeight());
 		int newHeight = (int) MathUtil.roundCustom(height1 + height2, 0.01);
@@ -309,7 +311,7 @@ public class ImageEditing {
 						(float) toFill.getOpacity()));
 		graphics.fillRect(0, 0, newWidth, newHeight);
 
-
+		// creates the new image dimensions
 		double moveX;
 		double moveY;
 		if (normalizedAngle < 90) {
