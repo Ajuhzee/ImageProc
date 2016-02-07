@@ -37,7 +37,7 @@
 				<Button fx:id="openButton" mnemonicParsing="false" onAction="#openPressed" text="Open" GridPane.columnIndex="1" />
 			</children>
 		</GridPane>
-      <Label text="Strukturgröße (px)" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <Label text="Wiederholungen" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <Slider fx:id="repeatCount" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.rowIndex="3" />
 	</children>
 </GridPane>
