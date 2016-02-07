@@ -1,4 +1,4 @@
-package name.ajuhzee.imageproc.plugin.image.process;
+package name.ajuhzee.imageproc.plugin.image.ocr;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
@@ -6,9 +6,9 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.ocr.CharacterSet;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
@@ -31,7 +31,7 @@ public class Ocr extends ImagePlugin {
 
 	public static final Color END_COLOR = Color.ORANGERED;
 
-	private static final PluginInformation INFO = new PluginInformation("Ocr", true);
+	private static final PluginInformation INFO = new PluginInformation("Texterkennung", true);
 
 	private final OcrMenuController sideMenu;
 
@@ -79,7 +79,7 @@ public class Ocr extends ImagePlugin {
 	 */
 	public Ocr(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("process", "Bearbeiten", 100).subMenu("ocr", INFO).get(), INFO, context);
+		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("ocr", INFO).get(), INFO, context);
 		try {
 			sideMenu = OcrMenuController.create();
 		} catch (final IOException e) {

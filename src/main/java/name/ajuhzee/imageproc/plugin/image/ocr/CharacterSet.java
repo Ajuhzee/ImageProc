@@ -1,13 +1,13 @@
-package name.ajuhzee.imageproc.plugin.image.generate;
+package name.ajuhzee.imageproc.plugin.image.ocr;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import name.ajuhzee.imageproc.plugin.ImagePlugin;
 import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
+import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.OcrResources;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
  * Adds an image plugin, which generates a Testimage.
  *
  * @author Ajuhzee
- *
  */
 public class CharacterSet extends ImagePlugin {
 
 	private static final boolean REQUIRES_IMAGE = true;
+
 	private static final PluginInformation INFO = new PluginInformation("OCR-Schriftart einlernen", REQUIRES_IMAGE);
 
 	/**
@@ -40,7 +40,7 @@ public class CharacterSet extends ImagePlugin {
 	 */
 	public CharacterSet(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("generate", "Generieren", 100).subMenu("characterSet", INFO).get(), INFO,
+		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("characterSet", INFO).get(), INFO,
 				context);
 	}
 
@@ -63,7 +63,8 @@ public class CharacterSet extends ImagePlugin {
 				return;
 			}
 
-			List<RecognizedChar> recognizedChars = charsPerLine.stream().flatMap(Collection::stream).collect(Collectors.toList());
+			List<RecognizedChar> recognizedChars =
+					charsPerLine.stream().flatMap(Collection::stream).collect(Collectors.toList());
 
 			int cur = 0;
 			for (RecognizedChar recChar : recognizedChars) {

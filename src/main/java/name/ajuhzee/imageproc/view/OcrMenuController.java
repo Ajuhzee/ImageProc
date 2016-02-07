@@ -8,7 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import name.ajuhzee.imageproc.plugin.image.process.Ocr;
 import name.ajuhzee.imageproc.util.CallbackManager;
 import name.ajuhzee.imageproc.util.Callbacks;
 
@@ -78,7 +77,7 @@ public class OcrMenuController implements NodeRepresentation {
 	 * @throws IOException if an I/O error occurs
 	 */
 	public static OcrMenuController create() throws IOException {
-		final URL fxml = Ocr.class.getClassLoader().getResource("OcrMenu.fxml");
+		final URL fxml = OcrMenuController.class.getClassLoader().getResource("OcrMenu.fxml");
 		final FXMLLoader loader = new FXMLLoader(fxml);
 
 		loader.load();
