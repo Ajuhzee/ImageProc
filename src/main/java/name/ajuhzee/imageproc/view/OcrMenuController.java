@@ -38,6 +38,9 @@ public class OcrMenuController implements NodeRepresentation {
 	private CheckBox pixelAmountDeviation;
 
 	@FXML
+	private TextField minGap;
+
+	@FXML
 	private TextField pixelAmountDeviationPercent;
 
 	@FXML
@@ -245,4 +248,10 @@ public class OcrMenuController implements NodeRepresentation {
 		return shouldAdjustImage.isSelected();
 	}
 
+	/**
+	 * @return the minimum gap between characters (in px)
+	 */
+	public int getMinimumCharacterGapPx() {
+		return Integer.parseInt(minGap.textProperty().getValue());
+	}
 }

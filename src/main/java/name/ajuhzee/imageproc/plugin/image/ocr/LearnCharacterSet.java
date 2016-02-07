@@ -14,6 +14,7 @@ import name.ajuhzee.imageproc.processing.ocr.OcrResources;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
 import name.ajuhzee.imageproc.util.ImageUtils;
+import name.ajuhzee.imageproc.view.LearnCharacterSetController;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,11 +27,15 @@ import java.util.stream.Collectors;
  *
  * @author Ajuhzee
  */
-public class CharacterSet extends ImagePlugin {
+public class LearnCharacterSet extends ImagePlugin {
 
 	private static final boolean REQUIRES_IMAGE = true;
 
 	private static final PluginInformation INFO = new PluginInformation("OCR-Schriftart einlernen", REQUIRES_IMAGE);
+
+	private LearnCharacterSetController sideMenu;
+
+	private Image srcImage;
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -38,26 +43,59 @@ public class CharacterSet extends ImagePlugin {
 	 * @param context
 	 * @throws PluginLoadException
 	 */
-	public CharacterSet(ImagePluginContext context) throws PluginLoadException {
+	public LearnCharacterSet(ImagePluginContext context) throws PluginLoadException {
 		// positions/position names should be in a config file
-		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("characterSet", INFO).get(), 				context);
+		super(MenuPositionBuilder.topMenu("ocr", "OCR", 100).subMenu("characterSet", INFO).get(), context);
+
+		try {
+			sideMenu = LearnCharacterSetController.create();
+		} catch (final IOException e) {
+			throw new PluginLoadException("Couldn't load the side menu", e);
+		}
+
+		sideMenu.getLearnCharacterSetPressedCallbacks().addCallback(this::findCharacterSetDirectory);
+		sideMenu.getCancelCallbacks().addCallback(this::unload);
+		sideMenu.getTestCharSeparationPressedCallbacks().addCallback(this::seperateCharacters);
+	}
+
+	private void seperateCharacters() {
+		List<RecognizedLine> recognizedLines = ImageOcr.recognizeLines(srcImage);
+
+		List<List<RecognizedChar>> recognizedCharsInLines =
+				ImageOcr.recognizeChars(srcImage, recognizedLines, sideMenu.getMinimumCharacterGapPx());
+
+		List<RecognizedChar> recognizedChars =
+				recognizedCharsInLines.stream().flatMap(List::stream).collect(Collectors.toList());
+
+		context().getImageControl().showImage(ImageUtils.markCharactersOnImage(srcImage, recognizedChars));
+	}
+
+	private void unload() {
+		context().getImageControl().showImage(srcImage);
+		context().getSideMenuControl().clearContent();
+		context().getMenuControl().enablePlugins();
 	}
 
 	@Override
 	public void started() {
-		context().getGeneralControl().specifyDirectoryDialog(this::createCharacterSet);
+		context().getMenuControl().disablePlugins();
+		srcImage = context().getImageControl().getImage();
+		context().getSideMenuControl().setContent(sideMenu.toNodeRepresentation());
+	}
 
+	private void findCharacterSetDirectory() {
+		context().getGeneralControl().specifyDirectoryDialog(this::createCharacterSet);
 	}
 
 	private void createCharacterSet(Path characterSetPath) {
 		try {
-			Image srcImage = context().getImageControl().getImage();
 			List<RecognizedLine> recognizedLines = ImageOcr.recognizeLines(srcImage);
 			if (!lineCountValid(recognizedLines)) {
 				return;
 			}
 
-			List<List<RecognizedChar>> charsPerLine = ImageOcr.recognizeChars(srcImage, recognizedLines);
+			List<List<RecognizedChar>> charsPerLine =
+					ImageOcr.recognizeChars(srcImage, recognizedLines, sideMenu.getMinimumCharacterGapPx());
 			if (!linesValid(charsPerLine)) {
 				return;
 			}
@@ -79,7 +117,8 @@ public class CharacterSet extends ImagePlugin {
 
 			}
 
-			context().getGeneralControl().showPopup("Erfolg", "Die Schriftart wurde erfolgreich gespeichert.");
+			context().getGeneralControl()
+					.showPopup("Erfolg", "Die Schriftart wurde erfolgreich gespeichert.", this::unload);
 		} catch (IOException e) {
 			context().getGeneralControl().showPopup("Fehler", "Das Speichern ist fehlgeschlagen.");
 		}

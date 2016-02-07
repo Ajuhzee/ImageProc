@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.Direction;
 import name.ajuhzee.imageproc.processing.OptimizedAreaImpl;
+import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
@@ -17,8 +18,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
+
+import static name.ajuhzee.imageproc.plugin.image.ocr.Ocr.*;
 
 public final class ImageUtils {
 
@@ -244,6 +248,61 @@ public final class ImageUtils {
 		final int width = (int) img.getWidth();
 		final int height = (int) img.getHeight();
 		forEachPixel(0, width, 0, height, action);
+	}
+
+	public static Image markCharactersOnImage(Image img, List<RecognizedChar> recognizedChars) {
+		int width = (int) img.getWidth();
+		int height = (int) img.getHeight();
+		WritableImage withMarkedLines = new WritableImage(img.getPixelReader(), width, height);
+		PixelWriter writer = withMarkedLines.getPixelWriter();
+
+			for (RecognizedChar recChar : recognizedChars) {
+				Area boundingBox = recChar.getBoundingBox();
+				int topY = (int) boundingBox.getTopLeft().getY();
+				int bottomY = (int) boundingBox.getBottomLeft().getY();
+				int leftX = (int) boundingBox.getTopLeft().getX();
+				int rightX = (int) boundingBox.getTopRight().getX();
+
+				drawLine(writer, START_COLOR, leftX, leftX, topY, bottomY);
+				drawLine(writer, START_COLOR, leftX, rightX, topY, topY);
+				drawLine(writer, END_COLOR, rightX, rightX, topY, bottomY);
+				drawLine(writer, END_COLOR, leftX, rightX, bottomY, bottomY);
+			}
+		return withMarkedLines;
+	}
+
+	/**
+	 * Draws a line on the given pixel writer
+	 *
+	 * @param writer
+	 * @param color the color of the line
+	 * @param startX the start x of the line to be drawn
+	 * @param endX the end x of the line to be drawn
+	 * @param startY the start y of the line to be drawn
+	 * @param endY the end y of the line to be drawn
+	 */
+	public static void drawLine(PixelWriter writer, Color color, int startX, int endX, int startY, int endY) {
+		double stepY;
+		double stepX;
+		double yLength = (double) endY - startY;
+		double xLength = (double) endX - startX;
+		if (xLength < yLength) {
+			stepY = 1;
+			stepX = yLength == 0 ? 0 : (xLength / yLength);
+		} else {
+			stepX = 1;
+			stepY = xLength == 0 ? 0 : (yLength / xLength);
+		}
+
+		double y = startY;
+		double x = startX;
+		do {
+			do {
+				writer.setColor((int) x, (int) y, color);
+				x += stepX;
+			} while (x < endX);
+			y += stepY;
+		} while (y < endY);
 	}
 
 	private ImageUtils() {

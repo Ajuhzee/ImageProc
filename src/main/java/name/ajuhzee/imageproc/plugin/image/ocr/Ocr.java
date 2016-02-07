@@ -9,16 +9,17 @@ import name.ajuhzee.imageproc.plugin.MenuPositionBuilder;
 import name.ajuhzee.imageproc.plugin.PluginInformation;
 import name.ajuhzee.imageproc.plugin.PluginLoadException;
 import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
-import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.ocr.CharacterSet;
 import name.ajuhzee.imageproc.processing.ocr.ImageOcr;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedLine;
+import name.ajuhzee.imageproc.util.ImageUtils;
 import name.ajuhzee.imageproc.view.OcrMenuController;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Adds an image plugin, that provides a menu for a step by step character recognition.
@@ -47,29 +48,6 @@ public class Ocr extends ImagePlugin {
 
 	private Image srcImage;
 
-	private static void drawLine(PixelWriter writer, Color c, int startX, int endX, int startY, int endY) {
-		double stepY;
-		double stepX;
-		double yLength = (double) endY - startY;
-		double xLength = (double) endX - startX;
-		if (xLength < yLength) {
-			stepY = 1;
-			stepX = yLength == 0 ? 0 : (xLength / yLength);
-		} else {
-			stepX = 1;
-			stepY = xLength == 0 ? 0 : (yLength / xLength);
-		}
-
-		double y = startY;
-		double x = startX;
-		do {
-			do {
-				writer.setColor((int) x, (int) y, c);
-				x += stepX;
-			} while (x < endX);
-			y += stepY;
-		} while (y < endY);
-	}
 
 	/**
 	 * Positions a Menu-button for the plugin.
@@ -117,7 +95,8 @@ public class Ocr extends ImagePlugin {
 	private void assertCharactersRecognized() {
 		assertLinesRecognized();
 		if (!recognizedLineCharacters.isPresent()) {
-			recognizedLineCharacters = Optional.of(ImageOcr.recognizeChars(srcImage, recognizedLines.get()));
+			recognizedLineCharacters = Optional.of(
+					ImageOcr.recognizeChars(srcImage, recognizedLines.get(), sideMenu.getMinimumCharacterGapPx()));
 		}
 	}
 
@@ -182,28 +161,6 @@ public class Ocr extends ImagePlugin {
 		context().getMenuControl().enablePlugins();
 	}
 
-	private void markCharacters() {
-		int width = (int) srcImage.getWidth();
-		int height = (int) srcImage.getHeight();
-		WritableImage withMarkedLines = new WritableImage(srcImage.getPixelReader(), width, height);
-		PixelWriter writer = withMarkedLines.getPixelWriter();
-
-		for (List<RecognizedChar> lineChars : recognizedLineCharacters.get()) {
-			for (RecognizedChar recChar : lineChars) {
-				Area boundingBox = recChar.getBoundingBox();
-				int topY = (int) boundingBox.getTopLeft().getY();
-				int bottomY = (int) boundingBox.getBottomLeft().getY();
-				int leftX = (int) boundingBox.getTopLeft().getX();
-				int rightX = (int) boundingBox.getTopRight().getX();
-
-				drawLine(writer, START_COLOR, leftX, leftX, topY, bottomY);
-				drawLine(writer, START_COLOR, leftX, rightX, topY, topY);
-				drawLine(writer, END_COLOR, rightX, rightX, topY, bottomY);
-				drawLine(writer, END_COLOR, leftX, rightX, bottomY, bottomY);
-			}
-		}
-		context().getImageControl().showImage(withMarkedLines);
-	}
 
 	private void markLines() {
 		int width = (int) srcImage.getWidth();
@@ -212,8 +169,8 @@ public class Ocr extends ImagePlugin {
 		PixelWriter writer = withMarkedLines.getPixelWriter();
 
 		recognizedLines.get().stream().forEach((line) -> {
-			drawLine(writer, START_COLOR, 0, width, line.getTopY(), line.getTopY());
-			drawLine(writer, END_COLOR, 0, width, line.getBottomY(), line.getBottomY());
+			ImageUtils.drawLine(writer, START_COLOR, 0, width, line.getTopY(), line.getTopY());
+			ImageUtils.drawLine(writer, END_COLOR, 0, width, line.getBottomY(), line.getBottomY());
 		});
 
 		context().getImageControl().showImage(withMarkedLines);
@@ -227,7 +184,10 @@ public class Ocr extends ImagePlugin {
 	private void seperateCharacters() {
 		assertCharactersRecognized();
 
-		markCharacters();
+		List<RecognizedChar> recognizedChars =
+				recognizedLineCharacters.get().stream().flatMap(List::stream).collect(Collectors.toList());
+
+		context().getImageControl().showImage(ImageUtils.markCharactersOnImage(srcImage, recognizedChars));
 	}
 
 	@Override

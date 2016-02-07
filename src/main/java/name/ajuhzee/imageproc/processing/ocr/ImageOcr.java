@@ -27,9 +27,7 @@ import java.util.Map.Entry;
 public final class ImageOcr {
 
 	// Unicode FFFF is the "Noncharacter"
-	private static final String CHARACTER_NOT_RECOGNIZED_INDICATOR = "￿";
-
-	private static final int MIN_SPACE_WIDTH = 5;
+	private static final String CHARACTER_NOT_RECOGNIZED_INDICATOR = "\uFFFF";
 
 	public static Image adjustImage(final Image img) {
 		final Map<Double, LineOrientationScore> scoreForAngle = new TreeMap<>();
@@ -131,13 +129,15 @@ public final class ImageOcr {
 	 *
 	 * @param img the image to search and recognize chars in
 	 * @param lines a list with the recognized lines
+	 * @param minimumCharacterGap
 	 * @return a list with the recognized characters
 	 */
-	public static List<List<RecognizedChar>> recognizeChars(final Image img, final List<RecognizedLine> lines) {
+	public static List<List<RecognizedChar>> recognizeChars(final Image img, final List<RecognizedLine> lines,
+															int minimumCharacterGap) {
 		final List<List<RecognizedChar>> lineChars = new ArrayList<>();
 		for (final RecognizedLine line : lines) {
 			final List<RecognizedChar> chars = new ArrayList<>();
-			chars.addAll(recognizeChars(img, line));
+			chars.addAll(recognizeChars(img, line, minimumCharacterGap));
 			lineChars.add(chars);
 		}
 		return lineChars;
@@ -150,20 +150,22 @@ public final class ImageOcr {
 	 * @param line the recognized line where the character is in
 	 * @return a list with the recognized characters, which contains several characters for each line
 	 */
-	private static List<RecognizedChar> recognizeChars(final Image img, final RecognizedLine line) {
+	private static List<RecognizedChar> recognizeChars(final Image img, final RecognizedLine line,
+													   final int minimumCharacterGap) {
 		final List<RecognizedChar> recognizedChars = new ArrayList<>();
 
-		Optional<RecognizedChar> recognizedChar = getNextChar(img, line, 0);
+		Optional<RecognizedChar> recognizedChar = getNextChar(img, line, 0, minimumCharacterGap);
 		while (recognizedChar.isPresent()) {
 			recognizedChars.add(recognizedChar.get());
 			final int nextX = recognizedChar.get().getBoundingBox().getBottomRight().getX() + 1;
-			recognizedChar = getNextChar(img, line, nextX);
+			recognizedChar = getNextChar(img, line, nextX, minimumCharacterGap);
 		}
 
 		return recognizedChars;
 	}
 
-	private static Optional<RecognizedChar> getNextChar(final Image img, final RecognizedLine line, final int startX) {
+	private static Optional<RecognizedChar> getNextChar(final Image img, final RecognizedLine line, final int startX,
+														final int minimumCharacterGap) {
 		int lastXIdx = (int) img.getWidth() - 1;
 		if (startX > lastXIdx) {
 			return Optional.empty();
@@ -179,7 +181,7 @@ public final class ImageOcr {
 		final int charStartX = charStartXOptional.getAsInt();
 
 		Area charEndXSearchArea = new Area(charStartX, lastXIdx, line.getTopY(), line.getBottomY());
-		final int charEndX = findCharEndX(img, charEndXSearchArea);
+		final int charEndX = findCharEndX(img, charEndXSearchArea, minimumCharacterGap);
 
 
 		Area verticalSearchArea = new Area(charStartX, charEndX, line.getTopY(), line.getBottomY());
@@ -198,7 +200,7 @@ public final class ImageOcr {
 		return Optional.of(new RecognizedChar(new Area(topLeft, bottomRight)));
 	}
 
-	private static int findCharEndX(final Image img, final Area searchArea) {
+	private static int findCharEndX(final Image img, final Area searchArea, final int minimumCharacterGap) {
 
 		OptionalInt potentialCharEnd = ImageUtils.getFirstSliceWithoutColor(img, searchArea, Color.BLACK,
 				Direction.POSITIVE_X);
@@ -215,7 +217,7 @@ public final class ImageOcr {
 			}
 
 			final int spaceWidth = nextCharStart.getAsInt() - potentialCharEnd.getAsInt();
-			if (spaceWidth >= MIN_SPACE_WIDTH) {
+			if (spaceWidth >= minimumCharacterGap) {
 				break;
 			}
 
@@ -262,7 +264,6 @@ public final class ImageOcr {
 		final StringBuilder sb = new StringBuilder();
 		for (final List<RecognizedChar> lineChars : recognizedLineChars) {
 			double prevRightX = Double.MAX_VALUE;
-			int charInRow = 1;
 			for (final RecognizedChar recognizedChar : lineChars) {
 				addSpaces(sb, prevRightX, recognizedChar, characterSet);
 				prevRightX = recognizedChar.getBoundingBox().getBottomRight().getX();
@@ -279,7 +280,6 @@ public final class ImageOcr {
 				} else {
 					sb.append(CHARACTER_NOT_RECOGNIZED_INDICATOR);
 				}
-				charInRow++;
 			}
 			sb.append('\n');
 		}
