@@ -77,7 +77,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label prefHeight="34.0" text="Schritt 3: Buchstaben separieren" wrapText="true" />
+                  <Label prefHeight="34.0" text="Schritt 3: Zeichen separieren" wrapText="true" />
                   <Label text="Minimaler Abstand zwischen Zeichen (px)" GridPane.rowIndex="1" />
                   <TextField fx:id="minGap" alignment="CENTER_RIGHT" maxWidth="60.0" text="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <GridPane.margin>
@@ -97,7 +97,7 @@
       </GridPane>
       <GridPane layoutX="20.0" layoutY="20.0" prefHeight="150.0" style="-fx-border-width: 0 0 1px 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="166.0">
          <children>
-            <Label prefHeight="34.0" text="Schritt 4: Buchstabenmatching &amp; Ausgabe" wrapText="true" />
+            <Label prefHeight="34.0" text="Schritt 4: Matching &amp; Ausgabe" wrapText="true" />
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="110.0" />
