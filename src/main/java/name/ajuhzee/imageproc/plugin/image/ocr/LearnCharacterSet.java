@@ -31,7 +31,7 @@ public class LearnCharacterSet extends ImagePlugin {
 
 	private static final boolean REQUIRES_IMAGE = true;
 
-	private static final PluginInformation INFO = new PluginInformation("OCR-Schriftart einlernen", REQUIRES_IMAGE);
+	private static final PluginInformation INFO = new PluginInformation("OCR-Datenbank generieren", REQUIRES_IMAGE);
 
 	private LearnCharacterSetController sideMenu;
 
