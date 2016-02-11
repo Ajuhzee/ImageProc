@@ -117,7 +117,7 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="pixelAmountDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="20%" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                  <TextField fx:id="pixelAmountDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="25%" GridPane.columnIndex="1" GridPane.halignment="LEFT">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -131,7 +131,7 @@
                      </tooltip>
                   </TextField>
                   <CheckBox fx:id="dimensionPixelDeviation" mnemonicParsing="false" selected="true" text="Größenunterschied" textOverrun="CLIP" wrapText="true" GridPane.rowIndex="1" />
-                  <TextField fx:id="dimensionPixelDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="10%" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                  <TextField fx:id="dimensionPixelDeviationPercent" alignment="CENTER_RIGHT" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="2%" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
