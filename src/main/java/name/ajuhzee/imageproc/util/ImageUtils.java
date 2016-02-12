@@ -115,18 +115,6 @@ public final class ImageUtils {
 	}
 
 	/**
-	 * Checks if an area contains color.
-	 *
-	 * @param img the source image
-	 * @param area the area
-	 * @param color the color to look for
-	 * @return if the area contains color
-	 */
-	public static boolean areaContainsColor(final Image img, final Area area, final Color color) {
-		return new OptimizedArea(img, area).containsColor(color);
-	}
-
-	/**
 	 * Gets the number of the first slice with color by start value.
 	 *
 	 * @param img the source image
