@@ -5,11 +5,21 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
 
+/**
+ * An Area tha also makes it possible to retrieve attributes about it in an optimized way
+ */
 public class OptimizedArea extends Area implements AreaAttributes {
 
 	private final byte[] buffer;
 
-	public static AreaAttributes forLine(final Image img, final int y) {
+	/**
+	 * Creates an Area for the given line of the image
+	 *
+	 * @param img
+	 * @param y
+	 * @return
+	 */
+	public static OptimizedArea forLine(final Image img, final int y) {
 		if (y < 0 || y >= img.getHeight()) {
 			throw new IllegalArgumentException("The line requested (" + y + ") is not inside the image bounds!");
 		}
@@ -17,7 +27,14 @@ public class OptimizedArea extends Area implements AreaAttributes {
 		return new OptimizedArea(img, 0, y, (int) img.getWidth(), 1);
 	}
 
-	public static AreaAttributes forColumn(final Image img, final int x) {
+	/**
+	 * Creates an area for the given column of the image
+	 *
+	 * @param img
+	 * @param x
+	 * @return
+	 */
+	public static OptimizedArea forColumn(final Image img, final int x) {
 		if (x < 0 || x >= img.getWidth()) {
 			throw new IllegalArgumentException(
 					"The column requested (" + x + ") is not inside the image bounds!");
@@ -30,7 +47,15 @@ public class OptimizedArea extends Area implements AreaAttributes {
 		return (byte) (color * 255.0);
 	}
 
-	public static AreaAttributes forColumn(final Image img, final Area area, final int x) {
+	/**
+	 * Creates a new Area for the given column of the image, but only inside the given Area's bounds
+	 *
+	 * @param img
+	 * @param area
+	 * @param x
+	 * @return
+	 */
+	public static OptimizedArea forColumn(final Image img, final Area area, final int x) {
 		if (x < area.getLeft() || x >= area.getLeft() + area.getWidth()) {
 			throw new IllegalArgumentException(
 					"The column requested (" + x + ") is not inside the area bounds!");
@@ -39,7 +64,15 @@ public class OptimizedArea extends Area implements AreaAttributes {
 		return new OptimizedArea(img, x, area.getTop(), 1, area.getHeight());
 	}
 
-	public static AreaAttributes forLine(final Image img, final Area area, final int y) {
+	/**
+	 * Creates a new Area for the given line of the image, but only inside the given Area's bounds
+	 *
+	 * @param img
+	 * @param area
+	 * @param y
+	 * @return
+	 */
+	public static OptimizedArea forLine(final Image img, final Area area, final int y) {
 		if (y < area.getTop() || y >= area.getTop() + area.getHeight()) {
 			throw new IllegalArgumentException(
 					"The line requested (" + y + ") is not inside the area bounds!");
