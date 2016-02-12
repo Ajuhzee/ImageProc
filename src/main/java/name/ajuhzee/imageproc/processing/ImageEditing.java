@@ -81,6 +81,7 @@ public class ImageEditing {
 		WritableImage newImage = new WritableImage(width, height);
 		PixelWriter out = newImage.getPixelWriter();
 
+		// white pixels with black neighbors get modified
 		forEveryWhitePixelWithBlackNeighbor(img, (x, y) -> {
 			out.setColor(x, y, Color.BLACK);
 		}, (x, y) -> {
@@ -108,6 +109,7 @@ public class ImageEditing {
 		WritableImage newImage = new WritableImage(width, height);
 		PixelWriter out = newImage.getPixelWriter();
 
+		// black pixels with white neighbors get modified
 		forEveryWhitePixelWithBlackNeighbor(img, (x, y) -> {
 			out.setColor(x, y, Color.WHITE);
 			getNeighborPixels(img, x, y, neighborhood).stream().forEach(point -> {
@@ -131,8 +133,7 @@ public class ImageEditing {
 	 * @param unmatched callback when the white pixel does not have a black neighbor
 	 * @param neighborhood the structural element
 	 */
-	private static void forEveryWhitePixelWithBlackNeighbor(Image img, PixelMatched matched, PixelMatched unmatched,
-															Neighborhood neighborhood) {
+	private static void forEveryWhitePixelWithBlackNeighbor(Image img, PixelMatched matched, PixelMatched unmatched,Neighborhood neighborhood) {
 
 		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();

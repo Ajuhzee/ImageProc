@@ -1,12 +1,12 @@
 package name.ajuhzee.imageproc.processing;
 
-import java.util.concurrent.RecursiveAction;
-
 import com.google.common.util.concurrent.AtomicDouble;
+
+import java.util.concurrent.RecursiveAction;
 
 /**
  * Binarizes the image.
- * 
+ *
  * @author Ajuhzee
  *
  */
@@ -36,7 +36,7 @@ public class BinarizeAction extends RecursiveAction {
 
 	/**
 	 * Creates a new binarize action to be executed in a ForkJoinPool.
-	 * 
+	 *
 	 * @param buffer
 	 *            the image buffer to binarize
 	 * @param threshold
@@ -46,6 +46,9 @@ public class BinarizeAction extends RecursiveAction {
 		this(buffer, threshold, 0, buffer.getPixelCount());
 	}
 
+	/**
+	 * Splits up the computing process here
+	 */
 	@Override
 	protected void compute() {
 		int size = endIdx - startIdx;
@@ -58,6 +61,9 @@ public class BinarizeAction extends RecursiveAction {
 		splitBinarizeExecution();
 	}
 
+	/**
+	 * Halves the computing area for the binarize process
+	 */
 	private void splitBinarizeExecution() {
 		int size = endIdx - startIdx;
 		int mid = size / 2 + startIdx;
@@ -74,6 +80,12 @@ public class BinarizeAction extends RecursiveAction {
 		}
 	}
 
+	/**
+	 * the actual binarizing process
+	 *
+	 * @param imageBuffer the image buffer
+	 * @return the binarized buffer
+	 */
 	private BgraPreImageBuffer binarize(BgraPreImageBuffer imageBuffer) {
 		for (int pixelIdx = startIdx; pixelIdx != endIdx; ++pixelIdx) {
 			final int red = imageBuffer.getRed(pixelIdx);
@@ -103,7 +115,7 @@ public class BinarizeAction extends RecursiveAction {
 
 	/**
 	 * Simple brightness by taking the average of the RGB values
-	 * 
+	 *
 	 * @param red
 	 * @param green
 	 * @param blue
@@ -128,7 +140,7 @@ public class BinarizeAction extends RecursiveAction {
 	/**
 	 * A more accurate human-perceived brightness. <br />
 	 * <b>Expensive computation</b>
-	 * 
+	 *
 	 * @param red
 	 * @param green
 	 * @param blue
