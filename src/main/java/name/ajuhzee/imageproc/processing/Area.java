@@ -3,7 +3,7 @@ package name.ajuhzee.imageproc.processing;
 import name.ajuhzee.imageproc.util.Point2DInt;
 
 /**
- * Represends a smaller section of the image.
+ * Represents a smaller section of the image.
  *
  * @author Ajuhzee
  */

@@ -8,7 +8,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import name.ajuhzee.imageproc.processing.Area;
 import name.ajuhzee.imageproc.processing.Direction;
-import name.ajuhzee.imageproc.processing.OptimizedAreaImpl;
+import name.ajuhzee.imageproc.processing.OptimizedArea;
 import name.ajuhzee.imageproc.processing.ocr.RecognizedChar;
 import org.apache.commons.io.FilenameUtils;
 
@@ -123,7 +123,7 @@ public final class ImageUtils {
 	 * @return if the area contains color
 	 */
 	public static boolean areaContainsColor(final Image img, final Area area, final Color color) {
-		return new OptimizedAreaImpl(img, area).containsColor(color);
+		return new OptimizedArea(img, area).containsColor(color);
 	}
 
 	/**
@@ -140,19 +140,19 @@ public final class ImageUtils {
 		switch (direction) {
 			case NEGATIVE_X:
 				return IntStream.iterate(startValue, i -> i - 1).limit(startValue + 1)
-						.filter((x) -> OptimizedAreaImpl.forColumn(img, x).containsColor(color))
+						.filter((x) -> OptimizedArea.forColumn(img, x).containsColor(color))
 						.findFirst();
 			case POSITIVE_X:
 				return IntStream.range(startValue, (int) img.getWidth())
-						.filter((x) -> OptimizedAreaImpl.forColumn(img, x).containsColor(color))
+						.filter((x) -> OptimizedArea.forColumn(img, x).containsColor(color))
 						.findFirst();
 			case NEGATIVE_Y:
 				return IntStream.iterate(startValue, i -> i - 1).limit(startValue + 1)
-						.filter((y) -> OptimizedAreaImpl.forLine(img, y).containsColor(color))
+						.filter((y) -> OptimizedArea.forLine(img, y).containsColor(color))
 						.findFirst();
 			case POSITIVE_Y:
 				return IntStream.range(startValue, (int) img.getHeight())
-						.filter((y) -> OptimizedAreaImpl.forLine(img, y).containsColor(color))
+						.filter((y) -> OptimizedArea.forLine(img, y).containsColor(color))
 						.findFirst();
 		}
 		// can never happen
@@ -173,19 +173,19 @@ public final class ImageUtils {
 		switch (direction) {
 			case NEGATIVE_X:
 				return IntStream.iterate(area.getRight(), i -> i - 1).limit(area.getWidth())
-						.filter((x) -> OptimizedAreaImpl.forColumn(img, area, x).containsColor(color))
+						.filter((x) -> OptimizedArea.forColumn(img, area, x).containsColor(color))
 						.findFirst();
 			case POSITIVE_X:
 				return IntStream.range(area.getLeft(), area.getLeft() + area.getWidth() - 1)
-						.filter((x) -> OptimizedAreaImpl.forColumn(img, area, x).containsColor(color))
+						.filter((x) -> OptimizedArea.forColumn(img, area, x).containsColor(color))
 						.findFirst();
 			case NEGATIVE_Y:
 				return IntStream.iterate(area.getBottom(), i -> i - 1).limit(area.getHeight())
-						.filter((y) -> OptimizedAreaImpl.forLine(img, area, y).containsColor(color))
+						.filter((y) -> OptimizedArea.forLine(img, area, y).containsColor(color))
 						.findFirst();
 			case POSITIVE_Y:
 				return IntStream.range(area.getTop(), area.getTop() + area.getHeight() - 1)
-						.filter((y) -> OptimizedAreaImpl.forLine(img, area, y).containsColor(color))
+						.filter((y) -> OptimizedArea.forLine(img, area, y).containsColor(color))
 						.findFirst();
 		}
 		// can never happen
@@ -206,19 +206,19 @@ public final class ImageUtils {
 		switch (direction) {
 			case NEGATIVE_X:
 				return IntStream.iterate(area.getRight(), i -> i - 1).limit(area.getWidth())
-						.filter((x) -> !OptimizedAreaImpl.forColumn(img, area, x).containsColor(color))
+						.filter((x) -> !OptimizedArea.forColumn(img, area, x).containsColor(color))
 						.findFirst();
 			case POSITIVE_X:
 				return IntStream.range(area.getLeft(), area.getLeft() + area.getWidth() - 1)
-						.filter((x) -> !OptimizedAreaImpl.forColumn(img, area, x).containsColor(color))
+						.filter((x) -> !OptimizedArea.forColumn(img, area, x).containsColor(color))
 						.findFirst();
 			case NEGATIVE_Y:
 				return IntStream.iterate(area.getBottom(), i -> i - 1).limit(area.getHeight())
-						.filter((y) -> !OptimizedAreaImpl.forLine(img, area, y).containsColor(color))
+						.filter((y) -> !OptimizedArea.forLine(img, area, y).containsColor(color))
 						.findFirst();
 			case POSITIVE_Y:
 				return IntStream.range(area.getTop(), area.getTop() + area.getHeight() - 1)
-						.filter((y) -> !OptimizedAreaImpl.forLine(img, area, y).containsColor(color))
+						.filter((y) -> !OptimizedArea.forLine(img, area, y).containsColor(color))
 						.findFirst();
 		}
 		// can never happen
@@ -239,19 +239,19 @@ public final class ImageUtils {
 		switch (direction) {
 			case NEGATIVE_X:
 				return IntStream.iterate(startValue, i -> i - 1).limit(startValue + 1)
-						.filter((x) -> !OptimizedAreaImpl.forColumn(img, x).containsColor(color))
+						.filter((x) -> !OptimizedArea.forColumn(img, x).containsColor(color))
 						.findFirst();
 			case POSITIVE_X:
 				return IntStream.range(startValue, (int) img.getWidth())
-						.filter((x) -> !OptimizedAreaImpl.forColumn(img, x).containsColor(color))
+						.filter((x) -> !OptimizedArea.forColumn(img, x).containsColor(color))
 						.findFirst();
 			case NEGATIVE_Y:
 				return IntStream.iterate(startValue, i -> i - 1).limit(startValue + 1)
-						.filter((y) -> !OptimizedAreaImpl.forLine(img, y).containsColor(color))
+						.filter((y) -> !OptimizedArea.forLine(img, y).containsColor(color))
 						.findFirst();
 			case POSITIVE_Y:
 				return IntStream.range(startValue, (int) img.getHeight())
-						.filter((y) -> !OptimizedAreaImpl.forLine(img, y).containsColor(color))
+						.filter((y) -> !OptimizedArea.forLine(img, y).containsColor(color))
 						.findFirst();
 		}
 		// can never happen
