@@ -50,7 +50,7 @@ public class Ocr extends ImagePlugin {
 
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the Ocr plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

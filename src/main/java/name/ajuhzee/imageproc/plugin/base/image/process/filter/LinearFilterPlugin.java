@@ -11,6 +11,8 @@ import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterChain;
 
 /**
  * Base class for a linear filter plugin
+ *
+ * @author Ajuhzee
  */
 public class LinearFilterPlugin extends ImagePlugin {
 

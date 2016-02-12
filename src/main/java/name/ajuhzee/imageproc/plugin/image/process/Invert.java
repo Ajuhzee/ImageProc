@@ -21,7 +21,7 @@ public class Invert extends ImagePlugin {
 	private Image oldImage;
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the Invert plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

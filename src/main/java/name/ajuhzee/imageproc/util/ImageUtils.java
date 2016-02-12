@@ -24,21 +24,37 @@ import java.util.stream.IntStream;
 
 import static name.ajuhzee.imageproc.plugin.image.ocr.Ocr.*;
 
+/**
+ * Provides some image utilities.
+ *
+ * @author Ajuhzee
+ */
 public final class ImageUtils {
 
-
+	/**
+	 *  Executes a pixel action.
+	 */
 	@FunctionalInterface
 	public static interface PixelAction {
 
 		public void forPixels(int x, int y);
 	}
 
+	/**
+	 * Executes a 2DPointAction.
+	 */
 	@FunctionalInterface
 	public interface Array2DPointAction {
 
 		void execute(int x, int y);
 	}
 
+	/**
+	 * Loads the image from file.
+	 *
+	 * @param file the path to save the image
+	 * @throws IOException if the image could not be loaded
+	 */
 	public static Image loadImage(final File file) throws Exception {
 		final BufferedImage img = ImageIO.read(file);
 		final Image fxImage = SwingFXUtils.toFXImage(img, null);
@@ -48,6 +64,12 @@ public final class ImageUtils {
 		return fxImage;
 	}
 
+	/**
+	 * Loads the image from input stream file.
+	 *
+	 * @param file the input stream file to save the image
+	 * @throws IOException if the image could not be loaded
+	 */
 	public static Image loadImage(final InputStream file) throws Exception {
 		final BufferedImage img = ImageIO.read(file);
 		final Image fxImage = SwingFXUtils.toFXImage(img, null);
@@ -57,6 +79,13 @@ public final class ImageUtils {
 		return fxImage;
 	}
 
+	/**
+	 * Saves the image by file.
+	 *
+	 * @param file the file to save the image in
+	 * @param fxImage the source image
+	 * @throws IOException if the image could not be saved
+	 */
 	public static void saveImage(final File file, final Image fxImage) throws IOException {
 		final BufferedImage img = SwingFXUtils.fromFXImage(fxImage, null);
 
@@ -64,6 +93,13 @@ public final class ImageUtils {
 		ImageIO.write(img, "PNG", saveTo);
 	}
 
+	/**
+	 * Saves the image by path.
+	 *
+	 * @param path the path to save the image in
+	 * @param fxImage the source image
+	 * @throws IOException if the image could not be saved
+	 */
 	public static void saveImage(final Path path, final Image fxImage) throws IOException {
 		final File file = path.toFile();
 		saveImage(file, fxImage);
@@ -78,10 +114,27 @@ public final class ImageUtils {
 		return new File(file.getParent(), filename);
 	}
 
+	/**
+	 * Checks if an area contains color.
+	 *
+	 * @param img the source image
+	 * @param area the area
+	 * @param color the color to look for
+	 * @return if the area contains color
+	 */
 	public static boolean areaContainsColor(final Image img, final Area area, final Color color) {
 		return new OptimizedAreaImpl(img, area).containsColor(color);
 	}
 
+	/**
+	 * Gets the number of the first slice with color by start value.
+	 *
+	 * @param img the source image
+	 * @param startValue the start value
+	 * @param color the color to look for
+	 * @param direction the direction of the slice
+	 * @return the number of the first slice with color
+	 */
 	public static OptionalInt getFirstSliceWithColor(final Image img, final Color color, final int startValue,
 													 final Direction direction) {
 		switch (direction) {
@@ -106,6 +159,15 @@ public final class ImageUtils {
 		return OptionalInt.empty();
 	}
 
+	/**
+	 * Gets the number of the first slice with color by area.
+	 *
+	 * @param img the source image
+	 * @param area the area
+	 * @param color the color to look for
+	 * @param direction the direction of the slice
+	 * @return the number of the first slice with color
+	 */
 	public static OptionalInt getFirstSliceWithColor(final Image img, final Area area, final Color color,
 													 final Direction direction) {
 		switch (direction) {
@@ -130,6 +192,15 @@ public final class ImageUtils {
 		return OptionalInt.empty();
 	}
 
+	/**
+	 * Gets the number of the first slice without color by area.
+	 *
+	 * @param img the source image
+	 * @param area the area
+	 * @param color the color to look for
+	 * @param direction the direction of the slice
+	 * @return the number of the first slice without color
+	 */
 	public static OptionalInt getFirstSliceWithoutColor(final Image img, final Area area, final Color color,
 														final Direction direction) {
 		switch (direction) {
@@ -154,6 +225,15 @@ public final class ImageUtils {
 		return OptionalInt.empty();
 	}
 
+	/**
+	 * Gets the number of the first slice without color by start value.
+	 *
+	 * @param img the source image
+	 * @param color the color to look for
+	 * @param startValue the start value
+	 * @param direction the direction of the slice
+	 * @return the number of the first slice without color
+	 */
 	public static OptionalInt getFirstSliceWithoutColor(final Image img, final Color color, final int startValue,
 														final Direction direction) {
 		switch (direction) {
@@ -178,7 +258,13 @@ public final class ImageUtils {
 		return OptionalInt.empty();
 	}
 
-
+	/**
+	 * Crops the image to his content.
+	 *
+	 * @param img the source image
+	 * @param contentColor the color of his content
+	 * @return the cropped image
+	 */
 	public static Image cropToContent(final Image img, final Color contentColor) {
 		final OptionalInt potentialStartY = getFirstSliceWithColor(img, contentColor, 0, Direction.POSITIVE_Y);
 		if (!potentialStartY.isPresent()) {
@@ -187,18 +273,25 @@ public final class ImageUtils {
 		final int startY = potentialStartY.getAsInt();
 		final int startX = getFirstSliceWithColor(img, contentColor, 0, Direction.POSITIVE_X).getAsInt();
 
-		final int endY =
-				getFirstSliceWithColor(img, contentColor, (int) img.getHeight() - 1, Direction.NEGATIVE_Y).getAsInt();
-		final int endX =
-				getFirstSliceWithColor(img, contentColor, (int) img.getWidth() - 1, Direction.NEGATIVE_X).getAsInt();
+		final int endY = getFirstSliceWithColor(img, contentColor, (int) img.getHeight() - 1, Direction.NEGATIVE_Y).getAsInt();
+		final int endX = getFirstSliceWithColor(img, contentColor, (int) img.getWidth() - 1, Direction.NEGATIVE_X).getAsInt();
 
 		return crop(img, startX, startY, endX - startX, endY - startY);
 	}
 
-	public static Image crop(final Image img, final int startX, final int startY, final int width, final int height) {
+	private static Image crop(final Image img, final int startX, final int startY, final int width, final int height) {
 		return new WritableImage(img.getPixelReader(), startX, startY, width, height);
 	}
 
+	/**
+	 * Increases the image size and fills up new areas with a color.
+	 *
+	 * @param img the source image
+	 * @param desiredWidth the new width
+	 * @param desiredHeight the new height
+	 * @param fillColor the filling color
+	 * @return the new image
+	 */
 	public static Image increaseCanvasSize(final Image img, final int desiredWidth, final int desiredHeight,
 										   final Color fillColor) {
 		final int width = (int) img.getWidth();
@@ -227,6 +320,15 @@ public final class ImageUtils {
 		});
 	}
 
+	/**
+	 * Executes a pixel action for every pixel.
+	 *
+	 * @param startX start coordinate in x direction
+	 * @param endX start coordinate in x direction
+	 * @param startY start coordinate in x direction
+	 * @param endY start coordinate in x direction
+	 * @param action the pixel action which shall be executed
+	 */
 	public static void forEachPixel(final int startX, final int endX, final int startY, final int endY,
 									final PixelAction action) {
 		for (int x = startX; x < endX; ++x) {
@@ -236,6 +338,13 @@ public final class ImageUtils {
 		}
 	}
 
+	/**
+	 * Executes a pixel action for every pixel.
+	 *
+	 * @param array source array
+	 * @param action the point action which shall be executed
+	 * @param <T> the array the action has been executed for
+	 */
 	public static <T> void forEach2DArrayElement(final T[][] array, final Array2DPointAction action) {
 		for (int y = 0; y < array.length; ++y) {
 			for (int x = 0; x < array[0].length; ++x) {
@@ -244,12 +353,25 @@ public final class ImageUtils {
 		}
 	}
 
+	/**
+	 * Prepares the execution of every pixel.
+	 *
+	 * @param img source image
+	 * @param action the pixel action which shall be executed
+	 */
 	public static void forEachPixel(final Image img, final PixelAction action) {
 		final int width = (int) img.getWidth();
 		final int height = (int) img.getHeight();
 		forEachPixel(0, width, 0, height, action);
 	}
 
+	/**
+	 * Marks recognized characters in the image.
+	 *
+	 * @param img source image
+	 * @param recognizedChars the list of recognized chars
+	 * @return the image with marked characters
+	 */
 	public static Image markCharactersOnImage(Image img, List<RecognizedChar> recognizedChars) {
 		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();

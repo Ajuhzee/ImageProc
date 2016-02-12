@@ -1,7 +1,7 @@
 package name.ajuhzee.imageproc.processing.filters.linear;
 
 /**
- * A filter mask that is applied when filtering an image.
+ * A linear filter mask that is applied when filtering an image.
  *
  * @author Ajuhzee
  *

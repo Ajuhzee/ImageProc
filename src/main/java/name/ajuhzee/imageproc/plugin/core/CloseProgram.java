@@ -17,7 +17,7 @@ public class CloseProgram extends CorePlugin {
 	private static final PluginInformation INFO = new PluginInformation("Beenden", false);
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the CloseProgram plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

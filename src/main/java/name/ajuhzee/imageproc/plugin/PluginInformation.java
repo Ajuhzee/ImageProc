@@ -1,10 +1,7 @@
-/**
- *
- */
 package name.ajuhzee.imageproc.plugin;
 
 /**
- *
+ * Provides a collected information about a plugin.
  *
  * @author Ajuhzee
  */

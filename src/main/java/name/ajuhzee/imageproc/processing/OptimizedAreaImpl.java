@@ -8,11 +8,20 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Ajuhzee
+ */
 public class OptimizedAreaImpl implements OptimizedArea {
 
 	private static final Map<Image, OptimizedArea> areaCache = new HashMap<>();
 
-
+	/**
+	 *
+	 * @param img
+	 * @param y
+	 * @return
+	 */
 	public static OptimizedArea forLine(final Image img, final int y) {
 		if (y < 0 || y >= img.getHeight()) {
 			throw new IllegalArgumentException("The line requested (" + y + ") is not inside the image bounds!");
@@ -34,6 +43,15 @@ public class OptimizedAreaImpl implements OptimizedArea {
 
 	private final byte[] buffer;
 
+	/**
+	 * Creates the optimized Area.
+	 *
+	 * @param img the source image
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public OptimizedAreaImpl(final Image img, final int x, final int y, final int width, final int height) {
 		if (areaCache.containsKey(img)) {
 
@@ -44,6 +62,12 @@ public class OptimizedAreaImpl implements OptimizedArea {
 				* BgraPreImageBuffer.BYTES_PER_PIXEL);
 	}
 
+	/**
+	 * Creates the optimized Area.
+	 *
+	 * @param img the source image
+	 * @param area the area
+	 */
 	public OptimizedAreaImpl(final Image img, final Area area) {
 		final PixelReader reader = img.getPixelReader();
 		int width = area.getWidth();
@@ -92,7 +116,14 @@ public class OptimizedAreaImpl implements OptimizedArea {
 		return (byte) (color * 255.0);
 	}
 
-
+	/**
+	 * Builds an optimized area for
+	 *
+	 * @param img the source image
+	 * @param area the area
+	 * @param x the current x coordinate
+	 * @return the optimized area
+	 */
 	public static OptimizedArea forColumn(final Image img, final Area area, final int x) {
 		if (x < area.getLeft() || x >= area.getLeft() + area.getWidth()) {
 			throw new IllegalArgumentException(

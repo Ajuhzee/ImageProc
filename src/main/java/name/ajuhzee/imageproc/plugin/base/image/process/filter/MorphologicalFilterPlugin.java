@@ -9,11 +9,10 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.processing.filters.Filtering;
 import name.ajuhzee.imageproc.processing.filters.morphological.MorphologicalFilter;
 
-import java.time.Duration;
-import java.time.Instant;
-
 /**
- * The base for morphological filter plugins
+ * The base class for morphological filter plugins
+ *
+ * @author Ajuhzee
  */
 public class MorphologicalFilterPlugin extends ImagePlugin {
 

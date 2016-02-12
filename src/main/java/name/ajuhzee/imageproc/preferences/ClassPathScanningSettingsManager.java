@@ -11,7 +11,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Temporary manager
+ * Scans the classpath, collecting all imageplugins from the package plugins.image
+ * and all core plugins from the package plugins.core.
  *
  * @author Ajuhzee
  */

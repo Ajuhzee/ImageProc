@@ -21,7 +21,7 @@ public class ErodeDilate extends ImagePlugin {
 	private Image srcImage;
 
 	/**
-	 * Creates an instance of an image plugin.
+	 * Creates the filter operations plugin for Erosion and Dilation and positions a Menu-button for it.
 	 *
 	 * @param context the context of the plugin
 	 * @throws PluginLoadException if context == null

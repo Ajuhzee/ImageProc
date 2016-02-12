@@ -19,7 +19,7 @@ public class TestImage extends ImagePlugin {
 	private static final PluginInformation INFO = new PluginInformation("Testbild", false);
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the TestImage plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

@@ -16,6 +16,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides features specifically for the open and close plugin.
+ *
+ * @author Ajuhzee
+ */
 public class OpenCloseMenuController implements NodeRepresentation {
 
 	private final List<Runnable> okCallbacks = new ArrayList<>();
@@ -50,6 +55,8 @@ public class OpenCloseMenuController implements NodeRepresentation {
 	private Button openButton;
 
 	/**
+	 * Creates the OpenCloseMenuController.
+	 *
 	 * @return the BinarizeMenuController
 	 * @throws IOException if an I/O error occurs
 	 */
@@ -125,6 +132,10 @@ public class OpenCloseMenuController implements NodeRepresentation {
 		}
 	}
 
+	/**
+	 * Checks which neighborhood checkbox is checked.
+	 * @return the neighborhood
+	 */
 	public Neighborhood getNeighborhoodStatus() {
 		return neighborhood.getSelectedToggle().equals(radio4) ? Neighborhood.NEIGHBORHOOD4 :
 				Neighborhood.NEIGHBORHOOD8;

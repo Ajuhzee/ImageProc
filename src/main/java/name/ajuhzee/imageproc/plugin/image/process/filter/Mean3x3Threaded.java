@@ -13,9 +13,9 @@ import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterType;
 public class Mean3x3Threaded extends LinearFilterPlugin {
 
 	/**
-	 * Creates the plugin
+	 * Creates the Mean3x3Threaded filter plugin and positions a Menu-button for it.
 	 *
-	 * @param context
+	 * @param context the plugin context
 	 * @throws PluginLoadException
 	 */
 	public Mean3x3Threaded(ImagePluginContext context) throws PluginLoadException {

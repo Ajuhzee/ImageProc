@@ -13,7 +13,7 @@ import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterType;
 public class Mean3x3Seperated extends LinearFilterPlugin {
 
 	/**
-	 * Creates the plugin
+	 * Mean3x3Threaded
 	 *
 	 * @param context
 	 * @throws PluginLoadException

@@ -38,7 +38,7 @@ public class LearnCharacterSet extends ImagePlugin {
 	private Image srcImage;
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the LernCharacterSet plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

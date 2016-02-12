@@ -1,7 +1,7 @@
 package name.ajuhzee.imageproc.processing.filters.linear;
 
 /**
- * Gives acces to the several filter typs in form of an enum.
+ * Gives access to the several filter types in form of an enum.
  *
  * @author Ajuhzee
  *

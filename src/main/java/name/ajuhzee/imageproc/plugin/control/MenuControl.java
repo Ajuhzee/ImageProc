@@ -1,9 +1,10 @@
 /**
- * 
+ *
  */
 package name.ajuhzee.imageproc.plugin.control;
 
 /**
+ * Provides some control over the plugin menu.
  * @author Ajuhzee
  *
  */

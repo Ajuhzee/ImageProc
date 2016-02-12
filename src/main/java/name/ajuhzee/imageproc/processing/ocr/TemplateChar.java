@@ -29,14 +29,30 @@ public class TemplateChar {
 		this.representedChar = representedChar;
 	}
 
+	/**
+	 *
+	 * @return the source image
+	 */
 	public Image getSourceImage() {
 		return source;
 	}
 
+	/**
+	 *
+	 * @return the represented char
+	 */
 	public char getRepresentedChar() {
 		return representedChar;
 	}
 
+	/**
+	 * Loads a Template by classPath.
+	 *
+	 * @param characterSetLocation the data location of the template char
+	 * @param characterName the name of the template file
+	 * @return the loaded template
+	 * @throws Exception if the template could not be loaded
+	 */
 	public static TemplateChar loadByClassPath(String characterSetLocation, String characterName) throws Exception {
 		String resourcePath = characterSetLocation + characterName + ".png";
 
@@ -45,6 +61,14 @@ public class TemplateChar {
 		return load(resource, characterName);
 	}
 
+	/**
+	 * Loads a Template by file.
+	 *
+	 * @param characterSetLocation the data location of the template char
+	 * @param characterName the name of the template file
+	 * @return the loaded template
+	 * @throws Exception if the template could not be loaded
+	 */
 	public static TemplateChar loadByFile(Path characterSetLocation, String characterName) throws Exception {
 		String charFileName = characterName + ".png";
 		Path characterPath = characterSetLocation.resolve(charFileName);

@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Median filter implementation
+ *
+ * @author Ajuhzee
  */
 public class MedianFilter extends MorphologicalFilter {
 

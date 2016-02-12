@@ -8,10 +8,24 @@ import name.ajuhzee.imageproc.util.Point2DInt;
 
 import java.util.*;
 
+/**
+ * Provides methods to compute an euler number.
+ *
+ * @author Ajuhzee
+ */
 public class EulerNumberCompute {
 
+	/**
+	 * Defines an area as bigger than 3 pixels
+	 */
 	public static final int MINIMUM_PIXELS_IN_AREA = 3;
 
+	/**
+	 * Computes the euler number of an image.
+	 *
+	 * @param characterImage the image to analyze
+	 * @return the computed euler number
+	 */
 	public static int getEulerNumber(Image characterImage) {
 		OptionalInt[][] areas =
 				getEmpty2DOptionalIntArray((int) characterImage.getWidth(), (int) characterImage.getHeight());

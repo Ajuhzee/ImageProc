@@ -4,13 +4,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
 
+/**
+ * Provides methods to compute the pixel amount of a black object.
+ *
+ * @author Ajuhzee
+ */
 public class PixelAmountCompute {
 
 	/**
-	 * Gets the amount of pixels of the given color in the image
+	 * Gets the amount of black pixels in the image.
 	 *
-	 * @param img
-	 * @return
+	 * @param img the image to analyze
+	 * @return the pixel amount
 	 */
 	public static int pixelAmount(Image img) {
 		PixelReader reader = img.getPixelReader();

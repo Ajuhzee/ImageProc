@@ -76,6 +76,8 @@ public class OcrMenuController implements NodeRepresentation {
 	private CallbackManager showOutputCallbacks = new CallbackManager();
 
 	/**
+	 * Creates the OcrMenuController
+	 *
 	 * @return the OcrMenuController
 	 * @throws IOException if an I/O error occurs
 	 */
@@ -92,6 +94,10 @@ public class OcrMenuController implements NodeRepresentation {
 		return ocrPane;
 	}
 
+	/**
+	 * Sets the text of the textfield.
+	 * @param text
+	 */
 	public void setText(String text) {
 		outputTextField.setText(text);
 	}
@@ -151,55 +157,81 @@ public class OcrMenuController implements NodeRepresentation {
 	public void doneButtonPressed() {
 		doneButtonCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Opens the file chooser.
+	 */
 	public void selectCharacterSetPressed() {
 		selectCharacterSetCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Recognizes lines.
+	 */
 	public void recognizeLinePressed() {
 		recognizeLineCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Adjusts the image.
+	 */
 	public void adjustImagePressed() {
 		adjustImageCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Separates characters.
+	 */
 	public void seperateCharactersPressed() {
 		seperateCharactersCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Matches characters.
+	 */
 	public void matchCharactersPressed() {
 		matchCharactersCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Disables the AdjustImage function for the ocr feature.
+	 */
 	public void shouldAdjustImageClicked() {
 		adjustImage.disableProperty().set(!shouldAdjustImage());
 	}
-
+	/**
+	 * Shows the output of the ocr feature.
+	 */
 	public void showOutputPressed() {
 		showOutputCallbacks.executeCallbacks();
 	}
-
+	/**
+	 * Checks if the pixel deviation criterion is enabled.
+	 */
 	public boolean isPixelDeviationEnabled() {
 		return pixelAmountDeviation.selectedProperty().getValue();
 	}
-
+	/**
+	 * Checks if the dimension deviation criterion is enabled.
+	 */
 	public boolean isDimensionDeviationEnabled() {
 		return dimensionPixelDeviation.selectedProperty().getValue();
 	}
-
+	/**
+	 * Checks if the euler number criterion is enabled.
+	 */
 	public boolean isEulerNumberEnabled() {
 		return eulerNumber.selectedProperty().getValue();
 	}
-
+	/**
+	 * Calculates the pixel deviation and returns it.
+	 */
 	public double getPixelDeviationPercent() {
 		return parsePercentString(pixelAmountDeviationPercent.textProperty().getValue());
 	}
-
+	/**
+	 * Calculates the dimension deviation and returns it.
+	 */
 	public double getDimensionDeviationPercent() {
 		return parsePercentString(dimensionPixelDeviationPercent.textProperty().getValue());
 	}
-
+	/**
+	 * Checks if the amount of dimension deviation is allowed.
+	 */
 	public int getDimensionDeviationAllowed() {
 		try {
 			return NumberFormat.getIntegerInstance().parse(dimensionPixelDeviationAllowed.textProperty().getValue())
@@ -209,6 +241,9 @@ public class OcrMenuController implements NodeRepresentation {
 		}
 	}
 
+	/**
+	 * Checks if the amount of pixel deviation is allowed.
+	 */
 	public int getPixelDeviationAllowed() {
 		try {
 			return NumberFormat.getIntegerInstance().parse(pixelAmountDeviationAllowed.textProperty().getValue())
@@ -244,6 +279,10 @@ public class OcrMenuController implements NodeRepresentation {
 		throw new ValidationException("Could not parse the string");
 	}
 
+	/**
+	 * Checks if the image is supposed to be adjusted.
+	 * @return
+	 */
 	public boolean shouldAdjustImage() {
 		return shouldAdjustImage.isSelected();
 	}

@@ -4,6 +4,11 @@ import javafx.scene.image.Image;
 import name.ajuhzee.imageproc.processing.ocr.criteria.MatchingCriterion;
 import name.ajuhzee.imageproc.util.cache.ImagePropertyCache;
 
+/**
+ * Compares the euler number of two images.
+ *
+ * @author Ajuhzee
+ */
 public class EulerNumberCriterion implements MatchingCriterion {
 
 	@Override

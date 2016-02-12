@@ -7,6 +7,11 @@ import name.ajuhzee.imageproc.util.ImageUtils;
 
 import java.util.OptionalInt;
 
+/**
+ * Provides an indicator for how good the line orientation is
+ *
+ * @author Ajuhzee
+ */
 public class LineOrientationScore {
 
 	private final int blankLines;
@@ -37,10 +42,18 @@ public class LineOrientationScore {
 		return getBlankLines(img);
 	}
 
+	/**
+	 *
+	 * @param img the image that gets analyzed
+	 */
 	public LineOrientationScore(final Image img) {
 		blankLines = calculateBlankLines(img);
 	}
 
+	/**
+	 *
+	 * @return the calculated score
+	 */
 	public double getScore() {
 		return blankLines;
 	}

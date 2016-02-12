@@ -29,6 +29,11 @@ public final class ImageOcr {
 	// Unicode FFFF is the "Noncharacter"
 	private static final String CHARACTER_NOT_RECOGNIZED_INDICATOR = "\uFFFF";
 
+	/**
+	 * Tries to adjust a rotated image.
+	 * @param img the image
+	 * @return the aligned image
+	 */
 	public static Image adjustImage(final Image img) {
 		final Map<Double, LineOrientationScore> scoreForAngle = new TreeMap<>();
 

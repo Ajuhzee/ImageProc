@@ -8,6 +8,11 @@ import name.ajuhzee.imageproc.util.ImageUtils;
 
 import java.util.Comparator;
 
+/**
+ * Compares the pixel difference of two images.
+ *
+ * @author Ajuhzee
+ */
 public class PixelDifferenceComparator implements Comparator<TemplateChar> {
 
 
@@ -43,6 +48,11 @@ public class PixelDifferenceComparator implements Comparator<TemplateChar> {
 
 	private final Image charToMatch;
 
+	/**
+	 * Creates the Comparator.
+	 *
+	 * @param charToMatch the char to match
+	 */
 	public PixelDifferenceComparator(Image charToMatch) {
 		this.charToMatch = charToMatch;
 	}

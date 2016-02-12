@@ -23,6 +23,8 @@ import java.net.URL;
 public class RotateMenuController implements NodeRepresentation {
 
 	/**
+	 * Creates the BinarizeMenuController
+	 *
 	 * @return the BinarizeMenuController
 	 * @throws IOException if an I/O error occurs
 	 */

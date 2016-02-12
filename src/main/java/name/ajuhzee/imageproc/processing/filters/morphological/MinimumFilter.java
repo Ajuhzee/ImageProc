@@ -7,6 +7,8 @@ import java.util.Optional;
 
 /**
  * Minimum filter implementation
+ *
+ * @author Ajuhzee
  */
 public class MinimumFilter extends MorphologicalFilter {
 

@@ -6,14 +6,16 @@ import name.ajuhzee.imageproc.plugin.control.ImagePluginContext;
 import name.ajuhzee.imageproc.processing.filters.morphological.MaximumFilter;
 
 /**
- * Maximum filter plugin
+ * Adds an image plugin, that provides a 3x3 Maximum filter for image processing purposes.
+ *
+ * @author Ajuhzee
  */
 public class Maximum3x3 extends MorphologicalFilterPlugin {
 
 	/**
-	 * Creates the plugin
+	 * Creates the Maximum3x3 filter plugin and positions a Menu-button for it.
 	 *
-	 * @param context
+	 * @param context the plugin context
 	 * @throws PluginLoadException
 	 */
 	public Maximum3x3(ImagePluginContext context) throws PluginLoadException {

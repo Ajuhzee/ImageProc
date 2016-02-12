@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Makes it possible to apply a chain of filters to an image.
+ * Makes it possible to apply a chain of linear filters to an image.
  *
  * @author Ajuhzee
  *

@@ -10,6 +10,11 @@ import java.util.OptionalInt;
 import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
+/**
+ *
+ *
+ * @author Ajuhzee
+ */
 public class ImagePropertyCache {
 
 	private static class ImageProperties {
@@ -43,6 +48,12 @@ public class ImagePropertyCache {
 
 	private static final Map<Image, ImageProperties> cache = new HashMap<>();
 
+	/**
+	 *  Gets the pixel amount.
+	 *
+	 * @param img the target image
+	 * @return the pixel amount
+	 */
 	public static int getPixelAmount(Image img) {
 		ImageProperties properties = getImageProperties(img);
 
@@ -52,6 +63,12 @@ public class ImagePropertyCache {
 		return pixelAmount;
 	}
 
+	/**
+	 *  Gets the euler number.
+	 *
+	 * @param img the target image
+	 * @return the euler number
+	 */
 	public static int getEulerNumber(Image img) {
 		ImageProperties properties = getImageProperties(img);
 
@@ -70,7 +87,8 @@ public class ImagePropertyCache {
 		return imageProperties;
 	}
 
-	public static int getProperty(Image img, IntConsumer setter, Supplier<OptionalInt> getter,
+
+	private static int getProperty(Image img, IntConsumer setter, Supplier<OptionalInt> getter,
 								  IntFromImage computeFunction) {
 		OptionalInt potentialProperty = getter.get();
 		if (!potentialProperty.isPresent()) {

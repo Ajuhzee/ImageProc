@@ -10,8 +10,8 @@ import name.ajuhzee.imageproc.processing.filters.Filtering;
 import java.util.concurrent.RecursiveTask;
 
 /**
- * Filters the image with a given filter mask, while splitting up the image into multiple parts, in order to work wit
- * multiple threads.
+ * Filters the image with a given linear filter mask, while splitting up the image into multiple parts,
+ * in order to work with multiple threads.
  *
  * @author Ajuhzee
  */

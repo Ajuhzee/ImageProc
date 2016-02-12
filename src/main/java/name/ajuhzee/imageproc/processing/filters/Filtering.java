@@ -17,13 +17,15 @@ import java.util.List;
 
 /**
  * Provides methods that can apply filters to images
+ *
+ * @author Ajuhzee
  */
 public class Filtering {
 
 	private static final int MORPHOLOGICAL_NEIGHBORHOOD_SIZE = 1;
 
 	/**
-	 * Filters a specisfic part of the image with given filter types.
+	 * Filters a specific part of the image with given filter types.
 	 *
 	 * @param toFilter the source image
 	 * @param linearFilterChain a chain of filters that are going to be applied

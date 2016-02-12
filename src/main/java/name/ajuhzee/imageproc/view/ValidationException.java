@@ -1,5 +1,10 @@
 package name.ajuhzee.imageproc.view;
 
+/**
+ *
+ *
+ * @author Ajuhzee
+ */
 public class ValidationException extends RuntimeException {
 
 	public ValidationException() {

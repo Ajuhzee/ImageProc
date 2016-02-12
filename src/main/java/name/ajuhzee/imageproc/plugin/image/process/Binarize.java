@@ -14,7 +14,7 @@ import name.ajuhzee.imageproc.view.BinarizeMenuController;
 import java.io.IOException;
 
 /**
- * Adds an image plugin, that provides a method to invert an image for image processing purposes.
+ * Adds an image plugin, that provides a method to binarize an image for image processing purposes.
  *
  * @author Ajuhzee
  *
@@ -40,7 +40,7 @@ public class Binarize extends ImagePlugin {
 	Thread thread = new Thread();
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the Binarize plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException
@@ -74,14 +74,14 @@ public class Binarize extends ImagePlugin {
 	/**
 	 * Enables the menu items.
 	 */
-	public void enablePlugins() {
+	private void enablePlugins() {
 		context().getMenuControl().enablePlugins();
 	}
 
 	/**
 	 * Clears the content of the sideMenu.
 	 */
-	public void clearSideMenu() {
+	private void clearSideMenu() {
 		context().getSideMenuControl().clearContent();
 	}
 

@@ -5,6 +5,8 @@ import name.ajuhzee.imageproc.util.MathUtil;
 
 /**
  * Compares the dimensions (width and height) of the matching and potential character.
+ *
+ * @author Ajuhzee
  */
 public class DimensionsCriterion implements MatchingCriterion {
 
@@ -25,6 +27,12 @@ public class DimensionsCriterion implements MatchingCriterion {
 
 	private final int allowedPixelDifference;
 
+	/**
+	 * Creates the dimensions criterion
+	 *
+	 * @param maximumDeviation
+	 * @param allowedPixelDifference
+	 */
 	public DimensionsCriterion(double maximumDeviation, int allowedPixelDifference) {
 		this.maximumDeviation = maximumDeviation;
 		this.allowedPixelDifference = allowedPixelDifference;

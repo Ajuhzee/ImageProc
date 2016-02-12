@@ -27,7 +27,7 @@ public class LoadImage extends ImagePlugin {
 	private static final PluginInformation INFO = new PluginInformation("Bild laden", false);
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the LoadImage plugin and positions a Menu-button for it.
 	 *
 	 * @param context
 	 * @throws PluginLoadException

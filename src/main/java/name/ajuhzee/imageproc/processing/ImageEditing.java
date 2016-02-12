@@ -68,6 +68,13 @@ public class ImageEditing {
 		return BgraPreImageBuffer.createBgraPreImage(buffer, width, height);
 	}
 
+	/**
+	 * Applies an dilation to a given image.
+	 *
+	 * @param img the source image
+	 * @param neighborhood the structural element
+	 * @return the image after the dilation
+	 */
 	public static Image dilate(Image img, Neighborhood neighborhood) {
 		int width = (int) img.getWidth();
 		int height = (int) img.getHeight();
@@ -87,6 +94,13 @@ public class ImageEditing {
 		return newImage;
 	}
 
+	/**
+	 * Applies an erosion to a given image.
+	 *
+	 * @param img the source image
+	 * @param neighborhood the structural element
+	 * @return the image after the erosion
+	 */
 	public static Image erode(Image img, Neighborhood neighborhood) {
 
 		int width = (int) img.getWidth();
@@ -112,10 +126,10 @@ public class ImageEditing {
 	}
 
 	/**
-	 * @param img
+	 * @param img the source image
 	 * @param matched callback when the white pixel has a black neighbor
 	 * @param unmatched callback when the white pixel does not have a black neighbor
-	 * @param neighborhood
+	 * @param neighborhood the structural element
 	 */
 	private static void forEveryWhitePixelWithBlackNeighbor(Image img, PixelMatched matched, PixelMatched unmatched,
 															Neighborhood neighborhood) {
@@ -190,7 +204,14 @@ public class ImageEditing {
 
 	}
 
-
+	/**
+	 * Rotates an image.
+	 *
+	 * @param img the source image
+	 * @param angle the angle of rotation
+	 * @param toFill the color to fill the new areas
+	 * @return the rotated image
+	 */
 	public static Image rotate(Image img, double angle, Color toFill) {
 		BufferedImage bufferedImg = SwingFXUtils.fromFXImage(img, null);
 
@@ -208,16 +229,13 @@ public class ImageEditing {
 		int newWidth = (int) MathUtil.roundCustom(width1 + width2, 0.01);
 
 
-		BufferedImage rotatedImg =
-				new BufferedImage(newWidth, newHeight, bufferedImg.getType());
+		BufferedImage rotatedImg = new BufferedImage(newWidth, newHeight, bufferedImg.getType());
 
 		Graphics2D graphics = (Graphics2D) rotatedImg.getGraphics();
-		graphics.setColor(
-				new java.awt.Color((float) toFill.getRed(), (float) toFill.getGreen(), (float) toFill.getBlue(),
-						(float) toFill.getOpacity()));
+		graphics.setColor(new java.awt.Color((float) toFill.getRed(), (float) toFill.getGreen(), (float) toFill.getBlue(),(float) toFill.getOpacity()));
 		graphics.fillRect(0, 0, newWidth, newHeight);
 
-		// creates the new image dimensions
+		// creates the new image dimensions with the calculated values
 		double moveX;
 		double moveY;
 		if (normalizedAngle < 90) {
@@ -233,6 +251,8 @@ public class ImageEditing {
 			moveX = 0;
 			moveY = height1;
 		}
+
+		//the actual rotation
 		graphics.translate(moveX, moveY);
 		graphics.rotate(radiansAngle);
 

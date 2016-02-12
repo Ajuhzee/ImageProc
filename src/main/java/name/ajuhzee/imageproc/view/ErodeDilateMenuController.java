@@ -15,6 +15,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Publishes data from the view layer to the Erode & Dilate plugin
+ *
+ * @author Ajuhzee
+ */
 public class ErodeDilateMenuController implements NodeRepresentation {
 
 	private final List<Runnable> okCallbacks = new ArrayList<>();
@@ -46,6 +51,7 @@ public class ErodeDilateMenuController implements NodeRepresentation {
 	private Button dilateButton;
 
 	/**
+	 * Creates the BinarizeMenuController
 	 * @return the BinarizeMenuController
 	 * @throws IOException if an I/O error occurs
 	 */
@@ -117,6 +123,10 @@ public class ErodeDilateMenuController implements NodeRepresentation {
 		}
 	}
 
+	/**
+	 *
+	 * @return the neighbourhood
+	 */
 	public Neighborhood getNeighborhoodStatus() {
 		return neighborhood.getSelectedToggle().equals(radio4) ? Neighborhood.NEIGHBORHOOD4 :
 				Neighborhood.NEIGHBORHOOD8;

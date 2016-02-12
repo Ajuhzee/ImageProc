@@ -11,6 +11,11 @@ import name.ajuhzee.imageproc.util.Callbacks;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Publishes data from the view layer to the LearnCharacterSet plugin
+ *
+ * @author Ajuhzee
+ */
 public class LearnCharacterSetController implements NodeRepresentation {
 
 	@FXML
@@ -44,7 +49,9 @@ public class LearnCharacterSetController implements NodeRepresentation {
 		return Integer.parseInt(minGap.textProperty().getValue());
 	}
 
-
+	/**
+	 * Executes the callbacks when the learn button is pressed
+	 */
 	public void learnCharacterSetPressed() {
 		learnCharacterSetCallbacks.executeCallbacks();
 	}
@@ -56,7 +63,9 @@ public class LearnCharacterSetController implements NodeRepresentation {
 		return learnCharacterSetCallbacks;
 	}
 
-
+	/**
+	 * Executes the callbacks when the cancel button is pressed
+	 */
 	public void cancelPressed() {
 		cancelCallbacks.executeCallbacks();
 	}
@@ -68,7 +77,9 @@ public class LearnCharacterSetController implements NodeRepresentation {
 		return cancelCallbacks;
 	}
 
-
+	/**
+	 * Executes the callbacks when the test button is pressed
+	 */
 	public void testCharSeparationPressed() {
 		testCharSeparationCallbacks.executeCallbacks();
 	}

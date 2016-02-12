@@ -3,7 +3,7 @@ package name.ajuhzee.imageproc.processing.filters.linear;
 import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterMask.Direction;
 
 /**
- * Contains the definition of different filters.
+ * Contains the definition of different linear filters.
  *
  * @author Ajuhzee
  *

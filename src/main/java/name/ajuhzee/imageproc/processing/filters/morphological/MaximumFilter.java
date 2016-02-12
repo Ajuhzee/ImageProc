@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Maximum filter implementation
+ *
+ * @author Ajuhzee
  */
 public class MaximumFilter extends MorphologicalFilter {
 

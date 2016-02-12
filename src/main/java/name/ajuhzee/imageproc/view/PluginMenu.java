@@ -1,10 +1,5 @@
 package name.ajuhzee.imageproc.view;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.io.IOException;
-
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import name.ajuhzee.imageproc.plugin.MenuPosition;
@@ -13,13 +8,20 @@ import name.ajuhzee.imageproc.plugin.PluginExecutor;
 import name.ajuhzee.imageproc.plugin.control.MenuControl;
 import name.ajuhzee.imageproc.view.menubar.MenuBarWrapper;
 
+import java.io.IOException;
+
+import static com.google.common.base.Preconditions.*;
+
 /**
  * A wrapper for a {@link MenuBar} to provide a simple interface for adding ImageProc plugins.
+ *
+ * @author Ajuhzee
  */
 public class PluginMenu implements NodeRepresentation {
 
 	/**
-	 * 
+	 * Creates the plugin menu
+	 *
 	 * @return the new PluginMenu
 	 * @throws IOException
 	 *             if an I/O error occurs
@@ -33,7 +35,7 @@ public class PluginMenu implements NodeRepresentation {
 
 	/**
 	 * Adds a new plugin to the PluginMenu.
-	 * 
+	 *
 	 * @param newPlugin
 	 *            the name of the plugin
 	 * @param executor
@@ -54,7 +56,7 @@ public class PluginMenu implements NodeRepresentation {
 
 	/**
 	 * Gives access to the menu bar.
-	 * 
+	 *
 	 * @return the menu Bar
 	 */
 	public MenuControl getMenuControl() {

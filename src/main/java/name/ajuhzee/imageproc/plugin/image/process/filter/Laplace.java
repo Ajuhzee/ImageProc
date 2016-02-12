@@ -10,7 +10,7 @@ import name.ajuhzee.imageproc.processing.filters.Filtering;
 import name.ajuhzee.imageproc.processing.filters.linear.LinearFilterType;
 
 /**
- * Adds an image plugin, that provides a 3x3 laplace filter for image processing purposes.
+ * Adds an image plugin, that provides a 3x3 Laplace filter for image processing purposes.
  *
  * @author Ajuhzee
  */
@@ -21,9 +21,9 @@ public class Laplace extends ImagePlugin {
 	private Image oldImage;
 
 	/**
-	 * Positions a Menu-button for the plugin.
+	 * Creates the Laplace filter plugin and positions a Menu-button for it.
 	 *
-	 * @param context
+	 * @param context the plugin context
 	 * @throws PluginLoadException
 	 */
 	public Laplace(ImagePluginContext context) throws PluginLoadException {

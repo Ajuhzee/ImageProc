@@ -1,5 +1,10 @@
 package name.ajuhzee.imageproc.util;
 
+/**
+ * Defines a point in 2D.
+ *
+ * @author Ajuhzee
+ */
 public class Point2DInt {
 
 	private final int x;
